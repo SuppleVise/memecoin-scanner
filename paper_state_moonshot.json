@@ -1,0 +1,38 @@
+{
+  "cash": 40.0,
+  "positions": {
+    "9gexoGn8qnxT1XpncwNXJDwQci9cPGuNXG3uNfDkpump": {
+      "symbol": "GME",
+      "pair": "FFnuTJsNSH8pmU1E9X1nj285dkB4JAhnFnJnq89KHUgW",
+      "qty": 22071.77380485849,
+      "orig_qty": 22071.77380485849,
+      "entry": 0.00044400600000000004,
+      "cost": 10.0,
+      "peak": 0.00044400600000000004,
+      "last": 0.00044400600000000004,
+      "opened": 1792939434.7552702,
+      "rungs_done": 0,
+      "entry_liq": 59419.28
+    }
+  },
+  "day": "2026-10-25",
+  "day_pnl": 0.0,
+  "day_trades": 1,
+  "halted": false,
+  "traded": [
+    "9gexoGn8qnxT1XpncwNXJDwQci9cPGuNXG3uNfDkpump"
+  ],
+  "peaks": {},
+  "shadow": {
+    "9gexoGn8qnxT1XpncwNXJDwQci9cPGuNXG3uNfDkpump": {
+      "symbol": "GME",
+      "entry": 0.0004353,
+      "peak": 0.0004353,
+      "last": 0.0004353,
+      "opened": 1792939434.755231
+    }
+  },
+  "shadow_done": {},
+  "withdraw_alerted": false,
+  "summary_day": ""
+}
