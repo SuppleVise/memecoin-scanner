@@ -4,7 +4,12 @@ name: memecoin-scan
 on:
   schedule:
     - cron: "*/5 * * * *"   # GitHub may delay scheduled runs by several minutes
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      test_push:
+        description: "Only send a test alert to the phone"
+        type: boolean
+        default: false
 concurrency:
   group: scan
   cancel-in-progress: false
@@ -15,15 +20,22 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 4
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
+      - name: Test alert
+        if: ${{ inputs.test_push }}
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: python3 run.py --test-push
       - name: Scan and paper trade (no wallet, no real orders)
+        if: ${{ !inputs.test_push }}
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
         run: python3 run.py --tick
       - name: Save paper book
+        if: ${{ !inputs.test_push }}
         run: |
           git config user.name "scanner-bot"
           git config user.email "scanner-bot@users.noreply.github.com"

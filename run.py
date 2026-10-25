@@ -41,8 +41,8 @@ QUIET = "--quiet" in sys.argv
 def ntfy_topic():
     """iPhone push via the free ntfy app (ntfy.sh). The topic name is the password:
     anyone who knows it can read your alerts, so it is random and kept in a local file."""
-    if os.environ.get("NTFY_TOPIC"):
-        return os.environ["NTFY_TOPIC"]
+    if "NTFY_TOPIC" in os.environ:
+        return os.environ["NTFY_TOPIC"].strip() or None  # set but empty (CI without secret): no push
     path = "ntfy_topic.txt"
     if not os.path.exists(path):
         with open(path, "w") as f:
@@ -58,10 +58,13 @@ def notify(title, text, url=None):
         safe = lambda x: x.replace('"', "'")
         subprocess.run(["osascript", "-e", f'display notification "{safe(text)}" with title "{safe(title)}"'],
                        capture_output=True)
+    topic = ntfy_topic()
+    if not topic:
+        return
     cmd = ["curl", "-sS", "-m", "10", "-H", f"Title: {title}", "-H", "Tags: rocket"]
     if url:
         cmd += ["-H", f"Click: {url}"]
-    subprocess.run(cmd + ["-d", text, f"https://ntfy.sh/{ntfy_topic()}"], capture_output=True)
+    subprocess.run(cmd + ["-d", text, f"https://ntfy.sh/{topic}"], capture_output=True)
 
 
 def record_signals(sigs):
@@ -122,7 +125,7 @@ def main():
         return
     if "--test-push" in sys.argv:
         notify("MMFX scanner", "Test alert. If you see this on your iPhone, push works.")
-        print(f"sent test alert to ntfy topic: {ntfy_topic()}")
+        print("sent test alert" if ntfy_topic() else "no NTFY_TOPIC set, nothing sent")
         return
     if "--tick" in sys.argv:
         # one full cycle (exits + scan + paper entries), then exit: for GitHub Actions / cron
