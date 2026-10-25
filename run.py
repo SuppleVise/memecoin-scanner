@@ -14,6 +14,7 @@ Every signal is written to signals_<mode>.csv with the token address, so you can
 paste it into FOMO's search and compare what you'd have tapped with the paper book.
 """
 import csv
+import math
 import os
 import platform
 import secrets
@@ -53,7 +54,7 @@ def ntfy_topic():
         return f.read().strip()
 
 
-def notify(title, text, url=None):
+def notify(title, text, url=None, copy=None, tags="rocket"):
     if QUIET:
         return
     if platform.system() == "Darwin":
@@ -63,10 +64,44 @@ def notify(title, text, url=None):
     topic = ntfy_topic()
     if not topic:
         return
-    cmd = ["curl", "-sS", "-m", "10", "-H", f"Title: {title}", "-H", "Tags: rocket"]
+    cmd = ["curl", "-sS", "-m", "10", "-H", f"Title: {title}", "-H", f"Tags: {tags}"]
+    actions = []
+    if copy:   # FOMO has no public link that opens a coin in the app, so: copy, open FOMO, paste in search
+        actions.append(f"copy, Copy address, {copy}")
     if url:
-        cmd += ["-H", f"Click: {url}"]
+        actions.append(f"view, Chart, {url}")
+    if actions:
+        cmd += ["-H", "Actions: " + "; ".join(actions)]
     subprocess.run(cmd + ["-d", text, f"https://ntfy.sh/{topic}"], capture_output=True)
+
+
+def px(x):
+    """Memecoin prices are tiny: show 4 significant digits, no scientific notation."""
+    if x <= 0:
+        return "$0"
+    if x >= 1:
+        return f"${x:,.2f}"
+    return f"${x:.{3 - math.floor(math.log10(x))}f}"
+
+
+def usd(x):
+    return f"${x / 1e6:.1f}M" if x >= 1e6 else f"${x / 1e3:.0f}k" if x >= 1e3 else f"${x:.0f}"
+
+
+def signal_text(s, bought, why=None):
+    lines = [f"mcap {usd(s['mcap'])} | score {s['score']:.0f}/100 | 1h {s['h1']:+.0f}%",
+             f"BUY at {px(s['price'])}  (mcap {usd(s['mcap'])})"]
+    for mult, frac in C.LADDER:
+        lines.append(f"SELL {frac:.0%} at {mult:g}x: {px(s['price'] * mult)}  (mcap {usd(s['mcap'] * mult)})")
+    lines.append(f"Rest: sell if it falls {C.TRAIL_PCT:.0f}% from its top")
+    if C.DEAD_EXIT_MULT:
+        lines.append(f"Sell all if it drops to {px(s['price'] * C.DEAD_EXIT_MULT)} "
+                     f"(-{(1 - C.DEAD_EXIT_MULT) * 100:.0f}%) or liquidity is pulled")
+    elif C.STOP_LOSS_PCT_ACTIVE:
+        lines.append(f"Stop loss: {px(s['price'] * (1 - C.STOP_LOSS_PCT / 100))}")
+    lines.append(f"Paper: bought ${C.POSITION_SIZE_USD:.0f}" if bought else f"Paper: not bought ({why})")
+    lines.append(f"Address: {s['token']}")
+    return "\n".join(lines)
 
 
 def record_signals(sigs):
@@ -109,7 +144,11 @@ def tick(book, now=None):
         if pnl is not None:
             last = book.journal_tail()
             print(f"  EXIT {pos['symbol']}: {pnl:+.2f} USD ({last})")
-            notify(f"{tag}Paper sell {pos['symbol']}", f"{pnl:+.2f} USD. {last}")
+            mult = pos["last"] / pos["entry"]
+            notify(f"{tag}SELL {pos['symbol']} at {mult:.2f}x",
+                   f"{last}\nPrice now {px(pos['last'])} (bought {px(pos['entry'])})\n"
+                   f"Paper result of this sell: {pnl:+.2f} USD",
+                   copy=tok, tags="moneybag" if pnl > 0 else "chart_with_downwards_trend")
     # 2. follow every past signal (shadow tickets) for the hit-rate statistics
     if book.s["shadow"]:
         pairs = scanner.fetch_pairs(list(book.s["shadow"]))
@@ -130,14 +169,11 @@ def tick(book, now=None):
         why = book.enter(s, now)
         if why is None:
             print(f"  PAPER BUY {s['symbol']} ${C.POSITION_SIZE_USD:.0f} @ {s['price']:.8g}")
-            notify(f"{tag}Signal: {s['symbol']}",
-                   f"mcap ${s['mcap']:,.0f}, score {s['score']}. Paper bought ${C.POSITION_SIZE_USD:.0f}.\n"
-                   f"FOMO search: {s['token']}", url=s["url"])
+            notify(f"{tag}BUY signal: {s['symbol']}", signal_text(s, True), url=s["url"], copy=s["token"])
         else:
             print(f"  (paper skip: {why}; still tracked as a shadow ticket)")
-            notify(f"{tag}Signal (not bought): {s['symbol']}",
-                   f"mcap ${s['mcap']:,.0f}, score {s['score']}. Paper account skipped it: {why}.\n"
-                   f"FOMO search: {s['token']}", url=s["url"])
+            notify(f"{tag}Signal (not bought): {s['symbol']}", signal_text(s, False, why),
+                   url=s["url"], copy=s["token"], tags="eyes")
     # 4. MikeSz's rule: once the $50 has doubled, take the $50 out
     if book.withdraw_due():
         notify(f"{tag}Take your $50 out",
@@ -161,6 +197,13 @@ def main():
     if "--summary-now" in sys.argv:
         notify(f"[{C.MODE}] Summary", daily_summary(book))
         print(daily_summary(book))
+        return
+    if "--test-signal" in sys.argv:
+        demo = {"symbol": "DEMO", "token": "45rVFMxTWbzat7KFEnDkdaga49e4hWYrpq2W34aQpump", "price": 0.000237,
+                "mcap": 237_055, "score": 90, "h1": 347, "liquidity": 40_097,
+                "url": "https://dexscreener.com/solana/87k8mb4cbodh3eyuvvl7qkkkc8kwuvmddrs29jg6dzsz"}
+        notify(f"[{C.MODE}] TEST BUY signal: DEMO", signal_text(demo, True), url=demo["url"], copy=demo["token"])
+        print(signal_text(demo, True))
         return
     if "--test-push" in sys.argv:
         notify("MMFX scanner", "Test alert. If you see this on your iPhone, push works.")

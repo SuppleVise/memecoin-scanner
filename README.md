@@ -45,6 +45,24 @@ Same money rules and exits as moonshot, for coins **10 min to 2 h old**, market 
 Every signal is followed for 72 h as a "shadow ticket", even if the paper account had no cash or had hit its daily limit. That measures the hit rate (how many signals ever reach 2x/5x/10x/50x) much faster than $50 of tickets can. A shadow ticket whose coin disappears from DexScreener for 3 checks in a row is counted as a rug.
 
 ### Alerts on your iPhone
+
+A BUY alert looks like this:
+
+```
+[early] BUY signal: ASSETS
+mcap $237k | score 90/100 | 1h +347%
+BUY at $0.0002370  (mcap $237k)
+SELL 50% at 2x: $0.0004740  (mcap $474k)
+SELL 20% at 5x: $0.001185  (mcap $1.2M)
+SELL 15% at 10x: $0.002370  (mcap $2.4M)
+Rest: sell if it falls 45% from its top
+Sell all if it drops to $0.00003555 (-85%) or liquidity is pulled
+Paper: bought $10
+Address: 45rV...pump          [Copy address]  [Chart]
+```
+
+**score** is the scanner's own 0-100 momentum rating (1h move, buy/sell ratio, volume vs liquidity, 5 min move). FOMO has no public link that opens a coin inside the app, so: tap **Copy address**, open FOMO, paste into search. Long-press or pull down the notification if the buttons don't show.
+
 - **Signal**: a coin passed every filter (bought on paper, or "not bought" if the paper account was at a limit)
 - **Paper sell**: a take-profit step, trailing stop, rug exit or time stop
 - **Daily summary** around 20:00 Warsaw time, one per mode: paper balance, tickets, and how many of all signals reached 2x/5x/10x/50x

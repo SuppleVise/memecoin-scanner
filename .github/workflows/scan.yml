@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       test_push:
-        description: "Only send a test alert to the phone"
+        description: "Only send a demo BUY alert to the phone"
         type: boolean
         default: false
 concurrency:
@@ -28,7 +28,7 @@ jobs:
         if: ${{ inputs.test_push }}
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-        run: python3 run.py --test-push
+        run: python3 run.py --test-signal
       - name: Scan and paper trade (no wallet, no real orders)
         if: ${{ !inputs.test_push }}
         env:
