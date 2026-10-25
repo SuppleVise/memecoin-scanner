@@ -142,7 +142,48 @@ def fomo_line(s):
             f"      for this coin: {targets}")
 
 
-def daily_summary(book, now=None):
+def variant_books():
+    """Two what-if books that see the same signals as the real one (no alerts, report only)."""
+    out = {}
+    for v in ("all", "pct10"):
+        out[v] = Paper(C.STATE_FILE.replace(".json", f"_{v}.json"),
+                       C.JOURNAL_FILE.replace(".csv", f"_{v}.csv"), variant=v)
+    return out
+
+
+def tick_variants(books, sigs, now=None):
+    for vb in books.values():
+        toks = list(vb.s["positions"])
+        pairs = scanner.fetch_pairs(toks) if toks else {}
+        if toks and pairs:  # empty = API failed: don't treat everything as rugged
+            for tok in toks:
+                vb.check_exits(tok, pairs.get(tok), now)
+        for s in sigs:
+            vb.enter(s, now)
+        vb.bust_restart(now)
+        vb.save()
+
+
+def variant_lines(books):
+    out = []
+    a = books.get("all")
+    if a:
+        extra = max(0.0, -a.s.get("min_cash", 0.0))
+        n = a.summary()["tickets"]
+        out.append(f"If we bought every signal: {n} tickets, ${a.equity() - C.START_BALANCE_USD:+.2f} "
+                   f"vs start ({len(a.s['positions'])} open"
+                   + (f", needed ${extra:.0f} more than the $50" if extra else "") + ")")
+    b = books.get("pct10")
+    if b:
+        busts = len(b.s.get("rounds", []))
+        out.append(f"10% sizing (min $10): ${b.equity():.2f}"
+                   + (f", {busts} restarts" if busts else "")
+                   + (f", tickets now ${b.ticket_usd():.0f}" if b.ticket_usd() > C.POSITION_SIZE_USD else
+                      ", same as $10 until the account passes $100"))
+    return out
+
+
+def daily_summary(book, now=None, variants=None):
     now = now or time.time()
     sm = book.summary()
     sh = sm["shadow"]
@@ -160,9 +201,12 @@ def daily_summary(book, now=None):
             lines.append(f"  RESTART: {row['reason']}")
         else:
             part = " part" if row["action"] == "SELL_PART" else ""
-            lines.append(f"  SELL{part} ${row['symbol']} {float(row['pnl_usd']):+.2f} ({row['reason'][:40]})")
+            lines.append(f"  SELL{part} ${row['symbol']} {float(row['pnl_usd']):+.2f} ({row['reason'][:60]})")
     if sm["open"]:
         lines.append("Open now: " + ", ".join(sm["open"].values()))
+    if variants:
+        lines.append("What if (since 25 Oct evening):")
+        lines += ["  " + x for x in variant_lines(variants)]
     lines += [f"All signals so far: {sh['signals']}, reached {hits}. Best {sh['best'] or '-'}.",
               f"Hit the -{C.STOP_LOSS_PCT:.0f}% stop but later doubled: {sh['stopped_then_2x']}",
               missed_line(book)]
@@ -190,7 +234,7 @@ def missed_line(book):
     return f"Rejected coins that later went {book.MISSED_MULT}x+: {ms['count']} ({by}). Biggest: {best}"
 
 
-def tick(book, now=None):
+def tick(book, now=None, variants=None):
     tag = f"[{LABEL + ' ' if LABEL else ''}{C.MODE}] "
     # 1. manage what we hold first, exits beat entries
     for tok, pos in list(book.s["positions"].items()):
@@ -253,6 +297,8 @@ def tick(book, now=None):
     rejected = {}
     sigs = scanner.scan(skip=seen, rejected=rejected)
     book.missed_add(rejected, now)
+    if variants is not None:
+        tick_variants(variants, sigs, now)
     if sigs:
         record_signals(sigs)
     for s in sigs:
@@ -275,7 +321,7 @@ def tick(book, now=None):
     t = datetime.fromtimestamp(now or time.time(), timezone.utc)
     if t.hour >= C.DAILY_SUMMARY_UTC_HOUR and book.s["summary_day"] != t.strftime("%Y-%m-%d"):
         book.s["summary_day"] = t.strftime("%Y-%m-%d")
-        notify(f"{tag}Morning summary", daily_summary(book, now))
+        notify(f"{tag}Morning summary", daily_summary(book, now, variants))
     book.save()
     print(f"  {book.summary()}")
 
@@ -292,8 +338,9 @@ def main():
             print(f"  {item['seen']} {item['symbol']:>12} {item['mult']:>6}x  {item['reason']}  {item['token']}")
         return
     if "--summary-now" in sys.argv:
-        notify(f"[{C.MODE}] Summary", daily_summary(book))
-        print(daily_summary(book))
+        text = daily_summary(book, variants=variant_books())
+        notify(f"[{C.MODE}] Summary", text)
+        print(text)
         return
     if "--test-signal" in sys.argv:
         demo = {"symbol": "DEMO", "token": "45rVFMxTWbzat7KFEnDkdaga49e4hWYrpq2W34aQpump", "price": 0.000237,
@@ -320,7 +367,7 @@ def main():
         return
     if "--tick" in sys.argv:
         # one full cycle (exits + scan + paper entries), then exit: for GitHub Actions / cron
-        tick(book)
+        tick(book, variants=variant_books())
         return
     if "--once" in sys.argv:
         for s in scanner.scan():
@@ -329,10 +376,11 @@ def main():
     print(f"PAPER MODE [{C.MODE}]. No wallet is connected and no real orders are sent.")
     if not QUIET:
         print(f"iPhone alerts: subscribe to topic '{ntfy_topic()}' in the ntfy app")
+    variants = variant_books()
     while True:
         print(datetime.now(timezone.utc).strftime("%H:%M:%S"), "tick")
         try:
-            tick(book)
+            tick(book, variants=variants)
         except Exception as e:  # keep running through API hiccups
             print("  error:", e)
         time.sleep(C.POLL_SECONDS)

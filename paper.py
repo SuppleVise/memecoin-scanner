@@ -22,7 +22,11 @@ def utc_day(ts=None):
 
 
 class Paper:
-    def __init__(self, state_file=None, journal_file=None):
+    def __init__(self, state_file=None, journal_file=None, variant=None):
+        """variant: None = the real rules. "all" = buy every signal, no limits (cash may go negative:
+        that is money you would have had to add). "pct10" = ticket is 10% of equity, never below
+        POSITION_SIZE_USD (so it only differs once the account is above $100)."""
+        self.variant = variant
         self.state_file = state_file or C.STATE_FILE
         self.journal_file = journal_file or C.JOURNAL_FILE
         if os.path.exists(self.state_file):
@@ -68,8 +72,17 @@ class Paper:
         return val
 
     # --- gates ---------------------------------------------------------------
+    def ticket_usd(self):
+        if self.variant == "pct10":
+            return max(C.POSITION_SIZE_USD, round(0.10 * self.equity(), 2))
+        return C.POSITION_SIZE_USD
+
     def can_enter(self, token, now=None):
         self.roll_day(now)
+        if self.variant == "all":
+            if token in self.s["positions"] or token in self.s["traded"]:
+                return "already traded"
+            return None
         if self.s["halted"]:
             return "KILL SWITCH: equity fell below limit, stop and review"
         if self.equity() < C.KILL_SWITCH_EQUITY_USD:
@@ -85,7 +98,7 @@ class Paper:
             return "already holding"
         if token in self.s["traded"]:
             return "already traded this token (no revenge re-entries)"
-        if self.s["cash"] < C.POSITION_SIZE_USD:
+        if self.s["cash"] < self.ticket_usd():
             return "not enough cash"
         return None
 
@@ -94,11 +107,12 @@ class Paper:
         why = self.can_enter(sig["token"], now)
         if why:
             return why
-        usd = C.POSITION_SIZE_USD
+        usd = self.ticket_usd()
         fee = C.fomo_fee(usd)
         fill = sig["price"] * (1 + C.SLIPPAGE_PCT / 100)
         qty = (usd - fee) / fill
         self.s["cash"] -= usd
+        self.s["min_cash"] = min(self.s.get("min_cash", self.s["cash"]), self.s["cash"])
         self.s["positions"][sig["token"]] = {
             "symbol": sig["symbol"], "pair": sig["pair"], "qty": qty, "orig_qty": qty,
             "entry": fill, "cost": usd, "peak": fill, "last": fill,
@@ -304,7 +318,7 @@ class Paper:
         """MikeSz's rule: if the paper account is broke (nothing open, not enough for a ticket),
         close the round and start over with START_BALANCE_USD. Shadow/missed tracking carries on.
         Returns the finished round's record, or None."""
-        if self.s["positions"] or self.equity() >= C.KILL_SWITCH_EQUITY_USD:
+        if self.variant == "all" or self.s["positions"] or self.equity() >= C.KILL_SWITCH_EQUITY_USD:
             return None
         rounds = self.s.setdefault("rounds", [])
         rec = {"round": len(rounds) + 1, "ended": datetime.fromtimestamp(now or time.time(), timezone.utc)

@@ -386,6 +386,25 @@ class StopAndMilestones(unittest.TestCase):
         acts = [r["action"] for r in self.book.trades_since(0)]
         self.assertEqual(acts, ["BUY", "SELL", "RESTART"])
 
+    def test_variant_all_ignores_limits_and_tracks_extra_cash(self):
+        d = tempfile.mkdtemp()
+        a = Paper(os.path.join(d, "a.json"), os.path.join(d, "a.csv"), variant="all")
+        for i in range(8):
+            self.assertIsNone(a.enter({**self.sig, "token": f"T{i}", "pair": f"P{i}"}))
+        self.assertEqual(len(a.s["positions"]), 8)                 # real rules stop at 5
+        self.assertAlmostEqual(a.s["min_cash"], C.START_BALANCE_USD - 80)
+        self.assertIsNotNone(a.enter({**self.sig, "token": "T1"}))  # still no re-entries
+        self.assertIsNone(a.bust_restart())
+
+    def test_variant_pct10_sizes_from_equity_with_10_floor(self):
+        d = tempfile.mkdtemp()
+        b = Paper(os.path.join(d, "b.json"), os.path.join(d, "b.csv"), variant="pct10")
+        self.assertEqual(b.ticket_usd(), C.POSITION_SIZE_USD)       # $50 account: still $10
+        b.s["cash"] = 300.0
+        self.assertEqual(b.ticket_usd(), 30.0)
+        b.enter(self.sig)
+        self.assertEqual(b.s["positions"]["T1"]["cost"], 30.0)
+
     def test_label_gives_separate_files(self):
         C.apply_mode("early", "mac")
         self.assertEqual(C.STATE_FILE, "paper_state_early_mac.json")
