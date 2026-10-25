@@ -148,6 +148,13 @@ Files it writes, per mode: `signals_<mode>.csv` (every signal), `paper_journal_<
 
 Every signal then arrives on your phone with the token address for FOMO's search; tapping it opens the chart. The topic name works like a password: anyone who knows it can read your alerts, so don't share `ntfy_topic.txt`.
 
+## Missed movers (are the filters too strict?)
+
+Every coin a filter rejects (except ones simply too old or too big) is followed for 24 h. If it
+later reaches 5x its price at rejection, it is logged with the filter that blocked it. The daily
+summary shows the count per filter; `python3 run.py --missed --mode moonshot` lists them. If one
+filter keeps blocking 5x coins that did not rug, that filter is the one to loosen.
+
 ## Rug alerts
 
 A paper position whose pool loses half its liquidity (or whose pair vanishes) is sold at once and

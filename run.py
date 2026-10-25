@@ -145,8 +145,18 @@ def daily_summary(book):
     return (f"Paper ${sm['equity']:.2f} (start ${sm['start']:.0f}), {sm['tickets']} tickets, "
             f"{len(sm['open'])} open.\n"
             f"All signals so far: {sh['signals']}, reached {hits}. Best {sh['best'] or '-'}.\n"
-            f"Hit the -{C.STOP_LOSS_PCT:.0f}% stop but later doubled: {sh['stopped_then_2x']}"
+            f"Hit the -{C.STOP_LOSS_PCT:.0f}% stop but later doubled: {sh['stopped_then_2x']}\n"
+            + missed_line(book)
             + ("\nPaper account is out of money; signals are still being tracked." if sm["halted"] else ""))
+
+
+def missed_line(book):
+    ms = book.missed_stats()
+    if not ms["count"]:
+        return f"Rejected coins that later went {book.MISSED_MULT}x+: none so far."
+    best = ", ".join(f"{i['symbol']} {i['mult']}x ({i['reason'][:40]})" for i in ms["best"])
+    by = ", ".join(f"{k} {v}" for k, v in ms["by_filter"].items())
+    return f"Rejected coins that later went {book.MISSED_MULT}x+: {ms['count']} ({by}). Biggest: {best}"
 
 
 def tick(book, now=None):
@@ -173,9 +183,12 @@ def tick(book, now=None):
                    copy=tok, tags="rotating_light" if rug else "moneybag" if pnl > 0 else "chart_with_downwards_trend",
                    priority=5 if rug or "stop loss" in last else None)
     # 2. follow every past signal (shadow tickets) for the hit-rate statistics
-    if book.s["shadow"]:
-        pairs = scanner.fetch_pairs(list(book.s["shadow"]))
-        if pairs:  # empty means the API call failed: don't count everything as rugged
+    if book.s["shadow"] or book.s.get("missed"):
+        pairs = scanner.fetch_pairs(list(book.s["shadow"]) + list(book.s.get("missed", {})))
+        if pairs:
+            for item in book.missed_update(pairs, now):
+                print(f"  MISSED {item['symbol']}: {item['mult']}x since we rejected it ({item['reason']})")
+        if pairs and book.s["shadow"]:  # empty means the API call failed: don't count everything as rugged
             for tok, sym, kind, mult, price, url in book.shadow_update(pairs, now):
                 if tok in book.s["traded"]:
                     continue  # the paper account bought it: its own SELL alerts cover it
@@ -200,7 +213,9 @@ def tick(book, now=None):
                "The $50 paper budget is spent. New signals are still tracked for the statistics.")
     # 3. look for new signals
     seen = set(book.s["shadow"]) | set(book.s["shadow_done"]) | set(book.s["traded"])
-    sigs = scanner.scan(skip=seen)
+    rejected = {}
+    sigs = scanner.scan(skip=seen, rejected=rejected)
+    book.missed_add(rejected, now)
     if sigs:
         record_signals(sigs)
     for s in sigs:
@@ -233,6 +248,11 @@ def main():
     if "--report" in sys.argv:
         for k, v in book.summary().items():
             print(f"{k:>16}: {v}")
+        return
+    if "--missed" in sys.argv:
+        print(missed_line(book))
+        for item in book.s.get("missed_big", []):
+            print(f"  {item['seen']} {item['symbol']:>12} {item['mult']:>6}x  {item['reason']}  {item['token']}")
         return
     if "--summary-now" in sys.argv:
         notify(f"[{C.MODE}] Summary", daily_summary(book))

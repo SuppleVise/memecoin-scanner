@@ -238,6 +238,55 @@ class Paper:
                 del self.s["shadow"][tok]
         return events
 
+    # --- missed movers: coins a filter rejected, followed 24 h to see if the filter cost us a winner ---
+    MISSED_HOURS, MISSED_CAP, MISSED_MULT = 24, 600, 5
+
+    def missed_add(self, rejected, now=None):
+        now = now or time.time()
+        m = self.s.setdefault("missed", {})
+        for tok, r in rejected.items():
+            if tok not in m and tok not in self.s["shadow"] and tok not in self.s["traded"]:
+                m[tok] = {"symbol": r["symbol"], "entry": r["price"], "peak": r["price"],
+                          "reason": r["reason"], "opened": now, "url": r.get("url")}
+        for tok in sorted(m, key=lambda t: m[t]["opened"])[:max(0, len(m) - self.MISSED_CAP)]:
+            del m[tok]
+
+    def missed_update(self, pairs_by_token, now=None):
+        """Returns coins that just reached MISSED_MULT x their price when we rejected them."""
+        now = now or time.time()
+        m = self.s.setdefault("missed", {})
+        log = self.s.setdefault("missed_big", [])
+        out = []
+        for tok, r in list(m.items()):
+            pair = pairs_by_token.get(tok)
+            px = float((pair or {}).get("priceUsd") or 0)
+            if px > 0:
+                r["peak"] = max(r["peak"], px)
+            mult = r["peak"] / r["entry"]
+            if mult >= self.MISSED_MULT and not r.get("logged"):
+                r["logged"] = True
+                item = {"symbol": r["symbol"], "token": tok, "mult": round(mult, 1), "reason": r["reason"],
+                        "seen": utc_day(r["opened"])}
+                log.append(item)
+                out.append(item)
+            elif r.get("logged"):
+                for item in log:
+                    if item["token"] == tok:
+                        item["mult"] = round(mult, 1)
+            if (now - r["opened"]) / 3600 >= self.MISSED_HOURS:
+                del m[tok]
+        del log[:-100]
+        return out
+
+    def missed_stats(self):
+        log = self.s.get("missed_big", [])
+        reasons = {}
+        for item in log:
+            key = item["reason"].split(":")[0]
+            reasons[key] = reasons.get(key, 0) + 1
+        return {"count": len(log), "by_filter": reasons,
+                "best": sorted(log, key=lambda i: -i["mult"])[:3]}
+
     def shadow_stats(self):
         mults = list(self.s["shadow_done"].values()) + [
             sh["peak"] / sh["entry"] for sh in self.s["shadow"].values()]

@@ -239,9 +239,18 @@ def momentum(pair):
     return round(score, 1), r
 
 
-def scan(log=print, skip=()):
+def _reject(rejected, addr, p, sym, reason):
+    """Remember a rejected coin and its price now, to check later whether the filter cost us a winner."""
+    price = float(p.get("priceUsd") or 0)
+    if rejected is not None and price > 0:
+        rejected[addr] = {"symbol": sym, "price": price, "reason": reason[:80], "url": p.get("url")}
+
+
+def scan(log=print, skip=(), rejected=None):
     """Return list of signal dicts that pass every gate, best first.
-    Tokens in `skip` (already signalled) are not re-checked, which saves RugCheck calls."""
+    Tokens in `skip` (already signalled) are not re-checked, which saves RugCheck calls.
+    If `rejected` is a dict, coins that failed a filter are added to it (see _reject); coins that are
+    simply too old or too big are left out, since they are not what this scanner is hunting."""
     log("fetching candidates from DexScreener" + (" + GeckoTerminal..." if C.USE_GECKO else "..."))
     addrs = discover_candidates()
     log(f"  {len(addrs)} candidates, fetching pair stats...")
@@ -255,16 +264,21 @@ def scan(log=print, skip=()):
         bad = universe_reasons(p)
         if bad:
             out_of_universe += 1
+            if not any(b.startswith("too old") or (b.startswith("mcap") and
+                       (p.get("marketCap") or p.get("fdv") or 0) > C.MAX_MCAP_USD) for b in bad):
+                _reject(rejected, addr, p, sym, "size/age: " + ", ".join(bad))
             continue
         score, bad = momentum(p)
         if bad:
             log(f"  - {sym}: momentum {', '.join(bad)}")
+            _reject(rejected, addr, p, sym, "momentum: " + ", ".join(bad))
             continue
         log(f"  ? {sym}: momentum OK (score {score}), checking RugCheck...")
         report = fetch_rugcheck(addr)  # only for survivors, to stay under rate limits
         bad = rug_reasons(report)
         if bad:
             log(f"  x {sym}: RUG FILTER {', '.join(bad)}")
+            _reject(rejected, addr, p, sym, "rug filter: " + ", ".join(bad))
             continue
         signals.append({
             "token": addr,

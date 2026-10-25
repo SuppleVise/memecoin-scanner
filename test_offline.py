@@ -318,6 +318,38 @@ class StopAndMilestones(unittest.TestCase):
         self.assertEqual([e[2] for e in ev], ["rug"])
         self.assertNotIn("T1", self.book.s["shadow"])
 
+    def test_missed_mover_logged_once_with_reason(self):
+        t = time.time()
+        self.book.missed_add({"M1": {"symbol": "MOON", "price": 0.001, "reason": "rug filter: LP locked 0%"}}, t)
+        self.assertEqual(self.book.missed_update({"M1": {"priceUsd": "0.003"}}, t + 60), [])
+        hit = self.book.missed_update({"M1": {"priceUsd": "0.006"}}, t + 120)
+        self.assertEqual([(i["symbol"], i["mult"]) for i in hit], [("MOON", 6.0)])
+        self.assertEqual(self.book.missed_update({"M1": {"priceUsd": "0.009"}}, t + 180), [])
+        st = self.book.missed_stats()
+        self.assertEqual((st["count"], st["by_filter"], st["best"][0]["mult"]), (1, {"rug filter": 1}, 9.0))
+        self.book.missed_update({}, t + 25 * 3600)
+        self.assertEqual(self.book.s["missed"], {})              # stops following after 24 h
+
+    def test_scan_records_rejects_but_not_old_or_big_coins(self):
+        import scanner
+        now = time.time() * 1000
+        def pair(addr, age_h, mcap, h1):
+            return {"baseToken": {"address": addr, "symbol": addr}, "pairCreatedAt": now - age_h * 3600e3,
+                    "liquidity": {"usd": 30_000}, "marketCap": mcap, "priceUsd": "0.001",
+                    "volume": {"h24": 1e6, "h1": 50_000}, "txns": {"h1": {"buys": 300, "sells": 100}},
+                    "priceChange": {"m5": 2, "h1": h1, "h24": 50}}
+        pairs = {"OLD": pair("OLD", 200, 100_000, 50), "BIG": pair("BIG", 5, 9e6, 50),
+                 "WEAK": pair("WEAK", 5, 100_000, -10), "NEW": pair("NEW", 0.2, 100_000, 50)}
+        orig = scanner.discover_candidates, scanner.fetch_pairs
+        scanner.discover_candidates, scanner.fetch_pairs = (lambda: list(pairs)), (lambda a: pairs)
+        try:
+            rej = {}
+            scanner.scan(log=lambda *_: None, rejected=rej)
+        finally:
+            scanner.discover_candidates, scanner.fetch_pairs = orig
+        self.assertEqual(sorted(rej), ["NEW", "WEAK"])
+        self.assertTrue(rej["WEAK"]["reason"].startswith("momentum"))
+
     def test_label_gives_separate_files(self):
         C.apply_mode("early", "mac")
         self.assertEqual(C.STATE_FILE, "paper_state_early_mac.json")
