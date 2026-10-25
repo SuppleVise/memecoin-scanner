@@ -1,0 +1,196 @@
+"""Paper portfolio: simulated $50 account with FOMO-like fees, slippage and hard limits.
+
+No wallet, no keys, no orders. Prices come from DexScreener polling, so a fill
+here is a guess at what a manual tap in FOMO would have got. Treat results as
+optimistic: real memecoin slippage on exits during a dump is worse.
+"""
+import csv
+import json
+import os
+import time
+from datetime import datetime, timezone
+
+import config as C
+
+JOURNAL_FIELDS = ["time", "symbol", "token", "action", "reason", "price",
+                  "usd", "fee", "pnl_usd", "peak_mult", "equity"]
+MILESTONES = (2, 5, 10, 50)
+
+
+def utc_day(ts=None):
+    return datetime.fromtimestamp(ts or time.time(), timezone.utc).strftime("%Y-%m-%d")
+
+
+class Paper:
+    def __init__(self, state_file=None, journal_file=None):
+        self.state_file = state_file or C.STATE_FILE
+        self.journal_file = journal_file or C.JOURNAL_FILE
+        if os.path.exists(self.state_file):
+            with open(self.state_file) as f:
+                self.s = json.load(f)
+        else:
+            self.s = {"cash": C.START_BALANCE_USD, "positions": {}, "day": utc_day(),
+                      "day_pnl": 0.0, "day_trades": 0, "halted": False, "traded": [],
+                      "peaks": {}}
+        self.s.setdefault("peaks", {})
+
+    # --- bookkeeping ---------------------------------------------------------
+    def save(self):
+        tmp = self.state_file + ".tmp"
+        with open(tmp, "w") as f:
+            json.dump(self.s, f, indent=2)
+        os.replace(tmp, self.state_file)
+
+    def log(self, **row):
+        new = not os.path.exists(self.journal_file)
+        with open(self.journal_file, "a", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=JOURNAL_FIELDS)
+            if new:
+                w.writeheader()
+            row.setdefault("time", datetime.now(timezone.utc).isoformat(timespec="seconds"))
+            row.setdefault("equity", round(self.equity(), 2))
+            w.writerow({k: row.get(k, "") for k in JOURNAL_FIELDS})
+
+    def roll_day(self, now=None):
+        d = utc_day(now)
+        if d != self.s["day"]:
+            self.s.update(day=d, day_pnl=0.0, day_trades=0)
+
+    def equity(self, prices=None):
+        prices = prices or {}
+        val = self.s["cash"]
+        for tok, p in self.s["positions"].items():
+            val += p["qty"] * prices.get(tok, p["last"])
+        return val
+
+    # --- gates ---------------------------------------------------------------
+    def can_enter(self, token, now=None):
+        self.roll_day(now)
+        if self.s["halted"]:
+            return "KILL SWITCH: equity fell below limit, stop and review"
+        if self.equity() < C.KILL_SWITCH_EQUITY_USD:
+            self.s["halted"] = True
+            return "KILL SWITCH tripped"
+        if self.s["day_pnl"] <= -C.DAILY_LOSS_LIMIT_USD:
+            return "daily loss limit hit"
+        if self.s["day_trades"] >= C.MAX_TRADES_PER_DAY:
+            return "max trades today"
+        if len(self.s["positions"]) >= C.MAX_OPEN_POSITIONS:
+            return "max open positions"
+        if token in self.s["positions"]:
+            return "already holding"
+        if token in self.s["traded"]:
+            return "already traded this token (no revenge re-entries)"
+        if self.s["cash"] < C.POSITION_SIZE_USD:
+            return "not enough cash"
+        return None
+
+    # --- actions -------------------------------------------------------------
+    def enter(self, sig, now=None):
+        why = self.can_enter(sig["token"], now)
+        if why:
+            return why
+        usd = C.POSITION_SIZE_USD
+        fee = C.fomo_fee(usd)
+        fill = sig["price"] * (1 + C.SLIPPAGE_PCT / 100)
+        qty = (usd - fee) / fill
+        self.s["cash"] -= usd
+        self.s["positions"][sig["token"]] = {
+            "symbol": sig["symbol"], "pair": sig["pair"], "qty": qty, "orig_qty": qty,
+            "entry": fill, "cost": usd, "peak": fill, "last": fill,
+            "opened": now or time.time(), "rungs_done": 0, "entry_liq": sig.get("liquidity") or 0,
+        }
+        self.s["day_trades"] += 1
+        self.s["traded"].append(sig["token"])
+        self.log(symbol=sig["symbol"], token=sig["token"], action="BUY",
+                 reason=f"score {sig['score']}", price=fill, usd=usd, fee=round(fee, 4))
+        self.save()
+        return None
+
+    def _sell(self, tok, qty, price, reason):
+        p = self.s["positions"][tok]
+        qty = min(qty, p["qty"])
+        full = qty >= p["qty"] * 0.999
+        frac = 1.0 if full else qty / p["qty"]
+        fill = price * (1 - C.SLIPPAGE_PCT / 100)
+        gross = qty * fill
+        fee = min(C.fomo_fee(gross), gross)
+        net = gross - fee
+        cost_part = p["cost"] * frac
+        pnl = net - cost_part
+        self.s["cash"] += net
+        self.s["day_pnl"] += pnl
+        p["qty"] -= qty
+        p["cost"] -= cost_part
+        peak_mult = round(p["peak"] / p["entry"], 2)
+        if full:
+            self.s["peaks"][tok] = peak_mult
+            del self.s["positions"][tok]
+        self.log(symbol=p["symbol"], token=tok, action="SELL" if full else "SELL_PART",
+                 reason=reason, price=fill, usd=round(net, 4), fee=round(fee, 4),
+                 pnl_usd=round(pnl, 4), peak_mult=peak_mult if full else "")
+        return pnl
+
+    def check_exits(self, tok, pair, now=None):
+        """Apply exit rules to one open position given a fresh DexScreener pair dict."""
+        now = now or time.time()
+        p = self.s["positions"].get(tok)
+        if not p:
+            return None
+        p.setdefault("orig_qty", p["qty"])
+        p.setdefault("rungs_done", 1 if p.get("tp1_done") else 0)
+        if pair is None:
+            # Pair vanished from the API. In real life that is usually a rug.
+            return self._sell(tok, p["qty"], p["last"] * 0.1, "pair missing: assume -90% rug fill")
+        price = float(pair.get("priceUsd") or 0)
+        if price <= 0:
+            return None
+        p["last"] = price
+        p["peak"] = max(p["peak"], price)
+        mult = price / p["entry"]
+        liq = (pair.get("liquidity") or {}).get("usd") or 0
+        ladder = C.LADDER
+        out = None
+        if p["entry_liq"] and liq < p["entry_liq"] * (1 - C.LIQUIDITY_DROP_EXIT_PCT / 100):
+            out = self._sell(tok, p["qty"], price, f"liquidity pulled {liq:,.0f} vs {p['entry_liq']:,.0f}")
+        elif C.STOP_LOSS_PCT_ACTIVE and (mult - 1) * 100 <= -C.STOP_LOSS_PCT:
+            out = self._sell(tok, p["qty"], price, f"stop loss {(mult - 1) * 100:.1f}%")
+        elif C.DEAD_EXIT_MULT and mult <= C.DEAD_EXIT_MULT:
+            out = self._sell(tok, p["qty"], price, f"dead coin {mult:.2f}x, salvage")
+        elif p["rungs_done"] < len(ladder) and mult >= ladder[p["rungs_done"]][0]:
+            total = 0.0
+            while p["rungs_done"] < len(ladder) and mult >= ladder[p["rungs_done"]][0] and tok in self.s["positions"]:
+                target, frac = ladder[p["rungs_done"]]
+                p["rungs_done"] += 1
+                total += self._sell(tok, p["orig_qty"] * frac, price, f"take profit at {target}x (now {mult:.2f}x)")
+            out = total
+        elif p["rungs_done"] > 0 and price <= p["peak"] * (1 - C.TRAIL_PCT / 100):
+            out = self._sell(tok, p["qty"], price,
+                             f"trailing stop {mult:.2f}x, peak {p['peak'] / p['entry']:.2f}x")
+        elif (now - p["opened"]) / 3600 >= C.TIME_STOP_H and mult < C.TIME_STOP_MIN_MULT:
+            out = self._sell(tok, p["qty"], price, f"time stop {mult:.2f}x")
+        self.save()
+        return out
+
+    # --- report --------------------------------------------------------------
+    def summary(self):
+        rows = []
+        if os.path.exists(self.journal_file):
+            with open(self.journal_file) as f:
+                rows = list(csv.DictReader(f))
+        buys = sum(1 for r in rows if r["action"] == "BUY")
+        closed = [float(r["pnl_usd"]) for r in rows if r["pnl_usd"]]
+        fees = sum(float(r["fee"] or 0) for r in rows)
+        peaks = list(self.s["peaks"].values()) + [
+            p["peak"] / p["entry"] for p in self.s["positions"].values()]
+        return {
+            "mode": C.MODE,
+            "equity": round(self.equity(), 2),
+            "start": C.START_BALANCE_USD,
+            "tickets": buys,
+            "realised_pnl": round(sum(closed), 2),
+            "total_fees": round(fees, 2),
+            "peaked_at_least": {f"{m}x": sum(1 for x in peaks if x >= m) for m in MILESTONES},
+            "open": {t: f"{p['symbol']} {p['last'] / p['entry']:.2f}x" for t, p in self.s["positions"].items()},
+            "halted": self.s["halted"],
+        }

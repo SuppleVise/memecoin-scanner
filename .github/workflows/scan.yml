@@ -1,0 +1,32 @@
+# Runs one scan cycle every 5 minutes on GitHub's servers and commits the paper book back.
+# Secret needed: Settings > Secrets and variables > Actions > New secret NTFY_TOPIC = your topic name.
+name: memecoin-scan
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # GitHub may delay scheduled runs by several minutes
+  workflow_dispatch: {}
+concurrency:
+  group: scan
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Scan and paper trade (no wallet, no real orders)
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: python3 run.py --tick
+      - name: Save paper book
+        run: |
+          git config user.name "scanner-bot"
+          git config user.email "scanner-bot@users.noreply.github.com"
+          git add -f paper_state_*.json paper_journal_*.csv signals_*.csv 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "paper book $(date -u +%FT%TZ)"
+          git push || (git pull --rebase && git push)
