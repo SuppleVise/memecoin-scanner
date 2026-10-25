@@ -142,16 +142,31 @@ def fomo_line(s):
             f"      for this coin: {targets}")
 
 
-def daily_summary(book):
+def daily_summary(book, now=None):
+    now = now or time.time()
     sm = book.summary()
     sh = sm["shadow"]
     hits = ", ".join(f"{k} {v}" for k, v in sh["peaked_at_least"].items())
-    return (f"Paper ${sm['equity']:.2f} (start ${sm['start']:.0f}), {sm['tickets']} tickets, "
-            f"{len(sm['open'])} open.\n"
-            f"All signals so far: {sh['signals']}, reached {hits}. Best {sh['best'] or '-'}.\n"
-            f"Hit the -{C.STOP_LOSS_PCT:.0f}% stop but later doubled: {sh['stopped_then_2x']}\n"
-            + missed_line(book)
-            + ("\nPaper account is out of money; signals are still being tracked." if sm["halted"] else ""))
+    open_val = sm["equity"] - book.s["cash"]
+    busts = len(book.s.get("rounds", []))
+    lines = [f"Account: ${sm['equity']:.2f} (cash ${book.s['cash']:.2f} + open ${open_val:.2f}), "
+             f"started ${sm['start']:.0f}. Round {busts + 1}" + (f" ({busts} went broke before)" if busts else "")]
+    rows = book.trades_since(now - 24 * 3600)
+    lines.append(f"Last 24h: {len(rows)} trades" + (":" if rows else "."))
+    for row in rows[-15:]:
+        if row["action"] == "BUY":
+            lines.append(f"  BUY ${row['symbol']} ${float(row['usd']):.0f}")
+        elif row["action"] == "RESTART":
+            lines.append(f"  RESTART: {row['reason']}")
+        else:
+            part = " part" if row["action"] == "SELL_PART" else ""
+            lines.append(f"  SELL{part} ${row['symbol']} {float(row['pnl_usd']):+.2f} ({row['reason'][:40]})")
+    if sm["open"]:
+        lines.append("Open now: " + ", ".join(sm["open"].values()))
+    lines += [f"All signals so far: {sh['signals']}, reached {hits}. Best {sh['best'] or '-'}.",
+              f"Hit the -{C.STOP_LOSS_PCT:.0f}% stop but later doubled: {sh['stopped_then_2x']}",
+              missed_line(book)]
+    return "\n".join(lines)
 
 
 def exit_text(tok, pos, reason, pnl, mult, held_min, rug):
@@ -225,10 +240,14 @@ def tick(book, now=None):
                            f"A signal the paper account did not buy is now {px(price)} ({mult:.2f}x).\n"
                            f"If you bought it in FOMO: follow the sell steps from the signal alert.",
                            url=url, copy=tok, tags="moneybag")
-    if not book.s["halted"] and book.equity() < C.KILL_SWITCH_EQUITY_USD:
-        book.s["halted"] = True
-        notify(f"{tag}Paper account empty",
-               "The $50 paper budget is spent. New signals are still tracked for the statistics.")
+    # MikeSz's rule: broke (nothing open, < 1 ticket left) -> close the round, start over with $50
+    rec = book.bust_restart(now)
+    if rec:
+        notify(f"{tag}Paper account broke: round {rec['round']} over, restarting with ${C.START_BALANCE_USD:.0f}",
+               f"Round {rec['round']}: {rec['tickets']} tickets, ${rec['left_usd']:.2f} left.\n"
+               f"I'll review what lost and adjust the rules at the weekly review.", tags="skull")
+    elif not book.s["halted"] and book.equity() < C.KILL_SWITCH_EQUITY_USD:
+        book.s["halted"] = True  # still holding something: wait for it to close, then restart
     # 3. look for new signals
     seen = set(book.s["shadow"]) | set(book.s["shadow_done"]) | set(book.s["traded"])
     rejected = {}
@@ -256,7 +275,7 @@ def tick(book, now=None):
     t = datetime.fromtimestamp(now or time.time(), timezone.utc)
     if t.hour >= C.DAILY_SUMMARY_UTC_HOUR and book.s["summary_day"] != t.strftime("%Y-%m-%d"):
         book.s["summary_day"] = t.strftime("%Y-%m-%d")
-        notify(f"{tag}Daily summary", daily_summary(book))
+        notify(f"{tag}Morning summary", daily_summary(book, now))
     book.save()
     print(f"  {book.summary()}")
 

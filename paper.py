@@ -106,6 +106,7 @@ class Paper:
         }
         self.s["day_trades"] += 1
         self.s["traded"].append(sig["token"])
+        self.s["round_tickets"] = self.s.get("round_tickets", 0) + 1
         self.log(symbol=sig["symbol"], token=sig["token"], action="BUY",
                  reason=f"score {sig['score']}", price=fill, usd=usd, fee=round(fee, 4))
         self.save()
@@ -298,6 +299,31 @@ class Paper:
                 "best": f"{max(mults):.1f}x" if mults else None,
                 # how often the stop loss sold something that later doubled: the price of having a stop
                 "stopped_then_2x": len(self.s.get("stop_then_2x", [])) + len(live_stop_then_2x)}
+
+    def bust_restart(self, now=None):
+        """MikeSz's rule: if the paper account is broke (nothing open, not enough for a ticket),
+        close the round and start over with START_BALANCE_USD. Shadow/missed tracking carries on.
+        Returns the finished round's record, or None."""
+        if self.s["positions"] or self.equity() >= C.KILL_SWITCH_EQUITY_USD:
+            return None
+        rounds = self.s.setdefault("rounds", [])
+        rec = {"round": len(rounds) + 1, "ended": datetime.fromtimestamp(now or time.time(), timezone.utc)
+               .isoformat(timespec="seconds"), "left_usd": round(self.equity(), 2),
+               "tickets": self.s.get("round_tickets", 0)}
+        rounds.append(rec)
+        self.log(symbol="-", token="-", action="RESTART", reason=f"round {rec['round']} bust, new ${C.START_BALANCE_USD:.0f}",
+                 price="", usd=C.START_BALANCE_USD, fee=0, pnl_usd="")
+        self.s.update(cash=C.START_BALANCE_USD, halted=False, withdraw_alerted=False, round_tickets=0)
+        self.save()
+        return rec
+
+    def trades_since(self, ts):
+        """Journal rows newer than ts (unix seconds), for the morning summary."""
+        if not os.path.exists(self.journal_file):
+            return []
+        with open(self.journal_file) as f:
+            return [r for r in csv.DictReader(f)
+                    if datetime.fromisoformat(r["time"]).timestamp() >= ts]
 
     def withdraw_due(self):
         """True once, when paper equity first reaches the take-your-stake-out level."""

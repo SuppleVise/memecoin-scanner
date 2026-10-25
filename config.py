@@ -88,7 +88,7 @@ USE_DEX_BOOSTS = True
 # much faster than $50 of tickets can.
 SHADOW_HOURS = 72
 WITHDRAW_AT_EQUITY_USD = 100.0  # MikeSz's rule: once the $50 has doubled, take the $50 out
-DAILY_SUMMARY_UTC_HOUR = 19     # 20:00 Warsaw in winter, 21:00 in summer
+DAILY_SUMMARY_UTC_HOUR = 8      # 9:00 Warsaw in winter, 10:00 in summer (MikeSz: morning summary)
 
 MODES = {
     # Short scalps on established movers. Small, frequent targets. Fees hurt most here.

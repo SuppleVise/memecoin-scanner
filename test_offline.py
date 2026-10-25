@@ -372,6 +372,20 @@ class StopAndMilestones(unittest.TestCase):
         self.assertEqual(rows[0].split(",")[:3], ["t", "mode", "token"])
         self.assertIn("M1,S", rows[1])
 
+    def test_bust_restarts_with_fresh_50(self):
+        self.book.enter(self.sig)
+        self.assertIsNone(self.book.bust_restart())               # holding: not broke
+        fill = self.book.s["positions"]["T1"]["entry"]
+        self.book.s["cash"] = 3.0
+        self.book.check_exits("T1", {"priceUsd": str(fill * 0.5), "liquidity": {"usd": 1_000}})  # rug
+        rec = self.book.bust_restart()
+        self.assertEqual((rec["round"], rec["tickets"]), (1, 1))
+        self.assertEqual(self.book.s["cash"], C.START_BALANCE_USD)
+        self.assertFalse(self.book.s["halted"])
+        self.assertIsNone(self.book.bust_restart())               # fresh $50: fine
+        acts = [r["action"] for r in self.book.trades_since(0)]
+        self.assertEqual(acts, ["BUY", "SELL", "RESTART"])
+
     def test_label_gives_separate_files(self):
         C.apply_mode("early", "mac")
         self.assertEqual(C.STATE_FILE, "paper_state_early_mac.json")
