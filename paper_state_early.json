@@ -8,8 +8,8 @@
       "orig_qty": 40539.42252006288,
       "entry": 0.00024174,
       "cost": 10.0,
-      "peak": 0.00024174,
-      "last": 0.00024174,
+      "peak": 0.0004567,
+      "last": 0.0004567,
       "opened": 1792939439.0380723,
       "rungs_done": 0,
       "entry_liq": 40097.02
@@ -27,9 +27,10 @@
     "45rVFMxTWbzat7KFEnDkdaga49e4hWYrpq2W34aQpump": {
       "symbol": "ASSETS",
       "entry": 0.000237,
-      "peak": 0.000237,
-      "last": 0.000237,
-      "opened": 1792939439.0380273
+      "peak": 0.0004567,
+      "last": 0.0004567,
+      "opened": 1792939439.0380273,
+      "miss": 0
     }
   },
   "shadow_done": {},
