@@ -154,6 +154,18 @@ def daily_summary(book):
             + ("\nPaper account is out of money; signals are still being tracked." if sm["halted"] else ""))
 
 
+def exit_text(tok, pos, reason, pnl, mult, held_min, rug):
+    lines = [f"Coin: ${pos['symbol']}",
+             f"Address: {tok}",
+             f"Why: {reason}",
+             f"Bought {px(pos['entry'])}, now {px(pos['last'])} ({mult:.2f}x), "
+             f"best was {pos['peak'] / pos['entry']:.2f}x",
+             f"Held {held_min // 60:.0f}h {held_min % 60:.0f}m. Paper result: {pnl:+.2f} USD"]
+    if rug:
+        lines.append("If you hold it in FOMO: sell everything now, whatever is left.")
+    return "\n".join(lines)
+
+
 def missed_line(book):
     ms = book.missed_stats()
     if not ms["count"]:
@@ -174,17 +186,17 @@ def tick(book, now=None):
             print(f"  EXIT {pos['symbol']}: {pnl:+.2f} USD ({last})")
             mult = pos["last"] / pos["entry"]
             rug = "liquidity pulled" in last or "pair missing" in last
+            coin = f"${pos['symbol']}"
             if rug:
-                title = f"{tag}RUG {pos['symbol']}: liquidity pulled, paper sold at {mult:.2f}x"
+                title = f"{tag}RUG on {coin}: liquidity pulled, paper sold at {mult:.2f}x"
             elif "stop loss" in last:
-                title = f"{tag}STOP LOSS {pos['symbol']}: sold all at {mult:.2f}x"
+                title = f"{tag}STOP LOSS {coin}: sold all at {mult:.2f}x"
             else:
-                title = f"{tag}SELL {pos['symbol']} at {mult:.2f}x"
-            notify(title,
-                   f"{last}\nPrice now {px(pos['last'])} (bought {px(pos['entry'])})\n"
-                   f"Paper result of this sell: {pnl:+.2f} USD"
-                   + ("\nIf you hold it in FOMO: sell everything now, whatever is left." if rug else ""),
-                   copy=tok, tags="rotating_light" if rug else "moneybag" if pnl > 0 else "chart_with_downwards_trend",
+                title = f"{tag}SELL {coin} at {mult:.2f}x"
+            held_min = (time.time() - pos["opened"]) / 60
+            notify(title, exit_text(tok, pos, last, pnl, mult, held_min, rug),
+                   url=f"https://dexscreener.com/solana/{pos['pair']}", copy=tok,
+                   tags="rotating_light" if rug else "moneybag" if pnl > 0 else "chart_with_downwards_trend",
                    priority=5 if rug or "stop loss" in last else None)
     # 2. follow every past signal (shadow tickets) for the hit-rate statistics
     if book.s["shadow"] or book.s.get("missed"):
@@ -197,17 +209,19 @@ def tick(book, now=None):
                 if tok in book.s["traded"]:
                     continue  # the paper account bought it: its own SELL alerts cover it
                 if kind == "rug":
-                    notify(f"{tag}RUG {sym}: liquidity pulled ({mult:.2f}x)",
-                           f"A signal the paper account did not buy lost its liquidity (price {px(price)}).\n"
+                    notify(f"{tag}RUG on ${sym}: liquidity pulled ({mult:.2f}x)",
+                           f"Coin: ${sym}\nAddress: {tok}\n"
+                           f"A signal the paper account did not buy lost its liquidity (price {px(price)}, "
+                           f"{mult:.2f}x of the signal price).\n"
                            f"If you bought it in FOMO: sell everything now, whatever is left.",
                            url=url, copy=tok, tags="rotating_light", priority=5)
                 elif kind == "stop":
-                    notify(f"{tag}STOP {sym}: down {(1 - mult) * 100:.0f}%",
+                    notify(f"{tag}STOP ${sym}: down {(1 - mult) * 100:.0f}%",
                            f"A signal the paper account did not buy fell to {px(price)} ({mult:.2f}x).\n"
                            f"If you bought it in FOMO: rule says sell all now.",
                            url=url, copy=tok, tags="warning", priority=5)
                 else:
-                    notify(f"{tag}{sym} hit +{(float(kind[:-1]) - 1) * 100:.0f}% ({kind} price)",
+                    notify(f"{tag}${sym} hit +{(float(kind[:-1]) - 1) * 100:.0f}% ({kind} price)",
                            f"A signal the paper account did not buy is now {px(price)} ({mult:.2f}x).\n"
                            f"If you bought it in FOMO: follow the sell steps from the signal alert.",
                            url=url, copy=tok, tags="moneybag")
@@ -276,11 +290,10 @@ def main():
                f"stop loss -46.0%\nPrice now {px(e * 0.54)} (bought {px(e)})\n"
                f"Paper result of this sell: -4.79 USD", copy=demo["token"], tags="chart_with_downwards_trend",
                priority=5)
-        notify(f"[{C.MODE}] TEST RUG DEMO: liquidity pulled, paper sold at 0.01x",
-               f"liquidity pulled 2,075 vs 40,097\nPrice now {px(e * 0.008)} (bought {px(e)})\n"
-               f"Paper result of this sell: -10.00 USD\n"
-               f"If you hold it in FOMO: sell everything now, whatever is left.",
-               copy=demo["token"], tags="rotating_light", priority=5)
+        demo_pos = {"symbol": "DEMO", "entry": e, "last": e * 0.26, "peak": e * 1.4}
+        notify(f"[{C.MODE}] TEST RUG on $DEMO: liquidity pulled, paper sold at 0.26x",
+               exit_text(demo["token"], demo_pos, "liquidity pulled 10,236 vs 21,791", -7.62, 0.26, 83, True),
+               url=demo["url"], copy=demo["token"], tags="rotating_light", priority=5)
         return
     if "--test-push" in sys.argv:
         notify("MMFX scanner", "Test alert. If you see this on your iPhone, push works.")
