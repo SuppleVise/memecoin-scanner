@@ -18,7 +18,7 @@ permissions:
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 6
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
@@ -33,7 +33,9 @@ jobs:
         if: ${{ !inputs.test_push }}
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-        run: python3 run.py --tick
+        run: |
+          python3 run.py --tick --mode moonshot
+          python3 run.py --tick --mode early
       - name: Save paper book
         if: ${{ !inputs.test_push }}
         run: |

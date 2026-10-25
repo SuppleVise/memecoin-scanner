@@ -7,6 +7,8 @@
     python3 run.py --quiet            # no notifications
     python3 run.py --test-push        # send one test alert to your iPhone (ntfy app)
     python3 run.py --tick             # one cycle then exit (used by GitHub Actions)
+    python3 run.py --summary-now      # send the daily summary right away
+    python3 run.py --mode early       # fresh launches, 10 min to 2 h old
 
 Every signal is written to signals_<mode>.csv with the token address, so you can
 paste it into FOMO's search and compare what you'd have tapped with the paper book.
@@ -88,32 +90,65 @@ def fomo_line(s):
             f"      for this coin: {targets}")
 
 
-def tick(book):
+def daily_summary(book):
+    sm = book.summary()
+    sh = sm["shadow"]
+    hits = ", ".join(f"{k} {v}" for k, v in sh["peaked_at_least"].items())
+    return (f"Paper ${sm['equity']:.2f} (start ${sm['start']:.0f}), {sm['tickets']} tickets, "
+            f"{len(sm['open'])} open.\n"
+            f"All signals so far: {sh['signals']}, reached {hits}. Best {sh['best'] or '-'}."
+            + ("\nPaper account is out of money; signals are still being tracked." if sm["halted"] else ""))
+
+
+def tick(book, now=None):
+    tag = f"[{C.MODE}] "
     # 1. manage what we hold first, exits beat entries
     for tok, pos in list(book.s["positions"].items()):
         pair = scanner.fetch_pair(pos["pair"])
         pnl = book.check_exits(tok, pair)
         if pnl is not None:
-            print(f"  EXIT {pos['symbol']}: {pnl:+.2f} USD")
-            notify(f"Paper exit {pos['symbol']}", f"{pnl:+.2f} USD")
-    if book.equity() < C.KILL_SWITCH_EQUITY_USD:
+            last = book.journal_tail()
+            print(f"  EXIT {pos['symbol']}: {pnl:+.2f} USD ({last})")
+            notify(f"{tag}Paper sell {pos['symbol']}", f"{pnl:+.2f} USD. {last}")
+    # 2. follow every past signal (shadow tickets) for the hit-rate statistics
+    if book.s["shadow"]:
+        pairs = scanner.fetch_pairs(list(book.s["shadow"]))
+        if pairs:  # empty means the API call failed: don't count everything as rugged
+            book.shadow_update(pairs, now)
+    if not book.s["halted"] and book.equity() < C.KILL_SWITCH_EQUITY_USD:
         book.s["halted"] = True
-        book.save()
-        return
-    # 2. look for new entries
-    sigs = scanner.scan()
+        notify(f"{tag}Paper account empty",
+               "The $50 paper budget is spent. New signals are still tracked for the statistics.")
+    # 3. look for new signals
+    seen = set(book.s["shadow"]) | set(book.s["shadow_done"]) | set(book.s["traded"])
+    sigs = scanner.scan(skip=seen)
     if sigs:
         record_signals(sigs)
     for s in sigs:
         print(fomo_line(s))
-        why = book.enter(s)
+        book.shadow_add(s, now)
+        why = book.enter(s, now)
         if why is None:
             print(f"  PAPER BUY {s['symbol']} ${C.POSITION_SIZE_USD:.0f} @ {s['price']:.8g}")
-            notify(f"Signal: {s['symbol']}",
+            notify(f"{tag}Signal: {s['symbol']}",
                    f"mcap ${s['mcap']:,.0f}, score {s['score']}. Paper bought ${C.POSITION_SIZE_USD:.0f}.\n"
                    f"FOMO search: {s['token']}", url=s["url"])
         else:
-            print(f"  (paper skip: {why})")
+            print(f"  (paper skip: {why}; still tracked as a shadow ticket)")
+            notify(f"{tag}Signal (not bought): {s['symbol']}",
+                   f"mcap ${s['mcap']:,.0f}, score {s['score']}. Paper account skipped it: {why}.\n"
+                   f"FOMO search: {s['token']}", url=s["url"])
+    # 4. MikeSz's rule: once the $50 has doubled, take the $50 out
+    if book.withdraw_due():
+        notify(f"{tag}Take your $50 out",
+               f"Paper equity reached ${book.equity():.2f}. With real money this is the moment to "
+               f"withdraw the starting $50 and keep trading only profits.")
+    # 5. once-a-day summary
+    t = datetime.fromtimestamp(now or time.time(), timezone.utc)
+    if t.hour >= C.DAILY_SUMMARY_UTC_HOUR and book.s["summary_day"] != t.strftime("%Y-%m-%d"):
+        book.s["summary_day"] = t.strftime("%Y-%m-%d")
+        notify(f"{tag}Daily summary", daily_summary(book))
+    book.save()
     print(f"  {book.summary()}")
 
 
@@ -122,6 +157,10 @@ def main():
     if "--report" in sys.argv:
         for k, v in book.summary().items():
             print(f"{k:>16}: {v}")
+        return
+    if "--summary-now" in sys.argv:
+        notify(f"[{C.MODE}] Summary", daily_summary(book))
+        print(daily_summary(book))
         return
     if "--test-push" in sys.argv:
         notify("MMFX scanner", "Test alert. If you see this on your iPhone, push works.")
@@ -144,10 +183,6 @@ def main():
             tick(book)
         except Exception as e:  # keep running through API hiccups
             print("  error:", e)
-        if book.s["halted"]:
-            print("KILL SWITCH tripped. Stopping. Review the journal before changing anything.")
-            notify("Kill switch", "Paper account hit its loss limit. Scanner stopped.")
-            break
         time.sleep(C.POLL_SECONDS)
 
 

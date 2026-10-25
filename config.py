@@ -77,6 +77,14 @@ DEAD_EXIT_MULT = None          # moonshot: salvage what's left if price falls to
 TIME_STOP_MIN_MULT = 99.0      # time stop only fires while below this multiple
 GECKO = "https://api.geckoterminal.com/api/v2"
 USE_GECKO = True
+GECKO_PATHS = ["/trending_pools?duration=1h", "/trending_pools?duration=6h"]
+USE_DEX_BOOSTS = True
+# Every signal is also followed as a "shadow ticket" for this long, whether or not the
+# paper account had cash for it. That measures the hit rate (how many reach 5x/10x/50x)
+# much faster than $50 of tickets can.
+SHADOW_HOURS = 72
+WITHDRAW_AT_EQUITY_USD = 100.0  # MikeSz's rule: once the $50 has doubled, take the $50 out
+DAILY_SUMMARY_UTC_HOUR = 19     # 20:00 Warsaw in winter, 21:00 in summer
 
 MODES = {
     # Short scalps on established movers. Small, frequent targets. Fees hurt most here.
@@ -105,7 +113,7 @@ MODES = {
         "MIN_SCORE": 65,
         "POSITION_SIZE_USD": 10.0,
         "MAX_OPEN_POSITIONS": 5,
-        "MAX_TRADES_PER_DAY": 2,
+        "MAX_TRADES_PER_DAY": 5,
         "DAILY_LOSS_LIMIT_USD": 20.0,
         "KILL_SWITCH_EQUITY_USD": 10.0,   # i.e. the whole $50 is the budget; stop when it's gone
         "STOP_LOSS_PCT_ACTIVE": False,
@@ -116,6 +124,41 @@ MODES = {
         "TIME_STOP_H": 72.0,
         "TIME_STOP_MIN_MULT": 1.0,        # after 3 days still under entry: out
         "LIQUIDITY_DROP_EXIT_PCT": 50.0,
+    },
+    # Fresh launches, 10 min to 2 h old: the biggest multiples and the most rugs.
+    # Same money rules and exits as moonshot, stricter holder filters, organic sources only.
+    "early": {
+        "MIN_PAIR_AGE_MIN": 10,
+        "MAX_PAIR_AGE_H": 2,
+        "MIN_LIQUIDITY_USD": 10_000,
+        "MIN_MCAP_USD": 25_000,
+        "MAX_MCAP_USD": 400_000,
+        "MIN_VOLUME_24H_USD": 20_000,
+        "MIN_TXNS_1H": 100,
+        "MAX_TOP10_HOLDERS_PCT": 20,
+        "MAX_SINGLE_HOLDER_PCT": 6,
+        "MAX_RUGCHECK_SCORE_NORM": 30,
+        "MIN_CHANGE_M5_PCT": -5.0,
+        "MIN_CHANGE_H1_PCT": 20.0,
+        "MAX_CHANGE_H1_PCT": 500.0,
+        "MAX_CHANGE_H24_PCT": 5000.0,
+        "MIN_BUY_SELL_RATIO_H1": 1.3,
+        "MIN_VOL_H1_TO_LIQ": 1.0,
+        "MIN_SCORE": 65,
+        "POSITION_SIZE_USD": 10.0,
+        "MAX_OPEN_POSITIONS": 5,
+        "MAX_TRADES_PER_DAY": 5,
+        "DAILY_LOSS_LIMIT_USD": 20.0,
+        "KILL_SWITCH_EQUITY_USD": 10.0,
+        "STOP_LOSS_PCT_ACTIVE": False,
+        "LADDER": [(2.0, 0.5), (5.0, 0.2), (10.0, 0.15)],
+        "TRAIL_PCT": 45.0,
+        "DEAD_EXIT_MULT": 0.15,
+        "TIME_STOP_H": 48.0,
+        "TIME_STOP_MIN_MULT": 1.0,
+        "LIQUIDITY_DROP_EXIT_PCT": 50.0,
+        "GECKO_PATHS": ["/new_pools", "/new_pools?page=2", "/trending_pools?duration=5m"],
+        "USE_DEX_BOOSTS": False,   # paid promotion is noise at this age
     },
 }
 MODE = "moonshot"

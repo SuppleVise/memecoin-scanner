@@ -25,7 +25,7 @@ A Solana memecoin scanner with rug filters and a simulated $50 account. It finds
 | Top 10 holders | ≤ 25% | ≤ 30% |
 | Ticket size | $10 | $10 |
 | Open at once | 5 | 2 |
-| New tickets per day | 2 | 3 |
+| New tickets per day | 5 | 3 |
 | Stop loss | **none**: the $10 is the stop | −25% |
 | Take profits | ½ at 2x (stake back), 20% at 5x, 15% at 10x, rest rides | ½ at 1.5x |
 | Trailing stop on the rest | 45% below peak | 20% below peak |
@@ -35,6 +35,21 @@ A Solana memecoin scanner with rug filters and a simulated $50 account. It finds
 | Stop everything | paper equity below $10 | below $30 |
 
 The ladder means: once a coin hits 2x you have your $10 back and the rest is a free ride. A 50x needs no extra decision; the last 15% simply rides until the 45% trail hits.
+
+### Early mode (runs alongside moonshot)
+
+Same money rules and exits as moonshot, for coins **10 min to 2 h old**, market cap $25k–$400k, from GeckoTerminal's new pools only (no paid promotion lists). Stricter holder filters: top 10 ≤ 20%, one wallet ≤ 6%, RugCheck score ≤ 30. This is where the biggest multiples and the most rugs are. Its results are kept in a separate paper book (`--mode early`) so you can compare it with moonshot.
+
+### Shadow tickets
+
+Every signal is followed for 72 h as a "shadow ticket", even if the paper account had no cash or had hit its daily limit. That measures the hit rate (how many signals ever reach 2x/5x/10x/50x) much faster than $50 of tickets can. A shadow ticket whose coin disappears from DexScreener for 3 checks in a row is counted as a rug.
+
+### Alerts on your iPhone
+- **Signal**: a coin passed every filter (bought on paper, or "not bought" if the paper account was at a limit)
+- **Paper sell**: a take-profit step, trailing stop, rug exit or time stop
+- **Daily summary** around 20:00 Warsaw time, one per mode: paper balance, tickets, and how many of all signals reached 2x/5x/10x/50x
+- **Take your $50 out**: once, when a paper account first reaches $100. Your rule: from then on only risk profits.
+- **Paper account empty**: the $50 is spent; signals keep being tracked
 
 `python3 run.py --report` shows **peaked_at_least**: how many tickets ever reached 2x, 5x, 10x, 50x. That number is the one that decides if this is worth real money.
 
@@ -98,7 +113,7 @@ Needs Python 3.9+ and `curl` (both come with macOS). No packages to install.
 
 ```bash
 cd memecoin-scanner
-python3 -m unittest test_offline     # 27 offline tests
+python3 -m unittest test_offline     # 35 offline tests
 python3 run.py --once                # one scan, prints signals
 caffeinate -i python3 run.py         # moonshot paper trading, polls every 60 s, Mac stays awake
 python3 run.py --mode momentum       # the scalping mode instead

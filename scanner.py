@@ -57,7 +57,8 @@ def discover_candidates():
     marketing right now*, not a quality signal. The filters below do the work.
     """
     seen = []
-    for path in ("/token-boosts/latest/v1", "/token-boosts/top/v1", "/token-profiles/latest/v1"):
+    for path in (("/token-boosts/latest/v1", "/token-boosts/top/v1", "/token-profiles/latest/v1")
+                 if C.USE_DEX_BOOSTS else ()):
         data = get_json(C.DEXSCREENER + path) or []
         for item in data:
             if item.get("chainId") == C.CHAIN:
@@ -65,10 +66,9 @@ def discover_candidates():
                 if addr and addr not in seen:
                     seen.append(addr)
     if C.USE_GECKO:
-        # Organic flow: pools trending by trades/volume over the last 1h and 6h.
-        # Nobody pays to be on these lists. Free tier is ~10 calls/min, we use 2.
-        # (new_pools is skipped: those are minutes old and fail the age filter anyway.)
-        for path in ("/trending_pools?duration=1h", "/trending_pools?duration=6h"):
+        # Organic flow: trending and freshly created pools (per mode, see config.GECKO_PATHS).
+        # Nobody pays to be on these lists. Free tier is ~10 calls/min.
+        for path in C.GECKO_PATHS:
             for addr in gecko_base_tokens(get_json(f"{C.GECKO}/networks/{C.CHAIN}{path}")):
                 if addr not in seen:
                     seen.append(addr)
@@ -239,8 +239,9 @@ def momentum(pair):
     return round(score, 1), r
 
 
-def scan(log=print):
-    """Return list of signal dicts that pass every gate, best first."""
+def scan(log=print, skip=()):
+    """Return list of signal dicts that pass every gate, best first.
+    Tokens in `skip` (already signalled) are not re-checked, which saves RugCheck calls."""
     log("fetching candidates from DexScreener" + (" + GeckoTerminal..." if C.USE_GECKO else "..."))
     addrs = discover_candidates()
     log(f"  {len(addrs)} candidates, fetching pair stats...")
@@ -249,6 +250,8 @@ def scan(log=print):
     out_of_universe = 0
     for addr, p in pairs.items():
         sym = p.get("baseToken", {}).get("symbol", "?")
+        if addr in skip:
+            continue
         bad = universe_reasons(p)
         if bad:
             out_of_universe += 1

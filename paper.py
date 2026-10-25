@@ -33,6 +33,10 @@ class Paper:
                       "day_pnl": 0.0, "day_trades": 0, "halted": False, "traded": [],
                       "peaks": {}}
         self.s.setdefault("peaks", {})
+        self.s.setdefault("shadow", {})       # every signal, followed for SHADOW_HOURS
+        self.s.setdefault("shadow_done", {})  # token -> peak multiple when tracking ended
+        self.s.setdefault("withdraw_alerted", False)
+        self.s.setdefault("summary_day", "")
 
     # --- bookkeeping ---------------------------------------------------------
     def save(self):
@@ -172,6 +176,52 @@ class Paper:
         self.save()
         return out
 
+    def journal_tail(self):
+        """Reason of the last journal row, for notifications."""
+        if not os.path.exists(self.journal_file):
+            return ""
+        with open(self.journal_file) as f:
+            rows = list(csv.DictReader(f))
+        return rows[-1]["reason"] if rows else ""
+
+    # --- shadow tickets: measure the hit rate without the cash limit ----------
+    def shadow_add(self, sig, now=None):
+        tok = sig["token"]
+        if tok in self.s["shadow"] or tok in self.s["shadow_done"] or not sig.get("price"):
+            return
+        self.s["shadow"][tok] = {"symbol": sig["symbol"], "entry": sig["price"], "peak": sig["price"],
+                                 "last": sig["price"], "opened": now or time.time()}
+
+    def shadow_update(self, pairs_by_token, now=None):
+        """pairs_by_token: {token: pair dict}. Missing 3 checks in a row counts as a rug (tracking ends)."""
+        now = now or time.time()
+        for tok, sh in list(self.s["shadow"].items()):
+            pair = pairs_by_token.get(tok)
+            if pair is not None:
+                px = float(pair.get("priceUsd") or 0)
+                if px > 0:
+                    sh["last"] = px
+                    sh["peak"] = max(sh["peak"], px)
+            sh["miss"] = sh.get("miss", 0) + 1 if pair is None else 0
+            if sh["miss"] >= 3 or (now - sh["opened"]) / 3600 >= C.SHADOW_HOURS:
+                self.s["shadow_done"][tok] = round(sh["peak"] / sh["entry"], 2)
+                del self.s["shadow"][tok]
+
+    def shadow_stats(self):
+        mults = list(self.s["shadow_done"].values()) + [
+            sh["peak"] / sh["entry"] for sh in self.s["shadow"].values()]
+        return {"signals": len(mults),
+                "peaked_at_least": {f"{m}x": sum(1 for x in mults if x >= m) for m in MILESTONES},
+                "best": f"{max(mults):.1f}x" if mults else None}
+
+    def withdraw_due(self):
+        """True once, when paper equity first reaches the take-your-stake-out level."""
+        if not self.s["withdraw_alerted"] and self.equity() >= C.WITHDRAW_AT_EQUITY_USD:
+            self.s["withdraw_alerted"] = True
+            self.save()
+            return True
+        return False
+
     # --- report --------------------------------------------------------------
     def summary(self):
         rows = []
@@ -193,4 +243,5 @@ class Paper:
             "peaked_at_least": {f"{m}x": sum(1 for x in peaks if x >= m) for m in MILESTONES},
             "open": {t: f"{p['symbol']} {p['last'] / p['entry']:.2f}x" for t, p in self.s["positions"].items()},
             "halted": self.s["halted"],
+            "shadow": self.shadow_stats(),
         }

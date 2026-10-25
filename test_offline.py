@@ -205,5 +205,78 @@ class Moonshot(unittest.TestCase):
         self.assertTrue(any("mcap" in r for r in scanner.universe_reasons(p, NOW)))
 
 
+class ShadowAndAlerts(unittest.TestCase):
+    def setUp(self):
+        self.saved = dict(vars(C))
+        C.apply_mode("moonshot")
+        d = tempfile.mkdtemp()
+        self.book = Paper(os.path.join(d, "s.json"), os.path.join(d, "j.csv"))
+
+    def tearDown(self):
+        vars(C).update(self.saved)
+
+    def sig(self, i, price=0.001):
+        return {"token": f"T{i}", "symbol": f"S{i}", "pair": f"P{i}", "price": price,
+                "score": 80, "liquidity": 20_000}
+
+    def test_shadow_tracks_signals_beyond_cash(self):
+        t = time.time()
+        for i in range(12):                     # more signals than $50 can buy
+            self.book.shadow_add(self.sig(i), t)
+            self.book.enter(self.sig(i), t)
+        self.assertEqual(len(self.book.s["positions"]), 5)
+        self.assertEqual(self.book.shadow_stats()["signals"], 12)
+        # one of them runs to 12x
+        self.book.shadow_update({f"T{i}": {"priceUsd": "0.012" if i == 3 else "0.0005"} for i in range(12)}, t + 60)
+        st = self.book.shadow_stats()
+        self.assertEqual(st["peaked_at_least"]["10x"], 1)
+        self.assertEqual(st["best"], "12.0x")
+
+    def test_shadow_rug_needs_three_misses(self):
+        t = time.time()
+        self.book.shadow_add(self.sig(1), t)
+        self.book.shadow_update({}, t + 60)
+        self.book.shadow_update({}, t + 120)
+        self.assertIn("T1", self.book.s["shadow"])
+        self.book.shadow_update({}, t + 180)
+        self.assertNotIn("T1", self.book.s["shadow"])
+        self.assertEqual(self.book.s["shadow_done"]["T1"], 1.0)
+
+    def test_shadow_expires(self):
+        t = time.time()
+        self.book.shadow_add(self.sig(1), t)
+        self.book.shadow_update({"T1": {"priceUsd": "0.003"}}, t + C.SHADOW_HOURS * 3600 + 1)
+        self.assertEqual(self.book.s["shadow_done"]["T1"], 3.0)
+
+    def test_withdraw_alert_once(self):
+        self.book.s["cash"] = 101
+        self.assertTrue(self.book.withdraw_due())
+        self.assertFalse(self.book.withdraw_due())
+
+    def test_trade_limit_raised(self):
+        self.assertEqual(C.MAX_TRADES_PER_DAY, 5)
+
+
+class EarlyMode(unittest.TestCase):
+    def setUp(self):
+        self.saved = dict(vars(C))
+        C.apply_mode("early")
+
+    def tearDown(self):
+        vars(C).update(self.saved)
+
+    def test_young_coin_in_universe(self):
+        p = pair(pairCreatedAt=NOW - 40 * 60_000, marketCap=150_000, fdv=150_000,
+                 liquidity={"usd": 25_000}, volume={"h1": 40_000, "h24": 40_000})
+        self.assertEqual(scanner.universe_reasons(p, NOW), [])
+
+    def test_six_hour_old_coin_out(self):
+        p = pair(marketCap=150_000, fdv=150_000)
+        self.assertTrue(any("too old" in r for r in scanner.universe_reasons(p, NOW)))
+
+    def test_no_paid_boost_lists(self):
+        self.assertFalse(C.USE_DEX_BOOSTS)
+
+
 if __name__ == "__main__":
     unittest.main()
