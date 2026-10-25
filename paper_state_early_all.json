@@ -1,28 +1,16 @@
 {
-  "cash": 40.0,
-  "positions": {
-    "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump": {
-      "symbol": "kimback",
-      "pair": "DXp5zehrAhtNz7yMV16D5FFojagJBTBTzLu4ydKjsNto",
-      "qty": 67234.73154132192,
-      "orig_qty": 67234.73154132192,
-      "entry": 0.000145758,
-      "cost": 10.0,
-      "peak": 0.000145758,
-      "last": 0.000145758,
-      "opened": 1792967599.8196943,
-      "rungs_done": 0,
-      "entry_liq": 31089.2
-    }
-  },
+  "cash": 40.03962098821334,
+  "positions": {},
   "day": "2026-10-25",
-  "day_pnl": 0.0,
+  "day_pnl": -9.96037901178666,
   "day_trades": 1,
   "halted": false,
   "traded": [
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump"
   ],
-  "peaks": {},
+  "peaks": {
+    "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump": 1.0
+  },
   "shadow": {},
   "shadow_done": {},
   "withdraw_alerted": false,
