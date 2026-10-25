@@ -78,6 +78,9 @@ DEAD_EXIT_MULT = None          # moonshot: salvage what's left if price falls to
 TIME_STOP_MIN_MULT = 99.0      # time stop only fires while below this multiple
 GECKO = "https://api.geckoterminal.com/api/v2"
 USE_GECKO = True
+# Every pair snapshot the scanner fetches is saved to data/ (one small gzip per run) so new
+# strategies can be replayed on the exact same coins later, dead ones included.
+RECORD_SNAPSHOTS = True
 GECKO_PATHS = ["/trending_pools?duration=1h", "/trending_pools?duration=6h"]
 USE_DEX_BOOSTS = True
 # Every signal is also followed as a "shadow ticket" for this long, whether or not the

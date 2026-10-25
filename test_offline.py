@@ -358,6 +358,20 @@ class StopAndMilestones(unittest.TestCase):
         self.assertEqual(sorted(rej), ["NEW", "WEAK"])
         self.assertTrue(rej["WEAK"]["reason"].startswith("momentum"))
 
+    def test_record_writes_gzip_snapshot(self):
+        import gzip, scanner
+        cwd = os.getcwd()
+        os.chdir(tempfile.mkdtemp())
+        try:
+            scanner.record({"M1": {"baseToken": {"symbol": "S"}, "priceUsd": "0.001", "liquidity": {"usd": 5}}})
+            files = [os.path.join(d, f) for d, _, fs in os.walk("data") for f in fs]
+            with gzip.open(files[0], "rt") as f:
+                rows = f.read().splitlines()
+        finally:
+            os.chdir(cwd)
+        self.assertEqual(rows[0].split(",")[:3], ["t", "mode", "token"])
+        self.assertIn("M1,S", rows[1])
+
     def test_label_gives_separate_files(self):
         C.apply_mode("early", "mac")
         self.assertEqual(C.STATE_FILE, "paper_state_early_mac.json")

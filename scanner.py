@@ -4,7 +4,10 @@ Data: DexScreener public API (no key) for discovery and pair stats,
 RugCheck public API (no key) for contract / holder risk.
 This module only reads public data. It never touches a wallet.
 """
+import csv
+import gzip
 import json
+import os
 import subprocess
 import time
 
@@ -94,6 +97,39 @@ WRAPPED = {
 }
 
 
+SNAP_FIELDS = ["t", "mode", "token", "symbol", "pair", "dex", "created_ms", "price", "mcap", "liq",
+               "vol_m5", "vol_h1", "vol_h24", "buys_m5", "sells_m5", "buys_h1", "sells_h1",
+               "chg_m5", "chg_h1", "chg_h6", "chg_h24"]
+
+
+def record(pairs, now=None):
+    """Append one row per pair to data/YYYY-MM-DD/HHMMSS_<mode>.csv.gz (a new file per run keeps
+    git from re-storing a growing file on every commit)."""
+    if not C.RECORD_SNAPSHOTS or not pairs:
+        return
+    now = now or time.time()
+    day = time.strftime("%Y-%m-%d", time.gmtime(now))
+    path = os.path.join("data", day, time.strftime("%H%M%S", time.gmtime(_RUN_START)) + f"_{C.MODE}.csv.gz")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    new = not os.path.exists(path)
+    with gzip.open(path, "at", newline="") as f:
+        w = csv.writer(f)
+        if new:
+            w.writerow(SNAP_FIELDS)
+        for addr, p in pairs.items():
+            t5 = (p.get("txns") or {}).get("m5") or {}
+            t1 = (p.get("txns") or {}).get("h1") or {}
+            v, ch = p.get("volume") or {}, p.get("priceChange") or {}
+            w.writerow([int(now), C.MODE, addr, p.get("baseToken", {}).get("symbol"), p.get("pairAddress"),
+                        p.get("dexId"), p.get("pairCreatedAt"), p.get("priceUsd"),
+                        p.get("marketCap") or p.get("fdv"), (p.get("liquidity") or {}).get("usd"),
+                        v.get("m5"), v.get("h1"), v.get("h24"), t5.get("buys"), t5.get("sells"),
+                        t1.get("buys"), t1.get("sells"), ch.get("m5"), ch.get("h1"), ch.get("h6"), ch.get("h24")])
+
+
+_RUN_START = time.time()
+
+
 def fetch_pairs(token_addresses):
     """Best (most liquid) pair per token. DexScreener takes up to 30 per call."""
     best = {}
@@ -105,6 +141,7 @@ def fetch_pairs(token_addresses):
             liq = (p.get("liquidity") or {}).get("usd") or 0
             if addr and liq > ((best.get(addr) or {}).get("liquidity") or {}).get("usd", -1):
                 best[addr] = p
+    record(best)
     return best
 
 

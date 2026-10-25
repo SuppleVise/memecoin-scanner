@@ -41,6 +41,6 @@ jobs:
         run: |
           git config user.name "scanner-bot"
           git config user.email "scanner-bot@users.noreply.github.com"
-          git add -f paper_state_*.json paper_journal_*.csv signals_*.csv 2>/dev/null || true
-          git diff --cached --quiet || git commit -m "paper book $(date -u +%FT%TZ)"
+          git add -f paper_state_*.json paper_journal_*.csv signals_*.csv data/ 2>/dev/null || true
+          git diff --cached --quiet || git commit -q -m "paper book $(date -u +%FT%TZ)"
           git push || (git pull --rebase && git push)
