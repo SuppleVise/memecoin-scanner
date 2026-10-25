@@ -1,0 +1,32 @@
+{
+  "cash": 40.0,
+  "positions": {
+    "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": {
+      "symbol": "AAPL",
+      "pair": "BhR8uhGeGwtPEBRGHp9FR19rJQJR7vsWp58b3BApdfz2",
+      "qty": 39784.02955385053,
+      "orig_qty": 39784.02955385053,
+      "entry": 0.00024633,
+      "cost": 10.0,
+      "peak": 0.00024633,
+      "last": 0.00024633,
+      "opened": 1792960808.1730351,
+      "rungs_done": 0,
+      "entry_liq": 41316.83
+    }
+  },
+  "day": "2026-10-25",
+  "day_pnl": 0.0,
+  "day_trades": 1,
+  "halted": false,
+  "traded": [
+    "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump"
+  ],
+  "peaks": {},
+  "shadow": {},
+  "shadow_done": {},
+  "withdraw_alerted": false,
+  "summary_day": "",
+  "min_cash": 40.0,
+  "round_tickets": 1
+}
