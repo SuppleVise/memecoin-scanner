@@ -191,13 +191,14 @@ class Paper:
             return
         self.s["shadow"][tok] = {"symbol": sig["symbol"], "entry": sig["price"], "peak": sig["price"],
                                  "last": sig["price"], "opened": now or time.time(),
-                                 "url": sig.get("url"), "hits": [], "stop_hit": False, "peak_after_stop": 0}
+                                 "url": sig.get("url"), "hits": [], "stop_hit": False, "peak_after_stop": 0,
+                                 "liq": sig.get("liquidity") or 0, "rug": False}
 
     def shadow_update(self, pairs_by_token, now=None):
         """pairs_by_token: {token: pair dict}. Missing 3 checks in a row counts as a rug (tracking ends).
         Returns milestone events [(token, symbol, kind, multiple, price, url)] for alerts, where kind is
-        "2x"/"5x"/"10x"/"50x" the first time the price reaches it, or "stop" the first time it falls to the
-        stop level (only alerted for coins the paper account doesn't hold, in case you bought them by hand)."""
+        "2x"/"5x"/"10x"/"50x" the first time the price reaches it, "stop" the first time it falls to the
+        stop level, or "rug" once when liquidity drops like the paper exit rule or the pair vanishes (only alerted for coins the paper account doesn't hold, in case you bought them by hand)."""
         now = now or time.time()
         events = []
         stop_mult = 1 - C.STOP_LOSS_PCT / 100
@@ -221,7 +222,15 @@ class Paper:
                     elif mult <= stop_mult and not sh["hits"]:
                         sh["stop_hit"] = True
                         events.append((tok, sh["symbol"], "stop", mult, px, sh.get("url")))
+                liq = (pair.get("liquidity") or {}).get("usd")
+                if (sh.get("liq") and not sh.get("rug") and liq is not None
+                        and liq < sh["liq"] * (1 - C.LIQUIDITY_DROP_EXIT_PCT / 100)):
+                    sh["rug"] = True
+                    events.append((tok, sh["symbol"], "rug", sh["last"] / sh["entry"], sh["last"], sh.get("url")))
             sh["miss"] = sh.get("miss", 0) + 1 if pair is None else 0
+            if sh["miss"] >= 3 and not sh.get("rug"):
+                sh["rug"] = True
+                events.append((tok, sh["symbol"], "rug", sh["last"] / sh["entry"], sh["last"], sh.get("url")))
             if sh["miss"] >= 3 or (now - sh["opened"]) / 3600 >= C.SHADOW_HOURS:
                 self.s["shadow_done"][tok] = round(sh["peak"] / sh["entry"], 2)
                 if sh["stop_hit"] and sh["peak_after_stop"] >= 2:

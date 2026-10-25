@@ -9,6 +9,7 @@
     python3 run.py --tick             # one cycle then exit (used by GitHub Actions)
     python3 run.py --summary-now      # send the daily summary right away
     python3 run.py --mode early       # fresh launches, 10 min to 2 h old
+    python3 run.py --label mac        # separate paper book + "[mac ...]" alert titles
 
 Every signal is written to signals_<mode>.csv with the token address, so you can
 paste it into FOMO's search and compare what you'd have tapped with the paper book.
@@ -33,7 +34,8 @@ def arg(name, default=None):
     return default
 
 
-C.apply_mode(arg("--mode", C.MODE))
+LABEL = arg("--label", "")
+C.apply_mode(arg("--mode", C.MODE), LABEL)
 
 import scanner  # noqa: E402  (after apply_mode so it sees the mode's numbers)
 from paper import Paper  # noqa: E402
@@ -54,7 +56,7 @@ def ntfy_topic():
         return f.read().strip()
 
 
-def notify(title, text, url=None, copy=None, tags="rocket"):
+def notify(title, text, url=None, copy=None, tags="rocket", priority=None):
     if QUIET:
         return
     if platform.system() == "Darwin":
@@ -72,7 +74,17 @@ def notify(title, text, url=None, copy=None, tags="rocket"):
         actions.append(f"view, Chart, {url}")
     if actions:
         cmd += ["-H", "Actions: " + "; ".join(actions)]
-    subprocess.run(cmd + ["-d", text, f"https://ntfy.sh/{topic}"], capture_output=True)
+    if priority:  # 5 = urgent: long vibration, shows even in Focus if ntfy is allowed
+        cmd += ["-H", f"Priority: {priority}"]
+    cmd += ["-w", "\n%{http_code}", "-d", text, f"https://ntfy.sh/{topic}"]
+    for attempt in range(3):
+        out = subprocess.run(cmd, capture_output=True, text=True)
+        code = out.stdout.rpartition("\n")[2]
+        if out.returncode == 0 and code == "200":
+            print(f"  push sent: {title}")
+            return
+        print(f"  push FAILED ({code or out.stderr.strip()}): {title}")
+        time.sleep(3 * (attempt + 1))
 
 
 def px(x):
@@ -138,7 +150,7 @@ def daily_summary(book):
 
 
 def tick(book, now=None):
-    tag = f"[{C.MODE}] "
+    tag = f"[{LABEL + ' ' if LABEL else ''}{C.MODE}] "
     # 1. manage what we hold first, exits beat entries
     for tok, pos in list(book.s["positions"].items()):
         pair = scanner.fetch_pair(pos["pair"])
@@ -147,12 +159,19 @@ def tick(book, now=None):
             last = book.journal_tail()
             print(f"  EXIT {pos['symbol']}: {pnl:+.2f} USD ({last})")
             mult = pos["last"] / pos["entry"]
-            title = (f"{tag}STOP LOSS {pos['symbol']}: sold all at {mult:.2f}x" if "stop loss" in last
-                     else f"{tag}SELL {pos['symbol']} at {mult:.2f}x")
+            rug = "liquidity pulled" in last or "pair missing" in last
+            if rug:
+                title = f"{tag}RUG {pos['symbol']}: liquidity pulled, paper sold at {mult:.2f}x"
+            elif "stop loss" in last:
+                title = f"{tag}STOP LOSS {pos['symbol']}: sold all at {mult:.2f}x"
+            else:
+                title = f"{tag}SELL {pos['symbol']} at {mult:.2f}x"
             notify(title,
                    f"{last}\nPrice now {px(pos['last'])} (bought {px(pos['entry'])})\n"
-                   f"Paper result of this sell: {pnl:+.2f} USD",
-                   copy=tok, tags="moneybag" if pnl > 0 else "chart_with_downwards_trend")
+                   f"Paper result of this sell: {pnl:+.2f} USD"
+                   + ("\nIf you hold it in FOMO: sell everything now, whatever is left." if rug else ""),
+                   copy=tok, tags="rotating_light" if rug else "moneybag" if pnl > 0 else "chart_with_downwards_trend",
+                   priority=5 if rug or "stop loss" in last else None)
     # 2. follow every past signal (shadow tickets) for the hit-rate statistics
     if book.s["shadow"]:
         pairs = scanner.fetch_pairs(list(book.s["shadow"]))
@@ -160,11 +179,16 @@ def tick(book, now=None):
             for tok, sym, kind, mult, price, url in book.shadow_update(pairs, now):
                 if tok in book.s["traded"]:
                     continue  # the paper account bought it: its own SELL alerts cover it
-                if kind == "stop":
+                if kind == "rug":
+                    notify(f"{tag}RUG {sym}: liquidity pulled ({mult:.2f}x)",
+                           f"A signal the paper account did not buy lost its liquidity (price {px(price)}).\n"
+                           f"If you bought it in FOMO: sell everything now, whatever is left.",
+                           url=url, copy=tok, tags="rotating_light", priority=5)
+                elif kind == "stop":
                     notify(f"{tag}STOP {sym}: down {(1 - mult) * 100:.0f}%",
                            f"A signal the paper account did not buy fell to {px(price)} ({mult:.2f}x).\n"
                            f"If you bought it in FOMO: rule says sell all now.",
-                           url=url, copy=tok, tags="warning")
+                           url=url, copy=tok, tags="warning", priority=5)
                 else:
                     notify(f"{tag}{sym} hit {kind}",
                            f"A signal the paper account did not buy is now {px(price)} ({mult:.2f}x).\n"
@@ -226,7 +250,13 @@ def main():
                f"Paper result of this sell: +4.88 USD", copy=demo["token"], tags="moneybag")
         notify(f"[{C.MODE}] TEST STOP LOSS DEMO: sold all at 0.54x",
                f"stop loss -46.0%\nPrice now {px(e * 0.54)} (bought {px(e)})\n"
-               f"Paper result of this sell: -4.79 USD", copy=demo["token"], tags="chart_with_downwards_trend")
+               f"Paper result of this sell: -4.79 USD", copy=demo["token"], tags="chart_with_downwards_trend",
+               priority=5)
+        notify(f"[{C.MODE}] TEST RUG DEMO: liquidity pulled, paper sold at 0.01x",
+               f"liquidity pulled 2,075 vs 40,097\nPrice now {px(e * 0.008)} (bought {px(e)})\n"
+               f"Paper result of this sell: -10.00 USD\n"
+               f"If you hold it in FOMO: sell everything now, whatever is left.",
+               copy=demo["token"], tags="rotating_light", priority=5)
         return
     if "--test-push" in sys.argv:
         notify("MMFX scanner", "Test alert. If you see this on your iPhone, push works.")

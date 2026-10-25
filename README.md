@@ -148,6 +148,25 @@ Files it writes, per mode: `signals_<mode>.csv` (every signal), `paper_journal_<
 
 Every signal then arrives on your phone with the token address for FOMO's search; tapping it opens the chart. The topic name works like a password: anyone who knows it can read your alerts, so don't share `ntfy_topic.txt`.
 
+## Rug alerts
+
+A paper position whose pool loses half its liquidity (or whose pair vanishes) is sold at once and
+sends an urgent `RUG ...` alert. Signals the paper account did not buy get the same `RUG` alert.
+Be clear about what it can do: a rug drains the pool in one transaction, so by the time any alert
+arrives the coin is usually worth ~0. The alert tells you to sell the dust; the real protection is
+the RugCheck filter and the $10 ticket size. FOMO has no stop-loss orders on memecoins, so the
+`STOP LOSS` alert is your stop: you tap Sell yourself.
+
+## Mac vs GitHub test
+
+    git clone https://github.com/SuppleVise/memecoin-scanner ~/memecoin-scanner-mac
+    cp ~/Downloads/memecoin-scanner/ntfy_topic.txt ~/memecoin-scanner-mac/
+    cd ~/memecoin-scanner-mac && ./mac_test.sh
+
+Both modes scan every 60 s into their own books (`paper_*_mac.*`, never committed). Alerts start
+with `[mac early]` / `[mac moonshot]`; GitHub's say `[early]` / `[moonshot]`. Afterwards:
+`python3 run.py --report --mode early --label mac` (and `--mode moonshot`).
+
 ## Going from paper to $50 real
 
 **Momentum mode:** at least 30 closed paper trades over 2+ weeks, average P&L positive after fees, kill switch never tripped, and still positive with the best trade removed.

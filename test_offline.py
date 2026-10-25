@@ -299,6 +299,30 @@ class StopAndMilestones(unittest.TestCase):
         self.assertNotIn("T1", self.book.s["positions"])        # -46%: stopped
         self.assertIn("stop loss", self.book.journal_tail())
 
+    def test_shadow_rug_on_liquidity_pull_fires_once(self):
+        t = time.time()
+        self.book.shadow_add(self.sig, t)
+        ev = self.book.shadow_update({"T1": {"priceUsd": "0.0009", "liquidity": {"usd": 15_000}}}, t + 60)
+        self.assertEqual(ev, [])                                    # -25% liquidity: not a rug
+        ev = self.book.shadow_update({"T1": {"priceUsd": "0.00001", "liquidity": {"usd": 900}}}, t + 120)
+        self.assertEqual([e[2] for e in ev], ["stop", "rug"])
+        ev = self.book.shadow_update({"T1": {"priceUsd": "0.00001", "liquidity": {"usd": 900}}}, t + 180)
+        self.assertEqual(ev, [])
+
+    def test_shadow_rug_when_pair_disappears(self):
+        t = time.time()
+        self.book.shadow_add(self.sig, t)
+        ev = []
+        for i in range(3):
+            ev += self.book.shadow_update({"OTHER": {"priceUsd": "1"}}, t + 60 * (i + 1))
+        self.assertEqual([e[2] for e in ev], ["rug"])
+        self.assertNotIn("T1", self.book.s["shadow"])
+
+    def test_label_gives_separate_files(self):
+        C.apply_mode("early", "mac")
+        self.assertEqual(C.STATE_FILE, "paper_state_early_mac.json")
+        self.assertEqual(C.SIGNALS_FILE, "signals_early_mac.csv")
+
     def test_shadow_milestones_fire_once(self):
         t = time.time()
         self.book.shadow_add(self.sig, t)

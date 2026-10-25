@@ -167,7 +167,8 @@ MODES = {
 MODE = "moonshot"
 
 
-def apply_mode(name):
+def apply_mode(name, label=""):
+    """label (e.g. "mac") gives a second, separate paper book for the same mode."""
     global MODE, STATE_FILE, JOURNAL_FILE, SIGNALS_FILE
     if name not in MODES:
         raise SystemExit(f"unknown mode {name}, choose from {list(MODES)}")
@@ -175,6 +176,7 @@ def apply_mode(name):
     for k, v in MODES[name].items():
         g[k] = v
     MODE = name
-    STATE_FILE = f"paper_state_{name}.json"
-    JOURNAL_FILE = f"paper_journal_{name}.csv"
-    SIGNALS_FILE = f"signals_{name}.csv"
+    sfx = f"{name}_{label}" if label else name
+    STATE_FILE = f"paper_state_{sfx}.json"
+    JOURNAL_FILE = f"paper_journal_{sfx}.csv"
+    SIGNALS_FILE = f"signals_{sfx}.csv"
