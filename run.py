@@ -188,7 +188,7 @@ def daily_summary(book, now=None, variants=None):
     sm = book.summary()
     sh = sm["shadow"]
     hits = ", ".join(f"{k} {v}" for k, v in sh["peaked_at_least"].items())
-    open_val = sm["equity"] - book.s["cash"]
+    open_val = max(0.0, sm["equity"] - book.s["cash"])
     busts = len(book.s.get("rounds", []))
     lines = [f"Account: ${sm['equity']:.2f} (cash ${book.s['cash']:.2f} + open ${open_val:.2f}), "
              f"started ${sm['start']:.0f}. Round {busts + 1}" + (f" ({busts} went broke before)" if busts else "")]
