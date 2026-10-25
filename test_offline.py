@@ -182,18 +182,26 @@ class Moonshot(unittest.TestCase):
         self.book.check_exits("TOKEN1", self.px(0.1))
         self.assertNotIn("TOKEN1", self.book.s["positions"])
 
-    def test_ladder_to_20x(self):
+    def test_ladder_to_31x(self):
         self.book.enter(self.sig)
-        self.book.check_exits("TOKEN1", self.px(2.1))   # rung 1: half off, stake back
+        self.book.check_exits("TOKEN1", self.px(2.1))   # rung 1 (+100%): half off, stake back
         self.assertGreater(self.book.s["cash"], C.START_BALANCE_USD - 10 + 9)
-        self.book.check_exits("TOKEN1", self.px(12))    # 5x and 10x rungs in one jump
+        self.book.check_exits("TOKEN1", self.px(7))     # 3x and 6x rungs in one jump
         self.assertEqual(self.book.s["positions"]["TOKEN1"]["rungs_done"], 3)
         self.book.check_exits("TOKEN1", self.px(20))    # new peak
-        self.book.check_exits("TOKEN1", self.px(10))    # -50% from peak -> trail out
+        self.book.check_exits("TOKEN1", self.px(8))     # -60% from peak: last 10% has no trail, holds
+        self.assertIn("TOKEN1", self.book.s["positions"])
+        self.book.check_exits("TOKEN1", self.px(32))    # 31x: sell the last 10%
         self.assertNotIn("TOKEN1", self.book.s["positions"])
         summ = self.book.summary()
-        self.assertEqual(summ["peaked_at_least"]["10x"], 1)
-        self.assertGreater(summ["equity"], 100)         # one 20x ticket more than doubles $50
+        self.assertEqual(summ["peaked_at_least"]["31x"], 1)
+        self.assertGreater(summ["equity"], 100)         # one 31x ticket more than doubles $50
+
+    def test_trail_still_applies_before_last_slice(self):
+        self.book.enter(self.sig)
+        self.book.check_exits("TOKEN1", self.px(2.5))   # rung 1 done
+        self.book.check_exits("TOKEN1", self.px(1.3))   # -48% from peak, before 3x -> trail out
+        self.assertNotIn("TOKEN1", self.book.s["positions"])
 
     def test_gecko_parse_skips_sol(self):
         data = {"data": [{"relationships": {"base_token": {"data": {"id": "solana_MINTabc"}}}},
@@ -229,7 +237,7 @@ class ShadowAndAlerts(unittest.TestCase):
         # one of them runs to 12x
         self.book.shadow_update({f"T{i}": {"priceUsd": "0.012" if i == 3 else "0.0005"} for i in range(12)}, t + 60)
         st = self.book.shadow_stats()
-        self.assertEqual(st["peaked_at_least"]["10x"], 1)
+        self.assertEqual(st["peaked_at_least"]["11x"], 1)
         self.assertEqual(st["best"], "12.0x")
 
     def test_shadow_rug_needs_three_misses(self):
@@ -363,7 +371,7 @@ class StopAndMilestones(unittest.TestCase):
         ev = self.book.shadow_update({"T1": {"priceUsd": "0.0022"}}, t + 120)
         self.assertEqual(ev, [])
         ev = self.book.shadow_update({"T1": {"priceUsd": "0.011"}}, t + 180)
-        self.assertEqual([e[2] for e in ev], ["5x", "10x"])
+        self.assertEqual([e[2] for e in ev], ["3x", "6x", "11x"])
 
     def test_shadow_stop_then_recovery_counted(self):
         t = time.time()

@@ -14,7 +14,7 @@ import config as C
 
 JOURNAL_FIELDS = ["time", "symbol", "token", "action", "reason", "price",
                   "usd", "fee", "pnl_usd", "peak_mult", "equity"]
-MILESTONES = (2, 5, 10, 50)
+MILESTONES = (2, 3, 6, 11, 31)   # price multiples: +100%, +200%, +500%, +1000%, +3000%
 
 
 def utc_day(ts=None):
@@ -168,7 +168,8 @@ class Paper:
                 p["rungs_done"] += 1
                 total += self._sell(tok, p["orig_qty"] * frac, price, f"take profit at {target}x (now {mult:.2f}x)")
             out = total
-        elif p["rungs_done"] > 0 and price <= p["peak"] * (1 - C.TRAIL_PCT / 100):
+        elif (p["rungs_done"] > 0 and price <= p["peak"] * (1 - C.TRAIL_PCT / 100)
+              and not (C.MOONBAG_NO_TRAIL and p["rungs_done"] >= len(ladder) - 1)):
             out = self._sell(tok, p["qty"], price,
                              f"trailing stop {mult:.2f}x, peak {p['peak'] / p['entry']:.2f}x")
         elif (now - p["opened"]) / 3600 >= C.TIME_STOP_H and mult < C.TIME_STOP_MIN_MULT:

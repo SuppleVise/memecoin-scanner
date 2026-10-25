@@ -27,7 +27,7 @@ A Solana memecoin scanner with rug filters and a simulated $50 account. It finds
 | Open at once | 5 | 2 |
 | New tickets per day | 5 | 3 |
 | Stop loss | −45% from the buy price (your rule) | −25% |
-| Take profits | ½ at 2x (stake back), 20% at 5x, 15% at 10x, rest rides | ½ at 1.5x |
+| Take profits | ½ at +100% (2x price, stake back), 20% at +200% (3x), 20% at +500% (6x), last 10% only at +3000% (31x) | ½ at 1.5x |
 | Trailing stop on the rest | 45% below peak | 20% below peak |
 | Time stop | 72 h if still below entry | 4 h |
 | Rug alarm | liquidity −50% or pair vanishes: out at once | same, −40% |
@@ -63,13 +63,13 @@ Address: 45rV...pump          [Copy address]  [Chart]
 **score** is the scanner's own 0-100 momentum rating (1h move, buy/sell ratio, volume vs liquidity, 5 min move). FOMO has no public link that opens a coin inside the app, so: tap **Copy address**, open FOMO, paste into search. Long-press or pull down the notification if the buttons don't show.
 
 - **Signal**: a coin passed every filter (bought on paper, or "not bought" if the paper account was at a limit)
-- **SELL / STOP LOSS**: a take-profit step (2x, 5x, 10x), the trailing stop, the −45% stop, a rug exit or a time stop on a paper ticket
-- **Milestones for coins the paper account did not buy** (in case you bought them in FOMO yourself): "hit 2x / 5x / 10x / 50x" and "STOP: down 45%"
-- **Daily summary** around 20:00 Warsaw time, one per mode: paper balance, tickets, and how many of all signals reached 2x/5x/10x/50x
+- **SELL / STOP LOSS**: a take-profit step (+100%, +200%, +500%, +3000%), the trailing stop, the −45% stop, a rug exit or a time stop on a paper ticket
+- **Milestones for coins the paper account did not buy** (in case you bought them in FOMO yourself): "hit +100% / +200% / +500% / +1000% / +3000%" and "STOP: down 45%"
+- **Daily summary** around 20:00 Warsaw time, one per mode: paper balance, tickets, and how many of all signals reached 2x/3x/6x/11x/31x price
 - **Take your $50 out**: once, when a paper account first reaches $100. Your rule: from then on only risk profits.
 - **Paper account empty**: the $50 is spent; signals keep being tracked
 
-`python3 run.py --report` shows **peaked_at_least**: how many tickets ever reached 2x, 5x, 10x, 50x. That number is the one that decides if this is worth real money.
+`python3 run.py --report` shows **peaked_at_least**: how many tickets ever reached 2x, 3x, 6x, 11x, 31x price (= +100% … +3000%). That number is the one that decides if this is worth real money.
 
 **Sources.** DexScreener boosted/profile lists (paid promotion) plus GeckoTerminal trending pools over 1 h and 6 h (organic, nobody pays to be there).
 

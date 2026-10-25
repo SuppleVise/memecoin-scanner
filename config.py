@@ -73,6 +73,7 @@ SIGNALS_FILE = "signals.csv"
 # After the first rung, the rest trails TRAIL_PCT below the peak.
 LADDER = [(1.5, TP1_FRACTION)]
 STOP_LOSS_PCT_ACTIVE = True
+MOONBAG_NO_TRAIL = False       # moonshot/early: the final rung's slice ignores the trailing stop
 DEAD_EXIT_MULT = None          # moonshot: salvage what's left if price falls to this multiple
 TIME_STOP_MIN_MULT = 99.0      # time stop only fires while below this multiple
 GECKO = "https://api.geckoterminal.com/api/v2"
@@ -119,8 +120,10 @@ MODES = {
         # MikeSz's rule (2026-10-25): close the whole ticket at -45% from the buy price.
         "STOP_LOSS_PCT_ACTIVE": True,
         "STOP_LOSS_PCT": 45.0,
-        # 2x: take half off = stake back. Then 5x and 10x rungs, rest rides with a wide trail.
-        "LADDER": [(2.0, 0.5), (5.0, 0.2), (10.0, 0.15)],
+        # MikeSz's ladder (2026-10-25), in price multiples: 2x (+100%) sell half = stake back,
+        # 3x (+200%) 20%, 6x (+500%) 20%, last 10% only at 31x (+3000%). Trail 45% until the last 10%.
+        "LADDER": [(2.0, 0.5), (3.0, 0.2), (6.0, 0.2), (31.0, 0.1)],
+        "MOONBAG_NO_TRAIL": True,         # last 10% has no trailing stop: 31x, rug or dead coin only
         "TRAIL_PCT": 45.0,
         "DEAD_EXIT_MULT": 0.15,           # down 85%: sell the scraps
         "TIME_STOP_H": 72.0,
@@ -154,7 +157,8 @@ MODES = {
         "KILL_SWITCH_EQUITY_USD": 10.0,
         "STOP_LOSS_PCT_ACTIVE": True,
         "STOP_LOSS_PCT": 45.0,
-        "LADDER": [(2.0, 0.5), (5.0, 0.2), (10.0, 0.15)],
+        "LADDER": [(2.0, 0.5), (3.0, 0.2), (6.0, 0.2), (31.0, 0.1)],
+        "MOONBAG_NO_TRAIL": True,         # last 10% has no trailing stop: 31x, rug or dead coin only
         "TRAIL_PCT": 45.0,
         "DEAD_EXIT_MULT": 0.15,
         "TIME_STOP_H": 48.0,

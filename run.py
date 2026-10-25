@@ -1,6 +1,6 @@
 """Main loop. Paper only.
 
-    python3 run.py                    # moonshot mode (default): $10 tickets aiming for 5x-50x
+    python3 run.py                    # moonshot mode (default): $10 tickets ladder +100% / +200% / +500% / +3000%
     python3 run.py --mode momentum    # short scalps, tight stop
     python3 run.py --once             # one scan, print signals, exit
     python3 run.py --report           # paper results so far
@@ -104,8 +104,12 @@ def signal_text(s, bought, why=None):
     lines = [f"mcap {usd(s['mcap'])} | score {s['score']:.0f}/100 | 1h {s['h1']:+.0f}%",
              f"BUY at {px(s['price'])}  (mcap {usd(s['mcap'])})"]
     for mult, frac in C.LADDER:
-        lines.append(f"SELL {frac:.0%} at {mult:g}x: {px(s['price'] * mult)}  (mcap {usd(s['mcap'] * mult)})")
-    lines.append(f"Rest: sell if it falls {C.TRAIL_PCT:.0f}% from its top")
+        lines.append(f"SELL {frac:.0%} at +{(mult - 1) * 100:.0f}% ({mult:g}x price): {px(s['price'] * mult)}"
+                     f"  (mcap {usd(s['mcap'] * mult)})")
+    if C.MOONBAG_NO_TRAIL:
+        lines.append(f"Until the last {C.LADDER[-1][1]:.0%}: sell if it falls {C.TRAIL_PCT:.0f}% from its top")
+    else:
+        lines.append(f"Rest: sell if it falls {C.TRAIL_PCT:.0f}% from its top")
     if C.STOP_LOSS_PCT_ACTIVE:
         lines.append(f"STOP: sell all at {px(s['price'] * (1 - C.STOP_LOSS_PCT / 100))} "
                      f"(-{C.STOP_LOSS_PCT:.0f}%) or if liquidity is pulled")
@@ -130,7 +134,7 @@ def record_signals(sigs):
 
 
 def fomo_line(s):
-    targets = f"5x = ${s['mcap'] * 5 / 1e6:.1f}M mcap, 50x = ${s['mcap'] * 50 / 1e6:.0f}M mcap"
+    targets = f"+500% (6x) = ${s['mcap'] * 6 / 1e6:.1f}M mcap, +3000% (31x) = ${s['mcap'] * 31 / 1e6:.0f}M mcap"
     return (f"  >>> SIGNAL {s['symbol']}  mcap ${s['mcap']:,.0f}  liq ${s['liquidity']:,.0f}  "
             f"1h {s['h1']}%  score {s['score']}\n"
             f"      FOMO search: {s['token']}\n"
@@ -203,7 +207,7 @@ def tick(book, now=None):
                            f"If you bought it in FOMO: rule says sell all now.",
                            url=url, copy=tok, tags="warning", priority=5)
                 else:
-                    notify(f"{tag}{sym} hit {kind}",
+                    notify(f"{tag}{sym} hit +{(float(kind[:-1]) - 1) * 100:.0f}% ({kind} price)",
                            f"A signal the paper account did not buy is now {px(price)} ({mult:.2f}x).\n"
                            f"If you bought it in FOMO: follow the sell steps from the signal alert.",
                            url=url, copy=tok, tags="moneybag")
