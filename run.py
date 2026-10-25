@@ -220,6 +220,13 @@ def main():
                 "url": "https://dexscreener.com/solana/87k8mb4cbodh3eyuvvl7qkkkc8kwuvmddrs29jg6dzsz"}
         notify(f"[{C.MODE}] TEST BUY signal: DEMO", signal_text(demo, True), url=demo["url"], copy=demo["token"])
         print(signal_text(demo, True))
+        e, now_px = demo["price"] * 1.02, demo["price"] * 2.08
+        notify(f"[{C.MODE}] TEST SELL DEMO at {now_px / e:.2f}x",
+               f"take profit at 2.0x (now {now_px / e:.2f}x)\nPrice now {px(now_px)} (bought {px(e)})\n"
+               f"Paper result of this sell: +4.88 USD", copy=demo["token"], tags="moneybag")
+        notify(f"[{C.MODE}] TEST STOP LOSS DEMO: sold all at 0.54x",
+               f"stop loss -46.0%\nPrice now {px(e * 0.54)} (bought {px(e)})\n"
+               f"Paper result of this sell: -4.79 USD", copy=demo["token"], tags="chart_with_downwards_trend")
         return
     if "--test-push" in sys.argv:
         notify("MMFX scanner", "Test alert. If you see this on your iPhone, push works.")
