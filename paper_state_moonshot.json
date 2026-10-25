@@ -9,7 +9,7 @@
       "entry": 0.00044400600000000004,
       "cost": 10.0,
       "peak": 0.00044400600000000004,
-      "last": 0.0004138,
+      "last": 0.000408,
       "opened": 1792939434.7552702,
       "rungs_done": 0,
       "entry_liq": 59419.28
@@ -22,7 +22,7 @@
       "entry": 0.000440946,
       "cost": 10.0,
       "peak": 0.000440946,
-      "last": 0.000440946,
+      "last": 0.0004195,
       "opened": 1792941668.1222997,
       "rungs_done": 0,
       "entry_liq": 55484.69
@@ -42,7 +42,7 @@
       "symbol": "GME",
       "entry": 0.0004353,
       "peak": 0.0004353,
-      "last": 0.0004138,
+      "last": 0.0004002,
       "opened": 1792939434.755231,
       "miss": 0,
       "hits": [],
@@ -53,12 +53,13 @@
       "symbol": "PumpkinBot",
       "entry": 0.0004323,
       "peak": 0.0004323,
-      "last": 0.0004323,
+      "last": 0.000421,
       "opened": 1792941668.1222599,
       "url": "https://dexscreener.com/solana/fo8evdb3qphm944an9kkwrji7u1ft9jurtwd688dfmce",
       "hits": [],
       "stop_hit": false,
-      "peak_after_stop": 0
+      "peak_after_stop": 0,
+      "miss": 0
     }
   },
   "shadow_done": {},
