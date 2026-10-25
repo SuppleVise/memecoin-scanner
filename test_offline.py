@@ -278,5 +278,45 @@ class EarlyMode(unittest.TestCase):
         self.assertFalse(C.USE_DEX_BOOSTS)
 
 
+class StopAndMilestones(unittest.TestCase):
+    def setUp(self):
+        self.saved = dict(vars(C))
+        C.apply_mode("moonshot")
+        d = tempfile.mkdtemp()
+        self.book = Paper(os.path.join(d, "s.json"), os.path.join(d, "j.csv"))
+        self.sig = {"token": "T1", "symbol": "S1", "pair": "P1", "price": 0.001, "score": 80,
+                    "liquidity": 20_000, "url": "u"}
+
+    def tearDown(self):
+        vars(C).update(self.saved)
+
+    def test_stop_at_minus_45(self):
+        self.book.enter(self.sig)
+        fill = self.book.s["positions"]["T1"]["entry"]
+        self.book.check_exits("T1", {"priceUsd": str(fill * 0.6), "liquidity": {"usd": 20_000}})
+        self.assertIn("T1", self.book.s["positions"])           # -40%: hold
+        self.book.check_exits("T1", {"priceUsd": str(fill * 0.54), "liquidity": {"usd": 20_000}})
+        self.assertNotIn("T1", self.book.s["positions"])        # -46%: stopped
+        self.assertIn("stop loss", self.book.journal_tail())
+
+    def test_shadow_milestones_fire_once(self):
+        t = time.time()
+        self.book.shadow_add(self.sig, t)
+        ev = self.book.shadow_update({"T1": {"priceUsd": "0.0021"}}, t + 60)
+        self.assertEqual([e[2] for e in ev], ["2x"])
+        ev = self.book.shadow_update({"T1": {"priceUsd": "0.0022"}}, t + 120)
+        self.assertEqual(ev, [])
+        ev = self.book.shadow_update({"T1": {"priceUsd": "0.011"}}, t + 180)
+        self.assertEqual([e[2] for e in ev], ["5x", "10x"])
+
+    def test_shadow_stop_then_recovery_counted(self):
+        t = time.time()
+        self.book.shadow_add(self.sig, t)
+        ev = self.book.shadow_update({"T1": {"priceUsd": "0.0005"}}, t + 60)
+        self.assertEqual([e[2] for e in ev], ["stop"])
+        self.book.shadow_update({"T1": {"priceUsd": "0.0025"}}, t + 120)   # later 2.5x
+        self.assertEqual(self.book.shadow_stats()["stopped_then_2x"], 1)
+
+
 if __name__ == "__main__":
     unittest.main()

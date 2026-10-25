@@ -91,8 +91,8 @@ MODES = {
     "momentum": {},
     # $10 lottery tickets aiming for 5x-50x. Earlier and smaller coins, because
     # 50x from a $10M cap means a $500M coin, which almost never happens.
-    # No tight stop: a -25% stop gets hit by normal memecoin noise before any 10x.
-    # The $10 IS the stop. You accept losing it.
+    # Wide stop (-45%): a -25% stop gets hit by normal memecoin noise before any 10x.
+    # Shadow tickets count how often the stop sells something that later doubles.
     "moonshot": {
         "MIN_PAIR_AGE_MIN": 60,
         "MAX_PAIR_AGE_H": 24,
@@ -116,7 +116,9 @@ MODES = {
         "MAX_TRADES_PER_DAY": 5,
         "DAILY_LOSS_LIMIT_USD": 20.0,
         "KILL_SWITCH_EQUITY_USD": 10.0,   # i.e. the whole $50 is the budget; stop when it's gone
-        "STOP_LOSS_PCT_ACTIVE": False,
+        # MikeSz's rule (2026-10-25): close the whole ticket at -45% from the buy price.
+        "STOP_LOSS_PCT_ACTIVE": True,
+        "STOP_LOSS_PCT": 45.0,
         # 2x: take half off = stake back. Then 5x and 10x rungs, rest rides with a wide trail.
         "LADDER": [(2.0, 0.5), (5.0, 0.2), (10.0, 0.15)],
         "TRAIL_PCT": 45.0,
@@ -150,7 +152,8 @@ MODES = {
         "MAX_TRADES_PER_DAY": 5,
         "DAILY_LOSS_LIMIT_USD": 20.0,
         "KILL_SWITCH_EQUITY_USD": 10.0,
-        "STOP_LOSS_PCT_ACTIVE": False,
+        "STOP_LOSS_PCT_ACTIVE": True,
+        "STOP_LOSS_PCT": 45.0,
         "LADDER": [(2.0, 0.5), (5.0, 0.2), (10.0, 0.15)],
         "TRAIL_PCT": 45.0,
         "DEAD_EXIT_MULT": 0.15,

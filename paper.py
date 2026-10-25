@@ -190,29 +190,55 @@ class Paper:
         if tok in self.s["shadow"] or tok in self.s["shadow_done"] or not sig.get("price"):
             return
         self.s["shadow"][tok] = {"symbol": sig["symbol"], "entry": sig["price"], "peak": sig["price"],
-                                 "last": sig["price"], "opened": now or time.time()}
+                                 "last": sig["price"], "opened": now or time.time(),
+                                 "url": sig.get("url"), "hits": [], "stop_hit": False, "peak_after_stop": 0}
 
     def shadow_update(self, pairs_by_token, now=None):
-        """pairs_by_token: {token: pair dict}. Missing 3 checks in a row counts as a rug (tracking ends)."""
+        """pairs_by_token: {token: pair dict}. Missing 3 checks in a row counts as a rug (tracking ends).
+        Returns milestone events [(token, symbol, kind, multiple, price, url)] for alerts, where kind is
+        "2x"/"5x"/"10x"/"50x" the first time the price reaches it, or "stop" the first time it falls to the
+        stop level (only alerted for coins the paper account doesn't hold, in case you bought them by hand)."""
         now = now or time.time()
+        events = []
+        stop_mult = 1 - C.STOP_LOSS_PCT / 100
         for tok, sh in list(self.s["shadow"].items()):
+            sh.setdefault("hits", [])
+            sh.setdefault("stop_hit", False)
+            sh.setdefault("peak_after_stop", 0)
             pair = pairs_by_token.get(tok)
             if pair is not None:
                 px = float(pair.get("priceUsd") or 0)
                 if px > 0:
                     sh["last"] = px
                     sh["peak"] = max(sh["peak"], px)
+                    mult = px / sh["entry"]
+                    for m in MILESTONES:
+                        if mult >= m and f"{m}x" not in sh["hits"]:
+                            sh["hits"].append(f"{m}x")
+                            events.append((tok, sh["symbol"], f"{m}x", mult, px, sh.get("url")))
+                    if sh["stop_hit"]:
+                        sh["peak_after_stop"] = max(sh["peak_after_stop"], mult)
+                    elif mult <= stop_mult and not sh["hits"]:
+                        sh["stop_hit"] = True
+                        events.append((tok, sh["symbol"], "stop", mult, px, sh.get("url")))
             sh["miss"] = sh.get("miss", 0) + 1 if pair is None else 0
             if sh["miss"] >= 3 or (now - sh["opened"]) / 3600 >= C.SHADOW_HOURS:
                 self.s["shadow_done"][tok] = round(sh["peak"] / sh["entry"], 2)
+                if sh["stop_hit"] and sh["peak_after_stop"] >= 2:
+                    self.s.setdefault("stop_then_2x", []).append(tok)
                 del self.s["shadow"][tok]
+        return events
 
     def shadow_stats(self):
         mults = list(self.s["shadow_done"].values()) + [
             sh["peak"] / sh["entry"] for sh in self.s["shadow"].values()]
+        live_stop_then_2x = [t for t, sh in self.s["shadow"].items()
+                             if sh.get("stop_hit") and sh.get("peak_after_stop", 0) >= 2]
         return {"signals": len(mults),
                 "peaked_at_least": {f"{m}x": sum(1 for x in mults if x >= m) for m in MILESTONES},
-                "best": f"{max(mults):.1f}x" if mults else None}
+                "best": f"{max(mults):.1f}x" if mults else None,
+                # how often the stop loss sold something that later doubled: the price of having a stop
+                "stopped_then_2x": len(self.s.get("stop_then_2x", [])) + len(live_stop_then_2x)}
 
     def withdraw_due(self):
         """True once, when paper equity first reaches the take-your-stake-out level."""

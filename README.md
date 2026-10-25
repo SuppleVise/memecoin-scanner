@@ -26,10 +26,9 @@ A Solana memecoin scanner with rug filters and a simulated $50 account. It finds
 | Ticket size | $10 | $10 |
 | Open at once | 5 | 2 |
 | New tickets per day | 5 | 3 |
-| Stop loss | **none**: the $10 is the stop | −25% |
+| Stop loss | −45% from the buy price (your rule) | −25% |
 | Take profits | ½ at 2x (stake back), 20% at 5x, 15% at 10x, rest rides | ½ at 1.5x |
 | Trailing stop on the rest | 45% below peak | 20% below peak |
-| Exit dead coins | at 0.15x, sell the scraps | |
 | Time stop | 72 h if still below entry | 4 h |
 | Rug alarm | liquidity −50% or pair vanishes: out at once | same, −40% |
 | Stop everything | paper equity below $10 | below $30 |
@@ -42,7 +41,7 @@ Same money rules and exits as moonshot, for coins **10 min to 2 h old**, market 
 
 ### Shadow tickets
 
-Every signal is followed for 72 h as a "shadow ticket", even if the paper account had no cash or had hit its daily limit. That measures the hit rate (how many signals ever reach 2x/5x/10x/50x) much faster than $50 of tickets can. A shadow ticket whose coin disappears from DexScreener for 3 checks in a row is counted as a rug.
+Every signal is followed for 72 h as a "shadow ticket", even if the paper account had no cash or had hit its daily limit. That measures the hit rate (how many signals ever reach 2x/5x/10x/50x) much faster than $50 of tickets can. The daily summary also counts how often a coin hit the −45% stop and later doubled anyway, so we can see what the stop costs. A shadow ticket whose coin disappears from DexScreener for 3 checks in a row is counted as a rug.
 
 ### Alerts on your iPhone
 
@@ -64,7 +63,8 @@ Address: 45rV...pump          [Copy address]  [Chart]
 **score** is the scanner's own 0-100 momentum rating (1h move, buy/sell ratio, volume vs liquidity, 5 min move). FOMO has no public link that opens a coin inside the app, so: tap **Copy address**, open FOMO, paste into search. Long-press or pull down the notification if the buttons don't show.
 
 - **Signal**: a coin passed every filter (bought on paper, or "not bought" if the paper account was at a limit)
-- **Paper sell**: a take-profit step, trailing stop, rug exit or time stop
+- **SELL / STOP LOSS**: a take-profit step (2x, 5x, 10x), the trailing stop, the −45% stop, a rug exit or a time stop on a paper ticket
+- **Milestones for coins the paper account did not buy** (in case you bought them in FOMO yourself): "hit 2x / 5x / 10x / 50x" and "STOP: down 45%"
 - **Daily summary** around 20:00 Warsaw time, one per mode: paper balance, tickets, and how many of all signals reached 2x/5x/10x/50x
 - **Take your $50 out**: once, when a paper account first reaches $100. Your rule: from then on only risk profits.
 - **Paper account empty**: the $50 is spent; signals keep being tracked
@@ -131,7 +131,7 @@ Needs Python 3.9+ and `curl` (both come with macOS). No packages to install.
 
 ```bash
 cd memecoin-scanner
-python3 -m unittest test_offline     # 35 offline tests
+python3 -m unittest test_offline     # 38 offline tests
 python3 run.py --once                # one scan, prints signals
 caffeinate -i python3 run.py         # moonshot paper trading, polls every 60 s, Mac stays awake
 python3 run.py --mode momentum       # the scalping mode instead

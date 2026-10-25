@@ -94,11 +94,12 @@ def signal_text(s, bought, why=None):
     for mult, frac in C.LADDER:
         lines.append(f"SELL {frac:.0%} at {mult:g}x: {px(s['price'] * mult)}  (mcap {usd(s['mcap'] * mult)})")
     lines.append(f"Rest: sell if it falls {C.TRAIL_PCT:.0f}% from its top")
-    if C.DEAD_EXIT_MULT:
+    if C.STOP_LOSS_PCT_ACTIVE:
+        lines.append(f"STOP: sell all at {px(s['price'] * (1 - C.STOP_LOSS_PCT / 100))} "
+                     f"(-{C.STOP_LOSS_PCT:.0f}%) or if liquidity is pulled")
+    elif C.DEAD_EXIT_MULT:
         lines.append(f"Sell all if it drops to {px(s['price'] * C.DEAD_EXIT_MULT)} "
                      f"(-{(1 - C.DEAD_EXIT_MULT) * 100:.0f}%) or liquidity is pulled")
-    elif C.STOP_LOSS_PCT_ACTIVE:
-        lines.append(f"Stop loss: {px(s['price'] * (1 - C.STOP_LOSS_PCT / 100))}")
     lines.append(f"Paper: bought ${C.POSITION_SIZE_USD:.0f}" if bought else f"Paper: not bought ({why})")
     lines.append(f"Address: {s['token']}")
     return "\n".join(lines)
@@ -131,7 +132,8 @@ def daily_summary(book):
     hits = ", ".join(f"{k} {v}" for k, v in sh["peaked_at_least"].items())
     return (f"Paper ${sm['equity']:.2f} (start ${sm['start']:.0f}), {sm['tickets']} tickets, "
             f"{len(sm['open'])} open.\n"
-            f"All signals so far: {sh['signals']}, reached {hits}. Best {sh['best'] or '-'}."
+            f"All signals so far: {sh['signals']}, reached {hits}. Best {sh['best'] or '-'}.\n"
+            f"Hit the -{C.STOP_LOSS_PCT:.0f}% stop but later doubled: {sh['stopped_then_2x']}"
             + ("\nPaper account is out of money; signals are still being tracked." if sm["halted"] else ""))
 
 
@@ -145,7 +147,9 @@ def tick(book, now=None):
             last = book.journal_tail()
             print(f"  EXIT {pos['symbol']}: {pnl:+.2f} USD ({last})")
             mult = pos["last"] / pos["entry"]
-            notify(f"{tag}SELL {pos['symbol']} at {mult:.2f}x",
+            title = (f"{tag}STOP LOSS {pos['symbol']}: sold all at {mult:.2f}x" if "stop loss" in last
+                     else f"{tag}SELL {pos['symbol']} at {mult:.2f}x")
+            notify(title,
                    f"{last}\nPrice now {px(pos['last'])} (bought {px(pos['entry'])})\n"
                    f"Paper result of this sell: {pnl:+.2f} USD",
                    copy=tok, tags="moneybag" if pnl > 0 else "chart_with_downwards_trend")
@@ -153,7 +157,19 @@ def tick(book, now=None):
     if book.s["shadow"]:
         pairs = scanner.fetch_pairs(list(book.s["shadow"]))
         if pairs:  # empty means the API call failed: don't count everything as rugged
-            book.shadow_update(pairs, now)
+            for tok, sym, kind, mult, price, url in book.shadow_update(pairs, now):
+                if tok in book.s["traded"]:
+                    continue  # the paper account bought it: its own SELL alerts cover it
+                if kind == "stop":
+                    notify(f"{tag}STOP {sym}: down {(1 - mult) * 100:.0f}%",
+                           f"A signal the paper account did not buy fell to {px(price)} ({mult:.2f}x).\n"
+                           f"If you bought it in FOMO: rule says sell all now.",
+                           url=url, copy=tok, tags="warning")
+                else:
+                    notify(f"{tag}{sym} hit {kind}",
+                           f"A signal the paper account did not buy is now {px(price)} ({mult:.2f}x).\n"
+                           f"If you bought it in FOMO: follow the sell steps from the signal alert.",
+                           url=url, copy=tok, tags="moneybag")
     if not book.s["halted"] and book.equity() < C.KILL_SWITCH_EQUITY_USD:
         book.s["halted"] = True
         notify(f"{tag}Paper account empty",
