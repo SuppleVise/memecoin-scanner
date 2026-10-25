@@ -1,12 +1,27 @@
 {
-  "cash": 40.0,
-  "positions": {},
+  "cash": 30.0,
+  "positions": {
+    "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump": {
+      "symbol": "Chop",
+      "pair": "BHDsn1gnHe2xRtydcc5qwggz12Upa1k7rhMxtSh13skG",
+      "qty": 21980.8811193203,
+      "orig_qty": 21980.8811193203,
+      "entry": 0.000445842,
+      "cost": 10.0,
+      "peak": 0.000445842,
+      "last": 0.000445842,
+      "opened": 1792965942.7756026,
+      "rungs_done": 0,
+      "entry_liq": 56942.9
+    }
+  },
   "day": "2026-10-25",
   "day_pnl": -10.0,
-  "day_trades": 1,
+  "day_trades": 2,
   "halted": false,
   "traded": [
-    "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump"
+    "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
+    "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66
@@ -15,6 +30,6 @@
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": 40.0,
-  "round_tickets": 1
+  "min_cash": 30.0,
+  "round_tickets": 2
 }
