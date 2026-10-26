@@ -1,32 +1,6 @@
 {
-  "cash": 1.130161842490119,
+  "cash": 3.6258840938706536,
   "positions": {
-    "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump": {
-      "symbol": "Chop",
-      "pair": "BHDsn1gnHe2xRtydcc5qwggz12Upa1k7rhMxtSh13skG",
-      "qty": 21980.8811193203,
-      "orig_qty": 21980.8811193203,
-      "entry": 0.000445842,
-      "cost": 10.0,
-      "peak": 0.0007687,
-      "last": 0.0007265,
-      "opened": 1792965942.7763686,
-      "rungs_done": 0,
-      "entry_liq": 56942.9
-    },
-    "7JEfFdwmXfQf89ty1sF3aspN9oku9fHikA7XZTTXpump": {
-      "symbol": "GTA",
-      "pair": "Hfoj3dGN1C7eW68mJj7TYwRgpa3o79v7R6RjDxU52zKa",
-      "qty": 6712.200039999234,
-      "orig_qty": 13424.400079998468,
-      "entry": 0.000730014,
-      "cost": 5.0,
-      "peak": 0.001909,
-      "last": 0.001621,
-      "opened": 1792977468.6891012,
-      "rungs_done": 1,
-      "entry_liq": 71569.7
-    },
     "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5": {
       "symbol": "STM",
       "pair": "AzX4s55RJm2W4GjF3jz3KVdcRmbwn4Jr1upcvFPvLLWz",
@@ -35,14 +9,14 @@
       "entry": 0.00013107,
       "cost": 10.0,
       "peak": 0.000238,
-      "last": 0.000238,
+      "last": 0.0002184,
       "opened": 1793000116.9154127,
       "rungs_done": 0,
       "entry_liq": 31574.64
     }
   },
   "day": "2026-10-26",
-  "day_pnl": -13.86983815750988,
+  "day_pnl": -26.374115906129347,
   "day_trades": 4,
   "halted": false,
   "traded": [
@@ -56,7 +30,9 @@
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
     "5uXsRw3FThpUAKfwV8uNsS6WyKg376YTpYyo47Hvpump": 1.18,
-    "BTvAbqm2z6r81UX9f3Kt9eijZwAr824QyjCeYaNCpump": 1.0
+    "BTvAbqm2z6r81UX9f3Kt9eijZwAr824QyjCeYaNCpump": 1.0,
+    "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump": 1.72,
+    "7JEfFdwmXfQf89ty1sF3aspN9oku9fHikA7XZTTXpump": 2.62
   },
   "shadow": {},
   "shadow_done": {},
