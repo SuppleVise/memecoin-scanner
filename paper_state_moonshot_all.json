@@ -1,5 +1,5 @@
 {
-  "cash": 11.055570715082176,
+  "cash": 1.055570715082176,
   "positions": {
     "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump": {
       "symbol": "Chop",
@@ -8,8 +8,8 @@
       "orig_qty": 21980.8811193203,
       "entry": 0.000445842,
       "cost": 10.0,
-      "peak": 0.0006825,
-      "last": 0.0006825,
+      "peak": 0.0007687,
+      "last": 0.0007687,
       "opened": 1792965942.7756026,
       "rungs_done": 0,
       "entry_liq": 56942.9
@@ -22,7 +22,7 @@
       "entry": 0.000730014,
       "cost": 5.0,
       "peak": 0.001715,
-      "last": 0.001715,
+      "last": 0.001444,
       "opened": 1792977468.627777,
       "rungs_done": 1,
       "entry_liq": 71569.7
@@ -35,22 +35,36 @@
       "entry": 0.00011617800000000001,
       "cost": 10.0,
       "peak": 0.00011617800000000001,
-      "last": 8.497e-05,
+      "last": 9.35e-05,
       "opened": 1792994154.8349237,
       "rungs_done": 0,
       "entry_liq": 27105.12
+    },
+    "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5": {
+      "symbol": "STM",
+      "pair": "AzX4s55RJm2W4GjF3jz3KVdcRmbwn4Jr1upcvFPvLLWz",
+      "qty": 74769.20729381248,
+      "orig_qty": 74769.20729381248,
+      "entry": 0.00013107,
+      "cost": 10.0,
+      "peak": 0.00013107,
+      "last": 0.00013107,
+      "opened": 1793000116.864712,
+      "rungs_done": 0,
+      "entry_liq": 31574.64
     }
   },
   "day": "2026-10-26",
   "day_pnl": -3.944429284917824,
-  "day_trades": 3,
+  "day_trades": 4,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
     "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump",
     "7JEfFdwmXfQf89ty1sF3aspN9oku9fHikA7XZTTXpump",
     "5uXsRw3FThpUAKfwV8uNsS6WyKg376YTpYyo47Hvpump",
-    "BTvAbqm2z6r81UX9f3Kt9eijZwAr824QyjCeYaNCpump"
+    "BTvAbqm2z6r81UX9f3Kt9eijZwAr824QyjCeYaNCpump",
+    "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
@@ -61,5 +75,5 @@
   "withdraw_alerted": false,
   "summary_day": "",
   "min_cash": 0.0,
-  "round_tickets": 5
+  "round_tickets": 6
 }
