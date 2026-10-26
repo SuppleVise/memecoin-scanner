@@ -22,7 +22,7 @@ import secrets
 import subprocess
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import config as C
 
@@ -56,7 +56,7 @@ def ntfy_topic():
         return f.read().strip()
 
 
-def notify(title, text, url=None, copy=None, tags="rocket", priority=None):
+def notify(title, text, url=None, copy=None, tags="rocket", priority=None, at=None):
     if QUIET:
         return
     if platform.system() == "Darwin":
@@ -74,6 +74,8 @@ def notify(title, text, url=None, copy=None, tags="rocket", priority=None):
         actions.append(f"view, Chart, {url}")
     if actions:
         cmd += ["-H", "Actions: " + "; ".join(actions)]
+    if at and at > time.time() + 15:  # ntfy holds the message and delivers it at this unix time
+        cmd += ["-H", f"At: {int(at)}"]
     if priority:  # 5 = urgent: long vibration, shows even in Focus if ntfy is allowed
         cmd += ["-H", f"Priority: {priority}"]
     cmd += ["-w", "\n%{http_code}", "-d", text, f"https://ntfy.sh/{topic}"]
@@ -319,9 +321,11 @@ def tick(book, now=None, variants=None):
                f"withdraw the starting $50 and keep trading only profits.")
     # 5. once-a-day summary
     t = datetime.fromtimestamp(now or time.time(), timezone.utc)
-    if t.hour >= C.DAILY_SUMMARY_UTC_HOUR and book.s["summary_day"] != t.strftime("%Y-%m-%d"):
+    due = t.replace(hour=C.DAILY_SUMMARY_UTC_HOUR, minute=0, second=0, microsecond=0)
+    if (t >= due - timedelta(minutes=C.DAILY_SUMMARY_LEAD_MIN)
+            and book.s["summary_day"] != t.strftime("%Y-%m-%d")):
         book.s["summary_day"] = t.strftime("%Y-%m-%d")
-        notify(f"{tag}Morning summary", daily_summary(book, now, variants))
+        notify(f"{tag}Morning summary", daily_summary(book, now, variants), at=due.timestamp())
     book.save()
     print(f"  {book.summary()}")
 

@@ -89,6 +89,9 @@ USE_DEX_BOOSTS = True
 SHADOW_HOURS = 72
 WITHDRAW_AT_EQUITY_USD = 100.0  # MikeSz's rule: once the $50 has doubled, take the $50 out
 DAILY_SUMMARY_UTC_HOUR = 8      # 9:00 Warsaw in winter, 10:00 in summer (MikeSz: morning summary)
+# GitHub runs the 5-minute schedule only every ~30-45 min, so the summary is built by the first run in
+# the hour before and handed to ntfy with a delivery time of exactly HH:00 (ntfy's scheduled delivery).
+DAILY_SUMMARY_LEAD_MIN = 60
 
 MODES = {
     # Short scalps on established movers. Small, frequent targets. Fees hurt most here.
