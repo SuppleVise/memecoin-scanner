@@ -9,23 +9,10 @@
       "entry": 0.00013453800000000002,
       "cost": 10.0,
       "peak": 0.0002292,
-      "last": 9.435e-05,
+      "last": 8.86e-05,
       "opened": 1793009108.5176456,
       "rungs_done": 0,
       "entry_liq": 32172.82
-    },
-    "fR9dwtL4PhAcV19XyFnnsAvWcXsk93raxvWdWCqpump": {
-      "symbol": "MFORGE",
-      "pair": "4XP9SAh6hjWwEf7cTZQW58drrMTA2Nt4HqKARRMQPUY6",
-      "qty": 35677.10039827294,
-      "orig_qty": 35677.10039827294,
-      "entry": 0.000274686,
-      "cost": 10.0,
-      "peak": 0.0002894,
-      "last": 0.0001869,
-      "opened": 1793035062.4229596,
-      "rungs_done": 0,
-      "entry_liq": 42904.59
     },
     "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump": {
       "symbol": "XD",
@@ -35,7 +22,7 @@
       "entry": 0.0005174460000000001,
       "cost": 10.0,
       "peak": 0.0006655,
-      "last": 0.0005177,
+      "last": 0.0005448,
       "opened": 1793035062.42354,
       "rungs_done": 0,
       "entry_liq": 73396.06
@@ -48,14 +35,14 @@
       "entry": 0.000322116,
       "cost": 10.0,
       "peak": 0.000322116,
-      "last": 0.0002883,
+      "last": 0.0002726,
       "opened": 1793040344.259296,
       "rungs_done": 0,
       "entry_liq": 46592.38
     }
   },
   "day": "2026-10-26",
-  "day_pnl": -39.42905735382297,
+  "day_pnl": -49.42905735382297,
   "day_trades": 9,
   "halted": false,
   "traded": [
@@ -78,7 +65,8 @@
     "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump": 1.72,
     "7JEfFdwmXfQf89ty1sF3aspN9oku9fHikA7XZTTXpump": 2.62,
     "3Vkkvo8jxHy6B4pxRLLV3F9EBYRS1NE8mKCxhi1Mpump": 1.0,
-    "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5": 1.82
+    "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5": 1.82,
+    "fR9dwtL4PhAcV19XyFnnsAvWcXsk93raxvWdWCqpump": 1.05
   },
   "shadow": {},
   "shadow_done": {},
