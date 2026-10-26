@@ -1,22 +1,8 @@
 {
   "cash": 1.0926790553018364,
-  "positions": {
-    "8ttNP8EzDJeZXTdNLpYtpTd9fm2Dj9q9HenyqRfhpump": {
-      "symbol": "OnlyCats",
-      "pair": "5sZrdSTgTHU9pVHjBcmVZ1LdUY4d73Wqd7fZTY1Kkyne",
-      "qty": 98663.41278758371,
-      "orig_qty": 98663.41278758371,
-      "entry": 9.932760000000001e-05,
-      "cost": 10.0,
-      "peak": 9.932760000000001e-05,
-      "last": 9.932760000000001e-05,
-      "opened": 1793051699.784286,
-      "rungs_done": 0,
-      "entry_liq": 25004.88
-    }
-  },
+  "positions": {},
   "day": "2026-10-26",
-  "day_pnl": -28.946941932911507,
+  "day_pnl": -38.94694193291151,
   "day_trades": 4,
   "halted": false,
   "traded": [
@@ -30,7 +16,8 @@
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump": 1.0,
     "Asgq1QLYv4WxfEXfkcnu4jEZkcq5WA3GXW1ciEXbpump": 1.0,
     "5Mbttpskm2EesN4ECWJiZSMh9cYNkAWLUoKHAbvtpump": 1.0,
-    "4cDVSYnzoWsSzYRxe1rETA1hfcgs1ktgpQyeRm6Vpump": 1.0
+    "4cDVSYnzoWsSzYRxe1rETA1hfcgs1ktgpQyeRm6Vpump": 1.0,
+    "8ttNP8EzDJeZXTdNLpYtpTd9fm2Dj9q9HenyqRfhpump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
