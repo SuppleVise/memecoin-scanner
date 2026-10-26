@@ -1,22 +1,8 @@
 {
   "cash": 11.092679055301836,
-  "positions": {
-    "4cDVSYnzoWsSzYRxe1rETA1hfcgs1ktgpQyeRm6Vpump": {
-      "symbol": "MOON",
-      "pair": "9dWKyJVmo2FzBFo5kPm1n1FV79JATcSrWzxfLWnfBZiL",
-      "qty": 67996.05900392713,
-      "orig_qty": 67996.05900392713,
-      "entry": 0.00014412599999999998,
-      "cost": 10.0,
-      "peak": 0.00014412599999999998,
-      "last": 0.00014412599999999998,
-      "opened": 1793040370.8201022,
-      "rungs_done": 0,
-      "entry_liq": 30698.78
-    }
-  },
+  "positions": {},
   "day": "2026-10-26",
-  "day_pnl": -18.946941932911507,
+  "day_pnl": -28.946941932911507,
   "day_trades": 3,
   "halted": false,
   "traded": [
@@ -28,7 +14,8 @@
   "peaks": {
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump": 1.0,
     "Asgq1QLYv4WxfEXfkcnu4jEZkcq5WA3GXW1ciEXbpump": 1.0,
-    "5Mbttpskm2EesN4ECWJiZSMh9cYNkAWLUoKHAbvtpump": 1.0
+    "5Mbttpskm2EesN4ECWJiZSMh9cYNkAWLUoKHAbvtpump": 1.0,
+    "4cDVSYnzoWsSzYRxe1rETA1hfcgs1ktgpQyeRm6Vpump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
