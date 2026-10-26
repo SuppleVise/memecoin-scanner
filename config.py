@@ -255,7 +255,9 @@ MODES = {
         "TIME_STOP_H": 10 / 60,
         "TIME_STOP_MIN_MULT": float("inf"),   # at 10 minutes sell whatever is left, win or lose
         "LIQUIDITY_DROP_EXIT_PCT": 50.0,
-        "GECKO_PATHS": ["/new_pools"],
+        # Solana opens more than 20 pools a minute, so page 1 alone is all under a minute old;
+        # 1-3 minute old coins sit on pages 2-3 (shared with turbo through the 55 s cache)
+        "GECKO_PATHS": ["/new_pools", "/new_pools?page=2", "/new_pools?page=3"],
         "USE_DEX_BOOSTS": False,
         "POLL_SECONDS": 30,               # a 10-minute trade needs more than ten looks
     },
