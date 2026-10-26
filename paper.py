@@ -86,7 +86,7 @@ class Paper:
             return max(C.POSITION_SIZE_USD, round(0.10 * self.equity(), 2))
         return C.POSITION_SIZE_USD
 
-    def can_enter(self, token, now=None):
+    def can_enter(self, token, now=None, symbol=None):
         self.roll_day(now)
         if self.variant == "all":
             if token in self.s["positions"] or token in self.s["traded"]:
@@ -107,13 +107,18 @@ class Paper:
             return "already holding"
         if token in self.s["traded"]:
             return "already traded this token (no revenge re-entries)"
+        # MikeSz's copycat rule (2026-10-26): copycats launch many coins with the same name at once,
+        # and buying three of them is one bet placed three times. One coin per name per hour.
+        seen = self.s.setdefault("symbols_bought", {}).get((symbol or "").strip().upper())
+        if symbol and seen and (now or time.time()) - seen < C.COPYCAT_WINDOW_H * 3600:
+            return f"copycat: already bought a coin named {symbol} in the last {C.COPYCAT_WINDOW_H:g} h"
         if self.s["cash"] < self.ticket_usd():
             return "not enough cash"
         return None
 
     # --- actions -------------------------------------------------------------
     def enter(self, sig, now=None):
-        why = self.can_enter(sig["token"], now)
+        why = self.can_enter(sig["token"], now, sig.get("symbol"))
         if why:
             return why
         usd = self.ticket_usd()
@@ -129,6 +134,7 @@ class Paper:
         }
         self.s["day_trades"] += 1
         self.s["traded"].append(sig["token"])
+        self.s.setdefault("symbols_bought", {})[sig["symbol"].strip().upper()] = now or time.time()
         self.s["round_tickets"] = self.s.get("round_tickets", 0) + 1
         self.log(symbol=sig["symbol"], token=sig["token"], action="BUY",
                  reason=f"score {sig['score']}", price=fill, usd=usd, fee=round(fee, 4))

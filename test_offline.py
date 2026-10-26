@@ -130,7 +130,7 @@ class PaperBook(unittest.TestCase):
 
     def test_limits(self):
         for i in range(3):
-            s = dict(self.sig, token=f"T{i}", pair=f"P{i}")
+            s = dict(self.sig, token=f"T{i}", pair=f"P{i}", symbol=f"S{i}")
             r = self.book.enter(s)
             if i < 2:
                 self.assertIsNone(r)
@@ -144,10 +144,10 @@ class PaperBook(unittest.TestCase):
 
     def test_daily_loss_limit(self):
         for i in range(3):
-            s = dict(self.sig, token=f"T{i}", pair=f"P{i}")
+            s = dict(self.sig, token=f"T{i}", pair=f"P{i}", symbol=f"S{i}")
             self.book.enter(s)
             self.book.check_exits(f"T{i}", None)  # three -90% rugs
-        self.assertIn(self.book.enter(dict(self.sig, token="T9", pair="P9")),
+        self.assertIn(self.book.enter(dict(self.sig, token="T9", pair="P9", symbol="S9")),
                       ("daily loss limit hit", "max trades today"))
 
     def test_fee_schedule(self):
@@ -398,6 +398,14 @@ class StopAndMilestones(unittest.TestCase):
         self.assertEqual((st["count"], st["by_filter"], st["best"][0]["mult"]), (1, {"rug filter": 1}, 9.0))
         self.book.missed_update({}, t + 25 * 3600)
         self.assertEqual(self.book.s["missed"], {})              # stops following after 24 h
+
+    def test_copycat_same_name_blocked_for_an_hour(self):
+        t = time.time()
+        sig = lambda tok: {"token": tok, "symbol": "Ginnan", "pair": "P" + tok, "price": 0.001,
+                           "liquidity": 20_000, "score": 80}
+        self.assertIsNone(self.book.enter(sig("A"), t))
+        self.assertIn("copycat", self.book.enter(dict(sig("B"), symbol="GINNAN "), t + 60))
+        self.assertIsNone(self.book.enter(sig("C"), t + 3601))
 
     def test_bad_price_tick_does_not_sell_or_count(self):
         t = time.time()

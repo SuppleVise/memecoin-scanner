@@ -61,6 +61,7 @@ def fomo_fee(notional_usd: float) -> float:
 
 # --- Plumbing ----------------------------------------------------------------
 POLL_SECONDS = 60
+COPYCAT_WINDOW_H = 1.0   # buy at most one coin per name (symbol) per hour
 DEXSCREENER = "https://api.dexscreener.com"
 RUGCHECK = "https://api.rugcheck.xyz/v1"
 STATE_FILE = "paper_state.json"

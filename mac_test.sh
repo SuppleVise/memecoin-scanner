@@ -5,12 +5,12 @@ cd "$(dirname "$0")"
 MODES="moonshot early turbo gamble"
 # Ctrl+C: stop the scanners, then push one summary per mode to the phone
 finish() {
-  trap - INT TERM EXIT
+  trap - INT TERM HUP EXIT
   kill $(jobs -p) 2>/dev/null; wait 2>/dev/null
   for m in $MODES; do python3 run.py --summary-now --mode $m --label mac; done
   exit 0
 }
-trap finish INT TERM EXIT
+trap finish INT TERM HUP EXIT
 for m in $MODES; do
   python3 run.py --mode $m --label mac &
   sleep 15   # stagger so they don't all hit GeckoTerminal's ~10 calls/min at the same moment
