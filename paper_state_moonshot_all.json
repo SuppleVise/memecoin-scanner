@@ -1,5 +1,5 @@
 {
-  "cash": -13.778976633597141,
+  "cash": -33.77897663359714,
   "positions": {
     "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5": {
       "symbol": "STM",
@@ -9,7 +9,7 @@
       "entry": 0.00013107,
       "cost": 10.0,
       "peak": 0.000239,
-      "last": 0.0001215,
+      "last": 0.0001011,
       "opened": 1793000116.864712,
       "rungs_done": 0,
       "entry_liq": 31574.64
@@ -22,15 +22,41 @@
       "entry": 0.00013453800000000002,
       "cost": 10.0,
       "peak": 0.0002292,
-      "last": 0.0001962,
+      "last": 0.0002108,
       "opened": 1793009108.5176456,
       "rungs_done": 0,
       "entry_liq": 32172.82
+    },
+    "fR9dwtL4PhAcV19XyFnnsAvWcXsk93raxvWdWCqpump": {
+      "symbol": "MFORGE",
+      "pair": "4XP9SAh6hjWwEf7cTZQW58drrMTA2Nt4HqKARRMQPUY6",
+      "qty": 35677.10039827294,
+      "orig_qty": 35677.10039827294,
+      "entry": 0.000274686,
+      "cost": 10.0,
+      "peak": 0.000274686,
+      "last": 0.000274686,
+      "opened": 1793035062.4229596,
+      "rungs_done": 0,
+      "entry_liq": 42904.59
+    },
+    "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump": {
+      "symbol": "XD",
+      "pair": "KMDZkLZzKVN1VbMxbnojRYezPK7jGpbndMTB5xfsRHm",
+      "qty": 18939.174329301994,
+      "orig_qty": 18939.174329301994,
+      "entry": 0.0005174460000000001,
+      "cost": 10.0,
+      "peak": 0.0005174460000000001,
+      "last": 0.0005174460000000001,
+      "opened": 1793035062.42354,
+      "rungs_done": 0,
+      "entry_liq": 73396.06
     }
   },
   "day": "2026-10-26",
   "day_pnl": -33.77897663359714,
-  "day_trades": 6,
+  "day_trades": 8,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
@@ -40,7 +66,9 @@
     "BTvAbqm2z6r81UX9f3Kt9eijZwAr824QyjCeYaNCpump",
     "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5",
     "3Vkkvo8jxHy6B4pxRLLV3F9EBYRS1NE8mKCxhi1Mpump",
-    "HEPG65DZHGePLKrTqkkkJLUb7vt9A2436kdTxTJSSTNK"
+    "HEPG65DZHGePLKrTqkkkJLUb7vt9A2436kdTxTJSSTNK",
+    "fR9dwtL4PhAcV19XyFnnsAvWcXsk93raxvWdWCqpump",
+    "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
@@ -54,6 +82,10 @@
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": -18.869838157509882,
-  "round_tickets": 8
+  "min_cash": -33.77897663359714,
+  "round_tickets": 10,
+  "symbols_bought": {
+    "MFORGE": 1793035062.422963,
+    "XD": 1793035062.4235427
+  }
 }
