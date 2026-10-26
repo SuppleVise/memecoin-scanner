@@ -1,19 +1,6 @@
 {
-  "cash": -33.77897663359714,
+  "cash": -39.42905735382297,
   "positions": {
-    "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5": {
-      "symbol": "STM",
-      "pair": "AzX4s55RJm2W4GjF3jz3KVdcRmbwn4Jr1upcvFPvLLWz",
-      "qty": 74769.20729381248,
-      "orig_qty": 74769.20729381248,
-      "entry": 0.00013107,
-      "cost": 10.0,
-      "peak": 0.000239,
-      "last": 7.904e-05,
-      "opened": 1793000116.864712,
-      "rungs_done": 0,
-      "entry_liq": 31574.64
-    },
     "HEPG65DZHGePLKrTqkkkJLUb7vt9A2436kdTxTJSSTNK": {
       "symbol": "FOMOPAD",
       "pair": "7Fk5EjHYGGZjHFQoEvNVcaig366uohk9de8EjfKJxoTK",
@@ -22,7 +9,7 @@
       "entry": 0.00013453800000000002,
       "cost": 10.0,
       "peak": 0.0002292,
-      "last": 0.0001619,
+      "last": 0.0001082,
       "opened": 1793009108.5176456,
       "rungs_done": 0,
       "entry_liq": 32172.82
@@ -35,7 +22,7 @@
       "entry": 0.000274686,
       "cost": 10.0,
       "peak": 0.000274686,
-      "last": 0.0002398,
+      "last": 0.0002176,
       "opened": 1793035062.4229596,
       "rungs_done": 0,
       "entry_liq": 42904.59
@@ -48,15 +35,28 @@
       "entry": 0.0005174460000000001,
       "cost": 10.0,
       "peak": 0.0006655,
-      "last": 0.0006655,
+      "last": 0.000541,
       "opened": 1793035062.42354,
       "rungs_done": 0,
       "entry_liq": 73396.06
+    },
+    "WJbYURhAuVEZqKHTwH3nsVtPZ55HKcHtnrUppTapump": {
+      "symbol": "WizardCat",
+      "pair": "26o4YUK9zRbVPff22cfGLWhjBR7G6RsfG69bqVoktJvP",
+      "qty": 30423.822473891396,
+      "orig_qty": 30423.822473891396,
+      "entry": 0.000322116,
+      "cost": 10.0,
+      "peak": 0.000322116,
+      "last": 0.000322116,
+      "opened": 1793040344.259296,
+      "rungs_done": 0,
+      "entry_liq": 46592.38
     }
   },
   "day": "2026-10-26",
-  "day_pnl": -33.77897663359714,
-  "day_trades": 8,
+  "day_pnl": -39.42905735382297,
+  "day_trades": 9,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
@@ -68,7 +68,8 @@
     "3Vkkvo8jxHy6B4pxRLLV3F9EBYRS1NE8mKCxhi1Mpump",
     "HEPG65DZHGePLKrTqkkkJLUb7vt9A2436kdTxTJSSTNK",
     "fR9dwtL4PhAcV19XyFnnsAvWcXsk93raxvWdWCqpump",
-    "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump"
+    "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump",
+    "WJbYURhAuVEZqKHTwH3nsVtPZ55HKcHtnrUppTapump"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
@@ -76,16 +77,18 @@
     "BTvAbqm2z6r81UX9f3Kt9eijZwAr824QyjCeYaNCpump": 1.0,
     "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump": 1.72,
     "7JEfFdwmXfQf89ty1sF3aspN9oku9fHikA7XZTTXpump": 2.62,
-    "3Vkkvo8jxHy6B4pxRLLV3F9EBYRS1NE8mKCxhi1Mpump": 1.0
+    "3Vkkvo8jxHy6B4pxRLLV3F9EBYRS1NE8mKCxhi1Mpump": 1.0,
+    "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5": 1.82
   },
   "shadow": {},
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": -33.77897663359714,
-  "round_tickets": 10,
+  "min_cash": -39.42905735382297,
+  "round_tickets": 11,
   "symbols_bought": {
     "MFORGE": 1793035062.422963,
-    "XD": 1793035062.4235427
+    "XD": 1793035062.4235427,
+    "WIZARDCAT": 1793040344.259298
   }
 }

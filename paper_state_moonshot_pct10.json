@@ -1,22 +1,8 @@
 {
-  "cash": 3.6258840938706536,
-  "positions": {
-    "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5": {
-      "symbol": "STM",
-      "pair": "AzX4s55RJm2W4GjF3jz3KVdcRmbwn4Jr1upcvFPvLLWz",
-      "qty": 74769.20729381248,
-      "orig_qty": 74769.20729381248,
-      "entry": 0.00013107,
-      "cost": 10.0,
-      "peak": 0.000238,
-      "last": 8.31e-05,
-      "opened": 1793000116.9154127,
-      "rungs_done": 0,
-      "entry_liq": 31574.64
-    }
-  },
+  "cash": 50.0,
+  "positions": {},
   "day": "2026-10-26",
-  "day_pnl": -26.374115906129347,
+  "day_pnl": -32.02419662635518,
   "day_trades": 4,
   "halted": false,
   "traded": [
@@ -32,12 +18,21 @@
     "5uXsRw3FThpUAKfwV8uNsS6WyKg376YTpYyo47Hvpump": 1.18,
     "BTvAbqm2z6r81UX9f3Kt9eijZwAr824QyjCeYaNCpump": 1.0,
     "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump": 1.72,
-    "7JEfFdwmXfQf89ty1sF3aspN9oku9fHikA7XZTTXpump": 2.62
+    "7JEfFdwmXfQf89ty1sF3aspN9oku9fHikA7XZTTXpump": 2.62,
+    "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5": 1.82
   },
   "shadow": {},
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
   "min_cash": 0.0,
-  "round_tickets": 6
+  "round_tickets": 0,
+  "rounds": [
+    {
+      "round": 1,
+      "ended": "2026-10-26T18:45:44+00:00",
+      "left_usd": 7.98,
+      "tickets": 6
+    }
+  ]
 }
