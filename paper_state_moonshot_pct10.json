@@ -1,5 +1,5 @@
 {
-  "cash": 1.055570715082176,
+  "cash": 1.130161842490119,
   "positions": {
     "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump": {
       "symbol": "Chop",
@@ -9,7 +9,7 @@
       "entry": 0.000445842,
       "cost": 10.0,
       "peak": 0.0007687,
-      "last": 0.0006205,
+      "last": 0.0005961,
       "opened": 1792965942.7763686,
       "rungs_done": 0,
       "entry_liq": 56942.9
@@ -21,24 +21,11 @@
       "orig_qty": 13424.400079998468,
       "entry": 0.000730014,
       "cost": 5.0,
-      "peak": 0.001715,
-      "last": 0.001469,
+      "peak": 0.001832,
+      "last": 0.001832,
       "opened": 1792977468.6891012,
       "rungs_done": 1,
       "entry_liq": 71569.7
-    },
-    "BTvAbqm2z6r81UX9f3Kt9eijZwAr824QyjCeYaNCpump": {
-      "symbol": "ApeLax",
-      "pair": "HY6tXeV7ZefucL8hs3hjqgWnDYeYtj4gG58iTP2WNhta",
-      "qty": 84353.31990566199,
-      "orig_qty": 84353.31990566199,
-      "entry": 0.00011617800000000001,
-      "cost": 10.0,
-      "peak": 0.0001166,
-      "last": 0.0001073,
-      "opened": 1792994154.8743384,
-      "rungs_done": 0,
-      "entry_liq": 27105.12
     },
     "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5": {
       "symbol": "STM",
@@ -48,14 +35,14 @@
       "entry": 0.00013107,
       "cost": 10.0,
       "peak": 0.0002075,
-      "last": 0.0002075,
+      "last": 0.000139,
       "opened": 1793000116.9154127,
       "rungs_done": 0,
       "entry_liq": 31574.64
     }
   },
   "day": "2026-10-26",
-  "day_pnl": -3.944429284917824,
+  "day_pnl": -13.86983815750988,
   "day_trades": 4,
   "halted": false,
   "traded": [
@@ -68,7 +55,8 @@
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
-    "5uXsRw3FThpUAKfwV8uNsS6WyKg376YTpYyo47Hvpump": 1.18
+    "5uXsRw3FThpUAKfwV8uNsS6WyKg376YTpYyo47Hvpump": 1.18,
+    "BTvAbqm2z6r81UX9f3Kt9eijZwAr824QyjCeYaNCpump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
