@@ -16,10 +16,36 @@ import config as C
 UA = {"User-Agent": "mmfx-memecoin-scanner/0.1", "Accept": "application/json"}
 
 
+GECKO_CACHE_S = 55  # several modes running side by side share GeckoTerminal answers (~10 calls/min free)
+
+
+def _cache_path(url):
+    import hashlib
+    import tempfile
+    return os.path.join(tempfile.gettempdir(), "mmfx_" + hashlib.sha1(url.encode()).hexdigest()[:16] + ".json")
+
+
 def get_json(url, retries=3):
     """Fetch through the system curl: on macOS it has working certificates even
-    when Python's urllib does not."""
+    when Python's urllib does not. GeckoTerminal answers are cached on disk for GECKO_CACHE_S."""
     host = url.split("/")[2]
+    cache = _cache_path(url) if "geckoterminal" in host else None
+    if cache and os.path.exists(cache) and time.time() - os.path.getmtime(cache) < GECKO_CACHE_S:
+        try:
+            with open(cache) as f:
+                return json.load(f)
+        except (OSError, json.JSONDecodeError):
+            pass
+    data = _fetch(url, host, retries)
+    if cache and data is not None:
+        tmp = cache + f".{os.getpid()}"
+        with open(tmp, "w") as f:
+            json.dump(data, f)
+        os.replace(tmp, cache)
+    return data
+
+
+def _fetch(url, host, retries):
     for attempt in range(retries):
         try:
             out = subprocess.run(
