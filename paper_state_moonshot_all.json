@@ -1,5 +1,5 @@
 {
-  "cash": 0.0,
+  "cash": 11.055570715082176,
   "positions": {
     "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump": {
       "symbol": "Chop",
@@ -8,8 +8,8 @@
       "orig_qty": 21980.8811193203,
       "entry": 0.000445842,
       "cost": 10.0,
-      "peak": 0.0005511,
-      "last": 0.0005498,
+      "peak": 0.0006825,
+      "last": 0.0006825,
       "opened": 1792965942.7756026,
       "rungs_done": 0,
       "entry_liq": 56942.9
@@ -17,14 +17,14 @@
     "7JEfFdwmXfQf89ty1sF3aspN9oku9fHikA7XZTTXpump": {
       "symbol": "GTA",
       "pair": "Hfoj3dGN1C7eW68mJj7TYwRgpa3o79v7R6RjDxU52zKa",
-      "qty": 13424.400079998468,
+      "qty": 6712.200039999234,
       "orig_qty": 13424.400079998468,
       "entry": 0.000730014,
-      "cost": 10.0,
-      "peak": 0.001415,
-      "last": 0.001372,
+      "cost": 5.0,
+      "peak": 0.001715,
+      "last": 0.001715,
       "opened": 1792977468.627777,
-      "rungs_done": 0,
+      "rungs_done": 1,
       "entry_liq": 71569.7
     },
     "BTvAbqm2z6r81UX9f3Kt9eijZwAr824QyjCeYaNCpump": {
@@ -35,14 +35,14 @@
       "entry": 0.00011617800000000001,
       "cost": 10.0,
       "peak": 0.00011617800000000001,
-      "last": 0.00011617800000000001,
+      "last": 8.497e-05,
       "opened": 1792994154.8349237,
       "rungs_done": 0,
       "entry_liq": 27105.12
     }
   },
   "day": "2026-10-26",
-  "day_pnl": -10.0,
+  "day_pnl": -3.944429284917824,
   "day_trades": 3,
   "halted": false,
   "traded": [
