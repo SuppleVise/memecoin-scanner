@@ -262,7 +262,7 @@ def tick(book, now=None, variants=None):
         if pnl is not None:
             last = book.journal_tail()
             print(f"  EXIT {pos['symbol']}: {pnl:+.2f} USD ({last})")
-            mult = pos["last"] / pos["entry"]
+            mult = pos.get("sold_at", pos["last"]) / pos["entry"]
             rug = "liquidity pulled" in last or "pair missing" in last
             coin = f"${pos['symbol']}"
             if rug:

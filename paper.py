@@ -141,6 +141,7 @@ class Paper:
         full = qty >= p["qty"] * 0.999
         frac = 1.0 if full else qty / p["qty"]
         fill = price * (1 - C.SLIPPAGE_PCT / 100)
+        p["sold_at"] = price          # for the alert: a rug pays less than the last quote
         gross = qty * fill
         fee = min(C.fomo_fee(gross), gross)
         net = gross - fee
