@@ -1,22 +1,8 @@
 {
-  "cash": 20.039620988213343,
-  "positions": {
-    "5Mbttpskm2EesN4ECWJiZSMh9cYNkAWLUoKHAbvtpump": {
-      "symbol": "PUMPCAT",
-      "pair": "487y8NgSsaAZJejzycwy9SaWFyb8T5ZsS5fEQQCCea5s",
-      "qty": 41466.73775250282,
-      "orig_qty": 41466.73775250282,
-      "entry": 0.000236334,
-      "cost": 10.0,
-      "peak": 0.000236334,
-      "last": 0.000236334,
-      "opened": 1793028731.932032,
-      "rungs_done": 0,
-      "entry_liq": 39909.54
-    }
-  },
+  "cash": 21.092679055301836,
+  "positions": {},
   "day": "2026-10-26",
-  "day_pnl": -10.0,
+  "day_pnl": -18.946941932911507,
   "day_trades": 2,
   "halted": false,
   "traded": [
@@ -26,7 +12,8 @@
   ],
   "peaks": {
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump": 1.0,
-    "Asgq1QLYv4WxfEXfkcnu4jEZkcq5WA3GXW1ciEXbpump": 1.0
+    "Asgq1QLYv4WxfEXfkcnu4jEZkcq5WA3GXW1ciEXbpump": 1.0,
+    "5Mbttpskm2EesN4ECWJiZSMh9cYNkAWLUoKHAbvtpump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
