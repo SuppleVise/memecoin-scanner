@@ -237,8 +237,8 @@ class Turbo(unittest.TestCase):
         rep["token"] = {"mintAuthority": "dev"}
         self.assertTrue(scanner.rug_reasons(rep))
 
-    def test_ladder_2_5_10_30(self):
-        self.assertEqual([m for m, _ in C.LADDER], [2.0, 5.0, 10.0, 30.0])
+    def test_ladder_profit_2_5_10_30x(self):
+        self.assertEqual([m for m, _ in C.LADDER], [3.0, 6.0, 11.0, 31.0])
         self.assertAlmostEqual(sum(f for _, f in C.LADDER), 1.0)
         self.assertEqual(C.MAX_TRADES_PER_DAY, 10)
 

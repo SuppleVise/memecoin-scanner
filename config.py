@@ -207,7 +207,7 @@ MODES = {
         "KILL_SWITCH_EQUITY_USD": 10.0,
         "STOP_LOSS_PCT_ACTIVE": True,
         "STOP_LOSS_PCT": 45.0,
-        "LADDER": [(2.0, 0.5), (5.0, 0.2), (10.0, 0.2), (30.0, 0.1)],
+        "LADDER": [(3.0, 0.5), (6.0, 0.2), (11.0, 0.2), (31.0, 0.1)],  # profit +200/+500/+1000/+3000%
         "MOONBAG_NO_TRAIL": True,
         "TRAIL_PCT": 45.0,
         "DEAD_EXIT_MULT": 0.15,
