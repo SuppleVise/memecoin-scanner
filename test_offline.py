@@ -213,6 +213,37 @@ class Moonshot(unittest.TestCase):
         self.assertTrue(any("mcap" in r for r in scanner.universe_reasons(p, NOW)))
 
 
+class Gamble(unittest.TestCase):
+    def setUp(self):
+        self.saved = dict(vars(C))
+        C.apply_mode("gamble")
+        d = tempfile.mkdtemp()
+        self.book = Paper(os.path.join(d, "s.json"), os.path.join(d, "j.csv"))
+
+    def tearDown(self):
+        vars(C).update(self.saved)
+
+    def test_one_to_three_minute_old_coins_from_1k(self):
+        ok = pair(pairCreatedAt=NOW - 2 * 60_000, marketCap=3_000, liquidity={"usd": 2_000},
+                  volume={"h24": 1_000, "h1": 1_000}, txns={"h1": {"buys": 20, "sells": 5}})
+        self.assertEqual(scanner.universe_reasons(ok, NOW), [])
+        self.assertTrue(scanner.universe_reasons(dict(ok, pairCreatedAt=NOW - 30_000), NOW))
+        self.assertTrue(scanner.universe_reasons(dict(ok, pairCreatedAt=NOW - 6 * 60_000), NOW))
+
+    def test_ladder_in_profit_terms_and_10_minute_exit_even_in_profit(self):
+        self.assertEqual(C.LADDER, [(3.0, 0.4), (6.0, 0.2), (11.0, 0.1), (31.0, 0.1), (51.0, 0.1)])
+        t = time.time()
+        self.book.enter({"token": "G", "symbol": "G", "pair": "P", "price": 0.001, "liquidity": 5_000, "score": 50}, t)
+        self.assertIsNone(self.book.check_exits("G", {"priceUsd": "0.0015", "liquidity": {"usd": 5_000}}, t + 300))
+        self.book.check_exits("G", {"priceUsd": "0.0015", "liquidity": {"usd": 5_000}}, t + 601)
+        self.assertNotIn("G", self.book.s["positions"])
+
+    def test_other_modes_do_not_inherit_gamble_settings(self):
+        C.apply_mode("moonshot")
+        self.assertEqual(C.POLL_SECONDS, 60)
+        self.assertNotEqual(C.TIME_STOP_MIN_MULT, float("inf"))
+
+
 class Turbo(unittest.TestCase):
     def setUp(self):
         self.saved = dict(vars(C))

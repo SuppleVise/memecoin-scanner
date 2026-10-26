@@ -156,6 +156,14 @@ The LP-lock rule is off (new pump.fun coins have none), so expect many rugs. Git
 ~40 minutes, so it catches few coins inside a 5-minute window; the Mac test (every 60 s) is where
 turbo gets a fair test.
 
+## Gamble mode (Mac only)
+
+MikeSz's 2026-10-26 test: coins 1-3 minutes old from $1k mcap, $10 tickets, 20 a day, out within
+10 minutes. Sells 40% at +200% profit (3x price), 20% at +500%, 10% at +1000%, 10% at +3000%,
+10% at +5000%; whatever is left is sold at the 10-minute mark, win or lose. −45% stop. Scans every
+30 s. Not in the GitHub workflow, which checks every 40+ minutes. Expect this to be the hardest
+arena: snipers buy in the first seconds and a 1-2 minute buyer is usually their exit.
+
 ## Missed movers (are the filters too strict?)
 
 Every coin a filter rejects (except ones simply too old or too big) is followed for 24 h. If it
