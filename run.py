@@ -343,7 +343,7 @@ def main():
         return
     if "--summary-now" in sys.argv:
         text = daily_summary(book, variants=variant_books())
-        notify(f"[{C.MODE}] Summary", text)
+        notify(f"[{LABEL + ' ' if LABEL else ''}{C.MODE}] Summary", text)
         print(text)
         return
     if "--test-signal" in sys.argv:
