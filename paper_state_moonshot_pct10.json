@@ -1,5 +1,5 @@
 {
-  "cash": 30.0,
+  "cash": 20.0,
   "positions": {
     "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump": {
       "symbol": "Chop",
@@ -9,19 +9,33 @@
       "entry": 0.000445842,
       "cost": 10.0,
       "peak": 0.0005511,
-      "last": 0.0005511,
+      "last": 0.0002959,
       "opened": 1792965942.7763686,
       "rungs_done": 0,
       "entry_liq": 56942.9
+    },
+    "7JEfFdwmXfQf89ty1sF3aspN9oku9fHikA7XZTTXpump": {
+      "symbol": "GTA",
+      "pair": "Hfoj3dGN1C7eW68mJj7TYwRgpa3o79v7R6RjDxU52zKa",
+      "qty": 13424.400079998468,
+      "orig_qty": 13424.400079998468,
+      "entry": 0.000730014,
+      "cost": 10.0,
+      "peak": 0.000730014,
+      "last": 0.000730014,
+      "opened": 1792977468.6891012,
+      "rungs_done": 0,
+      "entry_liq": 71569.7
     }
   },
-  "day": "2026-10-25",
-  "day_pnl": -10.0,
-  "day_trades": 2,
+  "day": "2026-10-26",
+  "day_pnl": 0.0,
+  "day_trades": 1,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
-    "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump"
+    "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump",
+    "7JEfFdwmXfQf89ty1sF3aspN9oku9fHikA7XZTTXpump"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66
@@ -30,6 +44,6 @@
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": 30.0,
-  "round_tickets": 2
+  "min_cash": 20.0,
+  "round_tickets": 3
 }

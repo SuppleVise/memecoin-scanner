@@ -1,12 +1,27 @@
 {
-  "cash": 40.03962098821334,
-  "positions": {},
-  "day": "2026-10-25",
-  "day_pnl": -9.96037901178666,
+  "cash": 30.039620988213343,
+  "positions": {
+    "Asgq1QLYv4WxfEXfkcnu4jEZkcq5WA3GXW1ciEXbpump": {
+      "symbol": "DANIELLA",
+      "pair": "4zmiQseFZHaFWzK9uom2mxp1RvEqoKDQrYbLbYQY8J8f",
+      "qty": 44501.35774550673,
+      "orig_qty": 44501.35774550673,
+      "entry": 0.000220218,
+      "cost": 10.0,
+      "peak": 0.000220218,
+      "last": 0.000220218,
+      "opened": 1792977472.9385035,
+      "rungs_done": 0,
+      "entry_liq": 38544.32
+    }
+  },
+  "day": "2026-10-26",
+  "day_pnl": 0.0,
   "day_trades": 1,
   "halted": false,
   "traded": [
-    "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump"
+    "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump",
+    "Asgq1QLYv4WxfEXfkcnu4jEZkcq5WA3GXW1ciEXbpump"
   ],
   "peaks": {
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump": 1.0
@@ -15,6 +30,6 @@
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": 40.0,
-  "round_tickets": 1
+  "min_cash": 30.039620988213343,
+  "round_tickets": 2
 }
