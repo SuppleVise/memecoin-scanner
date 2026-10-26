@@ -14,6 +14,15 @@ import config as C
 
 JOURNAL_FIELDS = ["time", "symbol", "token", "action", "reason", "price",
                   "usd", "fee", "pnl_usd", "peak_mult", "equity"]
+# A quote this far from the buy price, or from the previous quote, is bad API data, not a real move.
+# Without this one glitch sells the ladder at a fake price and shows a 1,000,000x winner.
+MAX_MULT_FROM_ENTRY, MAX_JUMP_PER_CHECK = 1000, 200
+
+
+def bad_tick(price, entry, last):
+    return price / entry > MAX_MULT_FROM_ENTRY or (last and price / last > MAX_JUMP_PER_CHECK)
+
+
 MILESTONES = (2, 3, 6, 11, 31)   # price multiples: +100%, +200%, +500%, +1000%, +3000%
 
 
@@ -162,7 +171,7 @@ class Paper:
             # Pair vanished from the API. In real life that is usually a rug.
             return self._sell(tok, p["qty"], p["last"] * 0.1, "pair missing: assume -90% rug fill")
         price = float(pair.get("priceUsd") or 0)
-        if price <= 0:
+        if price <= 0 or bad_tick(price, p["entry"], p["last"]):
             return None
         p["last"] = price
         p["peak"] = max(p["peak"], price)
@@ -225,7 +234,7 @@ class Paper:
             pair = pairs_by_token.get(tok)
             if pair is not None:
                 px = float(pair.get("priceUsd") or 0)
-                if px > 0:
+                if px > 0 and not bad_tick(px, sh["entry"], sh["last"]):
                     sh["last"] = px
                     sh["peak"] = max(sh["peak"], px)
                     mult = px / sh["entry"]
@@ -255,7 +264,7 @@ class Paper:
         return events
 
     # --- missed movers: coins a filter rejected, followed 24 h to see if the filter cost us a winner ---
-    MISSED_HOURS, MISSED_CAP, MISSED_MULT, MISSED_MAX_MULT = 24, 600, 5, 1000
+    MISSED_HOURS, MISSED_CAP, MISSED_MULT = 24, 600, 5
 
     def missed_add(self, rejected, now=None):
         now = now or time.time()
@@ -278,7 +287,7 @@ class Paper:
             px = float((pair or {}).get("priceUsd") or 0)
             liq = ((pair or {}).get("liquidity") or {}).get("usd")
             # ignore quotes from near-empty pools and jumps no real coin makes within a day (bad price data)
-            if px > 0 and (liq is None or liq >= 5000) and px / r["entry"] <= self.MISSED_MAX_MULT:
+            if px > 0 and (liq is None or liq >= 5000) and not bad_tick(px, r["entry"], r["peak"]):
                 r["peak"] = max(r["peak"], px)
             mult = r["peak"] / r["entry"]
             if mult >= self.MISSED_MULT and not r.get("logged"):

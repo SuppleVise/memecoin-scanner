@@ -368,6 +368,16 @@ class StopAndMilestones(unittest.TestCase):
         self.book.missed_update({}, t + 25 * 3600)
         self.assertEqual(self.book.s["missed"], {})              # stops following after 24 h
 
+    def test_bad_price_tick_does_not_sell_or_count(self):
+        t = time.time()
+        self.book.enter({"token": "G1", "symbol": "GLITCH", "pair": "P1", "price": 0.001, "liquidity": 30_000, "score": 80}, t)
+        self.assertIsNone(self.book.check_exits("G1", {"priceUsd": "500", "liquidity": {"usd": 30_000}}, t + 60))
+        self.assertIn("G1", self.book.s["positions"])
+        self.assertLess(self.book.s["positions"]["G1"]["peak"], 0.002)
+        self.book.shadow_add({"token": "G2", "symbol": "GL2", "price": 0.001, "liquidity": 30_000}, t)
+        self.book.shadow_update({"G2": {"priceUsd": "500", "liquidity": {"usd": 30_000}}}, t + 60)
+        self.assertEqual(self.book.s["shadow"]["G2"]["peak"], 0.001)
+
     def test_missed_mover_ignores_empty_pools_and_absurd_jumps(self):
         t = time.time()
         self.book.missed_add({"M2": {"symbol": "JUNK", "price": 1e-9, "reason": "size/age: liquidity $0"}}, t)
