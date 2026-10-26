@@ -1,5 +1,5 @@
 {
-  "cash": 20.0,
+  "cash": 10.0,
   "positions": {
     "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump": {
       "symbol": "Chop",
@@ -9,7 +9,7 @@
       "entry": 0.000445842,
       "cost": 10.0,
       "peak": 0.0005511,
-      "last": 0.0002539,
+      "last": 0.0002821,
       "opened": 1792965942.7763686,
       "rungs_done": 0,
       "entry_liq": 56942.9
@@ -21,21 +21,35 @@
       "orig_qty": 13424.400079998468,
       "entry": 0.000730014,
       "cost": 10.0,
-      "peak": 0.000782,
-      "last": 0.000782,
+      "peak": 0.0007928,
+      "last": 0.0007928,
       "opened": 1792977468.6891012,
       "rungs_done": 0,
       "entry_liq": 71569.7
+    },
+    "5uXsRw3FThpUAKfwV8uNsS6WyKg376YTpYyo47Hvpump": {
+      "symbol": "MAGA2028",
+      "pair": "AkqzimYA78uaQvUb5dXQMZeoTsEboKB5N73U9MKUBdZZ",
+      "qty": 21840.970987167315,
+      "orig_qty": 21840.970987167315,
+      "entry": 0.00044869800000000003,
+      "cost": 10.0,
+      "peak": 0.00044869800000000003,
+      "last": 0.00044869800000000003,
+      "opened": 1792982248.857528,
+      "rungs_done": 0,
+      "entry_liq": 55866.65
     }
   },
   "day": "2026-10-26",
   "day_pnl": 0.0,
-  "day_trades": 1,
+  "day_trades": 2,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
     "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump",
-    "7JEfFdwmXfQf89ty1sF3aspN9oku9fHikA7XZTTXpump"
+    "7JEfFdwmXfQf89ty1sF3aspN9oku9fHikA7XZTTXpump",
+    "5uXsRw3FThpUAKfwV8uNsS6WyKg376YTpYyo47Hvpump"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66
@@ -44,6 +58,6 @@
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": 20.0,
-  "round_tickets": 3
+  "min_cash": 10.0,
+  "round_tickets": 4
 }
