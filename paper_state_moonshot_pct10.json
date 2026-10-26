@@ -9,7 +9,7 @@
       "entry": 0.000445842,
       "cost": 10.0,
       "peak": 0.0005511,
-      "last": 0.0003491,
+      "last": 0.0004135,
       "opened": 1792965942.7763686,
       "rungs_done": 0,
       "entry_liq": 56942.9
@@ -22,27 +22,14 @@
       "entry": 0.000730014,
       "cost": 10.0,
       "peak": 0.001415,
-      "last": 0.001415,
+      "last": 0.001204,
       "opened": 1792977468.6891012,
       "rungs_done": 0,
       "entry_liq": 71569.7
-    },
-    "5uXsRw3FThpUAKfwV8uNsS6WyKg376YTpYyo47Hvpump": {
-      "symbol": "MAGA2028",
-      "pair": "AkqzimYA78uaQvUb5dXQMZeoTsEboKB5N73U9MKUBdZZ",
-      "qty": 21840.970987167315,
-      "orig_qty": 21840.970987167315,
-      "entry": 0.00044869800000000003,
-      "cost": 10.0,
-      "peak": 0.0005311,
-      "last": 0.0004345,
-      "opened": 1792982248.857528,
-      "rungs_done": 0,
-      "entry_liq": 55866.65
     }
   },
   "day": "2026-10-26",
-  "day_pnl": 0.0,
+  "day_pnl": -10.0,
   "day_trades": 2,
   "halted": false,
   "traded": [
@@ -52,7 +39,8 @@
     "5uXsRw3FThpUAKfwV8uNsS6WyKg376YTpYyo47Hvpump"
   ],
   "peaks": {
-    "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66
+    "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
+    "5uXsRw3FThpUAKfwV8uNsS6WyKg376YTpYyo47Hvpump": 1.18
   },
   "shadow": {},
   "shadow_done": {},
