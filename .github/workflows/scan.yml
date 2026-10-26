@@ -35,7 +35,9 @@ jobs:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
         run: |
           python3 run.py --tick --mode moonshot
+          sleep 20   # GeckoTerminal free tier allows only a few calls a minute
           python3 run.py --tick --mode early
+          sleep 20
           python3 run.py --tick --mode turbo
       - name: Save paper book
         if: ${{ !inputs.test_push }}
