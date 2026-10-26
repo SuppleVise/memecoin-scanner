@@ -190,6 +190,12 @@ Both modes scan every 60 s into their own books (`paper_*_mac.*`, never committe
 with `[mac early]` / `[mac moonshot]`; GitHub's say `[early]` / `[moonshot]`. Afterwards:
 `python3 run.py --report --mode early --label mac` (and `--mode moonshot`).
 
+## Running 24/7 on a VPS
+
+On a fresh Ubuntu server, as root: `curl -fsSL https://raw.githubusercontent.com/SuppleVise/memecoin-scanner/main/vps_setup.sh | bash -s -- YOUR-NTFY-TOPIC`.
+All four modes run as services with their own books (`paper_*_vps.*`) and "[vps ...]" alerts,
+restart on crash and after reboot. Run the same line again to update the code.
+
 ## Going from paper to $50 real
 
 **Momentum mode:** at least 30 closed paper trades over 2+ weeks, average P&L positive after fees, kill switch never tripped, and still positive with the best trade removed.
