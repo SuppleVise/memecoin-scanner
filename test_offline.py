@@ -368,6 +368,13 @@ class StopAndMilestones(unittest.TestCase):
         self.book.missed_update({}, t + 25 * 3600)
         self.assertEqual(self.book.s["missed"], {})              # stops following after 24 h
 
+    def test_missed_mover_ignores_empty_pools_and_absurd_jumps(self):
+        t = time.time()
+        self.book.missed_add({"M2": {"symbol": "JUNK", "price": 1e-9, "reason": "size/age: liquidity $0"}}, t)
+        self.assertEqual(self.book.missed_update({"M2": {"priceUsd": "0.01", "liquidity": {"usd": 20_000}}}, t + 60), [])
+        self.assertEqual(self.book.missed_update({"M2": {"priceUsd": "1e-8", "liquidity": {"usd": 900}}}, t + 120), [])
+        self.assertEqual(self.book.s["missed_big"], [])
+
     def test_scan_records_rejects_but_not_old_or_big_coins(self):
         import scanner
         now = time.time() * 1000

@@ -673,15 +673,6 @@
       "opened": 1792984549.2189488,
       "url": "https://dexscreener.com/solana/fywjxgjkxpj4qe1sihsu51m1h4tqukbqg4kb87wgubrh"
     },
-    "PcH8uk3Y8tdLEFW7bJCsvyP7N6LwwxpfevQPEx2aEid": {
-      "symbol": "mem0x",
-      "entry": 1.131e-06,
-      "peak": 0.0362,
-      "reason": "rug filter: rugcheck score 52, danger: Large Amount of LP Unlocked, LP locked 0%",
-      "opened": 1792984549.2189488,
-      "url": "https://dexscreener.com/solana/glyd6l8jjetkxt6uneiapwqxcuyon3og7t2pjcp8fs6n",
-      "logged": true
-    },
     "6M3bAe94M2eatbyjDMAk8SVxDjbrMSherQMtWuG3dfoP": {
       "symbol": "Save Bow",
       "entry": 2.533e-10,
@@ -2721,15 +2712,6 @@
       "opened": 1793002067.0724185,
       "url": "https://dexscreener.com/solana/4yvmg7kysgqpw6hkleqmoqceo3nbez3ektilvfif5zyf"
     },
-    "AaDJWyfhBwbS8M1zgoB82Qm7ya51Fisk1L6iW2nYATFW": {
-      "symbol": "NEX Ai",
-      "entry": 1.063e-05,
-      "peak": 0.1101,
-      "reason": "size/age: too new (2m), mcap $10,639, 24h vol $4,344",
-      "opened": 1793002067.0724185,
-      "url": "https://dexscreener.com/solana/hlv3zxca5s6wafgkbt2hrwbtqtqvkhybehjwdsy83pv5",
-      "logged": true
-    },
     "5ACfcx4z7d6dMqSBxa3yKWP4qjT5YPF4qwLVcAAYpump": {
       "symbol": "GTA",
       "entry": 2.959e-06,
@@ -2761,15 +2743,6 @@
       "reason": "size/age: too new (2m), liquidity $0, mcap $640, 24h vol $431, thin 1h txns",
       "opened": 1793002067.0724185,
       "url": "https://dexscreener.com/solana/jdtu6jqhoqhebmqiben34rdbjh2xx6asxy3ewhpo4e56"
-    },
-    "Ad4EDajGFw5pAknSEXZiadrJ9WRBCrSTPXL2duxtyquo": {
-      "symbol": "SLOPAGANDA",
-      "entry": 1.053e-05,
-      "peak": 0.6396,
-      "reason": "size/age: too new (2m), mcap $10,538",
-      "opened": 1793002067.0724185,
-      "url": "https://dexscreener.com/solana/9cvjzz84jvefepokvuy77tof6ay7ra3rsowg1q1lgrzc",
-      "logged": true
     },
     "9ReQLk1WFs5SorewxAWH4PgJxqS56Q4JY5B1rqpmpump": {
       "symbol": "CHIMP",
@@ -5030,13 +5003,6 @@
       "seen": "2026-10-25"
     },
     {
-      "symbol": "CRIME",
-      "token": "ExXuFc5gAUSzZCVkmsrFzJGbPvseotkcGmEnbywhsXbK",
-      "mult": 49830.3,
-      "reason": "size/age: mcap $20,637",
-      "seen": "2026-10-25"
-    },
-    {
       "symbol": "Bow",
       "token": "5qDiSWLy5mXog6L5u1rZGwCerDN29X5tFtVBp8j5pump",
       "mult": 7.2,
@@ -5048,13 +5014,6 @@
       "token": "B4ptMys6CQ3GWkS6G4fdpPQiZtwTgXtFB49kn8ZNoBcd",
       "mult": 10.6,
       "reason": "size/age: too new (2m), mcap $10,770",
-      "seen": "2026-10-26"
-    },
-    {
-      "symbol": "mem0x",
-      "token": "PcH8uk3Y8tdLEFW7bJCsvyP7N6LwwxpfevQPEx2aEid",
-      "mult": 32007.1,
-      "reason": "rug filter: rugcheck score 52, danger: Large Amount of LP Unlocked, LP locked 0%",
       "seen": "2026-10-26"
     },
     {
@@ -5072,20 +5031,6 @@
       "seen": "2026-10-26"
     },
     {
-      "symbol": "carti",
-      "token": "KyUERvUZZaJspkmBVmD3CaJCykfLqEgsf7VgVaXhaGE",
-      "mult": 32410.6,
-      "reason": "rug filter: rugcheck score 52, danger: Large Amount of LP Unlocked, LP locked 0%",
-      "seen": "2026-10-26"
-    },
-    {
-      "symbol": "Kimchi",
-      "token": "12PhxJKdbrW1RFdUgkUHYXHgLMaVSWC9g6uVuU2iDzXG",
-      "mult": 31742.4,
-      "reason": "rug filter: rugcheck score 52, danger: Large Amount of LP Unlocked, LP locked 0%",
-      "seen": "2026-10-25"
-    },
-    {
       "symbol": "DOGE",
       "token": "7eZMRbNfYM2jzZordug6TjVkTzC1MkR5cphAbeAXro7r",
       "mult": 135.2,
@@ -5097,13 +5042,6 @@
       "token": "B7CBzdJpsm98vN3huc5fwbEWdnGrSNUd615chMrFPxk9",
       "mult": 9.4,
       "reason": "size/age: too new (5m), liquidity $0, mcap $6",
-      "seen": "2026-10-26"
-    },
-    {
-      "symbol": "SLOPAGANDA",
-      "token": "Ad4EDajGFw5pAknSEXZiadrJ9WRBCrSTPXL2duxtyquo",
-      "mult": 60740.7,
-      "reason": "size/age: too new (2m), mcap $10,538",
       "seen": "2026-10-26"
     },
     {
@@ -5139,13 +5077,6 @@
       "token": "9PZrzjmEzJZwnQNZ3DSjgHbnX8174BFmgztqCvbzCWc6",
       "mult": 5.1,
       "reason": "size/age: mcap $19,068",
-      "seen": "2026-10-26"
-    },
-    {
-      "symbol": "NEX Ai",
-      "token": "AaDJWyfhBwbS8M1zgoB82Qm7ya51Fisk1L6iW2nYATFW",
-      "mult": 10357.5,
-      "reason": "size/age: too new (2m), mcap $10,639, 24h vol $4,344",
       "seen": "2026-10-26"
     },
     {

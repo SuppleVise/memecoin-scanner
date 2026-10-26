@@ -1399,15 +1399,6 @@
       "opened": 1792965942.7755084,
       "url": "https://dexscreener.com/solana/ha2uewcuvjeeauzv3pneqinnxwbbjkevftrbwltnoirf"
     },
-    "ELLkkU9G15Jr3KdEfSV6FKQC8UVWqaAZLjFefdjP1qSZ": {
-      "symbol": "ALLOX",
-      "entry": 2.216e-15,
-      "peak": 3.508e-05,
-      "reason": "size/age: liquidity $0, mcap $0, 24h vol $0, thin 1h txns",
-      "opened": 1792965942.7755084,
-      "url": "https://dexscreener.com/solana/5mwpwz9rsc3tcuseuwkpagwzm272toawtojmpupsncmu",
-      "logged": true
-    },
     "8U4hUSfL4PEjz5DbXmsSfaRJwrb4tW65FQn7jZAdLnZF": {
       "symbol": "LINKR",
       "entry": 3.766e-05,
@@ -2590,13 +2581,6 @@
       "token": "35fWL6pdJqpconRZPrawUAQegw1QF3p2tgN7mzhTpump",
       "mult": 8.6,
       "reason": "momentum: buy/sell 1.07",
-      "seen": "2026-10-25"
-    },
-    {
-      "symbol": "ALLOX",
-      "token": "ELLkkU9G15Jr3KdEfSV6FKQC8UVWqaAZLjFefdjP1qSZ",
-      "mult": 15830324909.7,
-      "reason": "size/age: liquidity $0, mcap $0, 24h vol $0, thin 1h txns",
       "seen": "2026-10-25"
     }
   ],

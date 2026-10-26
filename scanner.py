@@ -305,7 +305,9 @@ def momentum(pair):
 def _reject(rejected, addr, p, sym, reason):
     """Remember a rejected coin and its price now, to check later whether the filter cost us a winner."""
     price = float(p.get("priceUsd") or 0)
-    if rejected is not None and price > 0:
+    liq = (p.get("liquidity") or {}).get("usd")
+    # a pool with almost no liquidity quotes a meaningless price, and "since we rejected it" becomes 10,000x
+    if rejected is not None and price > 0 and (liq is None or liq >= 1000):
         rejected[addr] = {"symbol": sym, "price": price, "reason": reason[:80], "url": p.get("url")}
 
 

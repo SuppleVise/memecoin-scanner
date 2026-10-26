@@ -255,7 +255,7 @@ class Paper:
         return events
 
     # --- missed movers: coins a filter rejected, followed 24 h to see if the filter cost us a winner ---
-    MISSED_HOURS, MISSED_CAP, MISSED_MULT = 24, 600, 5
+    MISSED_HOURS, MISSED_CAP, MISSED_MULT, MISSED_MAX_MULT = 24, 600, 5, 1000
 
     def missed_add(self, rejected, now=None):
         now = now or time.time()
@@ -276,7 +276,9 @@ class Paper:
         for tok, r in list(m.items()):
             pair = pairs_by_token.get(tok)
             px = float((pair or {}).get("priceUsd") or 0)
-            if px > 0:
+            liq = ((pair or {}).get("liquidity") or {}).get("usd")
+            # ignore quotes from near-empty pools and jumps no real coin makes within a day (bad price data)
+            if px > 0 and (liq is None or liq >= 5000) and px / r["entry"] <= self.MISSED_MAX_MULT:
                 r["peak"] = max(r["peak"], px)
             mult = r["peak"] / r["entry"]
             if mult >= self.MISSED_MULT and not r.get("logged"):
