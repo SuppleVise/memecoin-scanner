@@ -202,7 +202,7 @@ MODES = {
         "MIN_SCORE": 50,
         "POSITION_SIZE_USD": 10.0,
         "MAX_OPEN_POSITIONS": 10,
-        "MAX_TRADES_PER_DAY": 10,
+        "MAX_TRADES_PER_DAY": 20,
         "DAILY_LOSS_LIMIT_USD": 50.0,     # no extra daily brake: the $50 is the whole budget
         "KILL_SWITCH_EQUITY_USD": 10.0,
         "STOP_LOSS_PCT_ACTIVE": True,

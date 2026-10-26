@@ -240,7 +240,7 @@ class Turbo(unittest.TestCase):
     def test_ladder_profit_2_5_10_30x(self):
         self.assertEqual([m for m, _ in C.LADDER], [3.0, 6.0, 11.0, 31.0])
         self.assertAlmostEqual(sum(f for _, f in C.LADDER), 1.0)
-        self.assertEqual(C.MAX_TRADES_PER_DAY, 10)
+        self.assertEqual(C.MAX_TRADES_PER_DAY, 20)
 
 
 class ShadowAndAlerts(unittest.TestCase):
