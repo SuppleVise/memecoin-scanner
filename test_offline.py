@@ -378,6 +378,26 @@ class StopAndMilestones(unittest.TestCase):
         self.book.shadow_update({"G2": {"priceUsd": "500", "liquidity": {"usd": 30_000}}}, t + 60)
         self.assertEqual(self.book.s["shadow"]["G2"]["peak"], 0.001)
 
+    def test_rug_exit_pays_only_what_liquidity_is_left(self):
+        t = time.time()
+        self.book.enter({"token": "R1", "symbol": "RUG", "pair": "P1", "price": 0.001, "liquidity": 30_000, "score": 80}, t)
+        cash = self.book.s["cash"]
+        self.book.check_exits("R1", {"priceUsd": "0.003", "liquidity": {"usd": 0}}, t + 60)
+        self.assertNotIn("R1", self.book.s["positions"])
+        self.assertLess(self.book.s["cash"] - cash, 0.01)      # $0 pool pays $0, not 3x
+
+    def test_position_follows_coin_to_its_new_pool(self):
+        import run, scanner
+        pos = {"pair": "OLD", "symbol": "GRAD", "entry_liq": 30_000}
+        new = {"pairAddress": "NEW", "dexId": "raydium", "liquidity": {"usd": 80_000}, "priceUsd": "0.004"}
+        orig = scanner.fetch_pairs
+        scanner.fetch_pairs = lambda toks: {"T": new}
+        try:
+            got = run.follow_migration(pos, {"liquidity": {"usd": 0}, "priceUsd": "0.004"}, "T", log=lambda *a: None)
+        finally:
+            scanner.fetch_pairs = orig
+        self.assertEqual((got["pairAddress"], pos["pair"]), ("NEW", "NEW"))
+
     def test_missed_mover_ignores_empty_pools_and_absurd_jumps(self):
         t = time.time()
         self.book.missed_add({"M2": {"symbol": "JUNK", "price": 1e-9, "reason": "size/age: liquidity $0"}}, t)

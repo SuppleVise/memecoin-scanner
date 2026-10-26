@@ -236,11 +236,28 @@ def missed_line(book):
     return f"Rejected coins that later went {book.MISSED_MULT}x+: {ms['count']} ({by}). Biggest: {best}"
 
 
+def follow_migration(pos, pair, tok, log=print):
+    """Launchpad coins move to a new pool when they graduate, and the old pool shows $0 liquidity.
+    That is not a rug if the coin has another pool with the money in it: switch the position to that pool."""
+    liq = ((pair or {}).get("liquidity") or {}).get("usd") or 0
+    floor = (pos.get("entry_liq") or 0) * (1 - C.LIQUIDITY_DROP_EXIT_PCT / 100)
+    if pair is not None and liq >= floor:
+        return pair
+    alt = scanner.fetch_pairs([tok]).get(tok)
+    alt_liq = ((alt or {}).get("liquidity") or {}).get("usd") or 0
+    if alt and alt.get("pairAddress") and alt["pairAddress"] != pos["pair"] and alt_liq >= floor:
+        log(f"  {pos['symbol']} moved to a new pool ({alt.get('dexId')}, liquidity ${alt_liq:,.0f}), following it")
+        pos["pair"] = alt["pairAddress"]
+        return alt
+    return pair
+
+
 def tick(book, now=None, variants=None):
     tag = f"[{LABEL + ' ' if LABEL else ''}{C.MODE}] "
     # 1. manage what we hold first, exits beat entries
     for tok, pos in list(book.s["positions"].items()):
         pair = scanner.fetch_pair(pos["pair"])
+        pair = follow_migration(pos, pair, tok)
         pnl = book.check_exits(tok, pair)
         if pnl is not None:
             last = book.journal_tail()

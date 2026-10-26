@@ -180,7 +180,10 @@ class Paper:
         ladder = C.LADDER
         out = None
         if p["entry_liq"] and liq < p["entry_liq"] * (1 - C.LIQUIDITY_DROP_EXIT_PCT / 100):
-            out = self._sell(tok, p["qty"], price, f"liquidity pulled ${liq:,.0f} (was ${p['entry_liq']:,.0f} at buy)")
+            # With the pool drained you can't sell at the last quote: you get roughly the share of
+            # liquidity that is left (a $0 pool pays $0). Before this, rugs were booked at the pre-rug price.
+            fill = price * min(1.0, liq / p["entry_liq"])
+            out = self._sell(tok, p["qty"], fill, f"liquidity pulled ${liq:,.0f} (was ${p['entry_liq']:,.0f} at buy)")
         elif C.STOP_LOSS_PCT_ACTIVE and (mult - 1) * 100 <= -C.STOP_LOSS_PCT:
             out = self._sell(tok, p["qty"], price, f"stop loss {(mult - 1) * 100:.1f}%")
         elif C.DEAD_EXIT_MULT and mult <= C.DEAD_EXIT_MULT:
