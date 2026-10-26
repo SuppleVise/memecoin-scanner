@@ -342,7 +342,10 @@ def tick(book, now=None, variants=None):
     if (t >= due - timedelta(minutes=C.DAILY_SUMMARY_LEAD_MIN)
             and book.s["summary_day"] != t.strftime("%Y-%m-%d")):
         book.s["summary_day"] = t.strftime("%Y-%m-%d")
-        notify(f"{tag}Morning summary", daily_summary(book, now, variants), at=due.timestamp())
+        # late catch-up is fine (GitHub runs drift), but a scanner started in the afternoon
+        # should not open with a "morning" summary
+        if t <= due + timedelta(hours=3):
+            notify(f"{tag}Morning summary", daily_summary(book, now, variants), at=due.timestamp())
     book.save()
     print(f"  {book.summary()}")
 
