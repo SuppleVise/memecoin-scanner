@@ -1,5 +1,5 @@
 {
-  "cash": -8.86983815750988,
+  "cash": -18.869838157509882,
   "positions": {
     "3p4LAKKCcsiBF5nuYYqLu8mJpfXStQJMk2LYubM3pump": {
       "symbol": "Chop",
@@ -9,7 +9,7 @@
       "entry": 0.000445842,
       "cost": 10.0,
       "peak": 0.0007687,
-      "last": 0.0005961,
+      "last": 0.0005677,
       "opened": 1792965942.7756026,
       "rungs_done": 0,
       "entry_liq": 56942.9
@@ -21,8 +21,8 @@
       "orig_qty": 13424.400079998468,
       "entry": 0.000730014,
       "cost": 5.0,
-      "peak": 0.001832,
-      "last": 0.001832,
+      "peak": 0.001909,
+      "last": 0.001909,
       "opened": 1792977468.627777,
       "rungs_done": 1,
       "entry_liq": 71569.7
@@ -34,8 +34,8 @@
       "orig_qty": 74769.20729381248,
       "entry": 0.00013107,
       "cost": 10.0,
-      "peak": 0.0002075,
-      "last": 0.000139,
+      "peak": 0.0002284,
+      "last": 0.0002284,
       "opened": 1793000116.864712,
       "rungs_done": 0,
       "entry_liq": 31574.64
@@ -48,15 +48,28 @@
       "entry": 4.99596e-05,
       "cost": 10.0,
       "peak": 4.99596e-05,
-      "last": 4.99596e-05,
+      "last": 3.492e-05,
       "opened": 1793006105.2307642,
       "rungs_done": 0,
       "entry_liq": 18382.28
+    },
+    "HEPG65DZHGePLKrTqkkkJLUb7vt9A2436kdTxTJSSTNK": {
+      "symbol": "FOMOPAD",
+      "pair": "7Fk5EjHYGGZjHFQoEvNVcaig366uohk9de8EjfKJxoTK",
+      "qty": 72841.87367137909,
+      "orig_qty": 72841.87367137909,
+      "entry": 0.00013453800000000002,
+      "cost": 10.0,
+      "peak": 0.00013453800000000002,
+      "last": 0.00013453800000000002,
+      "opened": 1793009108.5176456,
+      "rungs_done": 0,
+      "entry_liq": 32172.82
     }
   },
   "day": "2026-10-26",
   "day_pnl": -13.86983815750988,
-  "day_trades": 5,
+  "day_trades": 6,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
@@ -65,7 +78,8 @@
     "5uXsRw3FThpUAKfwV8uNsS6WyKg376YTpYyo47Hvpump",
     "BTvAbqm2z6r81UX9f3Kt9eijZwAr824QyjCeYaNCpump",
     "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5",
-    "3Vkkvo8jxHy6B4pxRLLV3F9EBYRS1NE8mKCxhi1Mpump"
+    "3Vkkvo8jxHy6B4pxRLLV3F9EBYRS1NE8mKCxhi1Mpump",
+    "HEPG65DZHGePLKrTqkkkJLUb7vt9A2436kdTxTJSSTNK"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
@@ -76,6 +90,6 @@
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": -8.86983815750988,
-  "round_tickets": 7
+  "min_cash": -18.869838157509882,
+  "round_tickets": 8
 }
