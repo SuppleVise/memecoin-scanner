@@ -148,6 +148,14 @@ Files it writes, per mode: `signals_<mode>.csv` (every signal), `paper_journal_<
 
 Every signal then arrives on your phone with the token address for FOMO's search; tapping it opens the chart. The topic name works like a password: anyone who knows it can read your alerts, so don't share `ntfy_topic.txt`.
 
+## Turbo mode (high risk)
+
+MikeSz's third paper account, alerts tagged `[turbo]`: coins only 5–10 minutes old, mcap $20k–150k,
+$10 tickets, up to 10 a day, sells 50% at 2x, 20% at 5x, 20% at 10x, last 10% at 30x, −45% stop.
+The LP-lock rule is off (new pump.fun coins have none), so expect many rugs. GitHub runs only every
+~40 minutes, so it catches few coins inside a 5-minute window; the Mac test (every 60 s) is where
+turbo gets a fair test.
+
 ## Missed movers (are the filters too strict?)
 
 Every coin a filter rejects (except ones simply too old or too big) is followed for 24 h. If it

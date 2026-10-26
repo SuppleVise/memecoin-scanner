@@ -36,6 +36,7 @@ jobs:
         run: |
           python3 run.py --tick --mode moonshot
           python3 run.py --tick --mode early
+          python3 run.py --tick --mode turbo
       - name: Save paper book
         if: ${{ !inputs.test_push }}
         run: |

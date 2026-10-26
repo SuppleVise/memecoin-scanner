@@ -213,6 +213,36 @@ class Moonshot(unittest.TestCase):
         self.assertTrue(any("mcap" in r for r in scanner.universe_reasons(p, NOW)))
 
 
+class Turbo(unittest.TestCase):
+    def setUp(self):
+        self.saved = dict(vars(C))
+        C.apply_mode("turbo")
+
+    def tearDown(self):
+        vars(C).update(self.saved)
+
+    def test_only_5_to_10_minute_old_small_caps(self):
+        young = pair(pairCreatedAt=NOW - 7 * 60_000, marketCap=40_000, liquidity={"usd": 12_000})
+        self.assertEqual(scanner.universe_reasons(young, NOW), [])
+        self.assertTrue(scanner.universe_reasons(pair(pairCreatedAt=NOW - 15 * 60_000, marketCap=40_000,
+                                                      liquidity={"usd": 12_000}), NOW))
+        self.assertTrue(scanner.universe_reasons(pair(pairCreatedAt=NOW - 7 * 60_000, marketCap=15_000,
+                                                      liquidity={"usd": 12_000}), NOW))
+
+    def test_unlocked_lp_ok_but_mint_authority_still_rejected(self):
+        rep = {"score_normalised": 20, "lpLockedPct": 0, "token": {},
+               "risks": [{"name": "Large Amount of LP Unlocked", "level": "danger"}],
+               "topHolders": [{"address": "a", "pct": 5}]}
+        self.assertEqual(scanner.rug_reasons(rep), [])
+        rep["token"] = {"mintAuthority": "dev"}
+        self.assertTrue(scanner.rug_reasons(rep))
+
+    def test_ladder_2_5_10_30(self):
+        self.assertEqual([m for m, _ in C.LADDER], [2.0, 5.0, 10.0, 30.0])
+        self.assertAlmostEqual(sum(f for _, f in C.LADDER), 1.0)
+        self.assertEqual(C.MAX_TRADES_PER_DAY, 10)
+
+
 class ShadowAndAlerts(unittest.TestCase):
     def setUp(self):
         self.saved = dict(vars(C))
