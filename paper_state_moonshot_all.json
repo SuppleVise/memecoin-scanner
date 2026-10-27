@@ -1,5 +1,5 @@
 {
-  "cash": -34.21304371179834,
+  "cash": -28.268978400646155,
   "positions": {
     "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump": {
       "symbol": "XD",
@@ -9,7 +9,7 @@
       "entry": 0.0005174460000000001,
       "cost": 10.0,
       "peak": 0.0006655,
-      "last": 0.000433,
+      "last": 0.0004282,
       "opened": 1793035062.42354,
       "rungs_done": 0,
       "entry_liq": 73396.06
@@ -21,8 +21,8 @@
       "orig_qty": 30423.822473891396,
       "entry": 0.000322116,
       "cost": 10.0,
-      "peak": 0.0003519,
-      "last": 0.0003519,
+      "peak": 0.0003948,
+      "last": 0.0003948,
       "opened": 1793040344.259296,
       "rungs_done": 0,
       "entry_liq": 46592.38
@@ -34,30 +34,16 @@
       "orig_qty": 16082.76387220439,
       "entry": 0.000609348,
       "cost": 5.0,
-      "peak": 0.001616,
-      "last": 0.001561,
+      "peak": 0.001709,
+      "last": 0.001709,
       "opened": 1793059578.9545183,
       "rungs_done": 1,
       "entry_liq": 64584.48,
       "sold_at": 0.001257
-    },
-    "51SfaAyrYaR8FpibXT4TXtxEpnZSNoDwYVRojtKupump": {
-      "symbol": "Nothing",
-      "pair": "GfgxhqZmKF1V2MfS94LdmK8Ckgf7rhzPJdZztTJjZKHQ",
-      "qty": 17759.414301765068,
-      "orig_qty": 35518.828603530135,
-      "entry": 0.00027591000000000003,
-      "cost": 5.0,
-      "peak": 0.0007643,
-      "last": 0.000466,
-      "opened": 1793062355.4535553,
-      "rungs_done": 1,
-      "entry_liq": 47731.86,
-      "sold_at": 0.0006061
     }
   },
   "day": "2026-10-27",
-  "day_pnl": 5.216013642024632,
+  "day_pnl": 6.16007895317682,
   "day_trades": 2,
   "halted": false,
   "traded": [
@@ -84,7 +70,8 @@
     "3Vkkvo8jxHy6B4pxRLLV3F9EBYRS1NE8mKCxhi1Mpump": 1.0,
     "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5": 1.82,
     "fR9dwtL4PhAcV19XyFnnsAvWcXsk93raxvWdWCqpump": 1.05,
-    "HEPG65DZHGePLKrTqkkkJLUb7vt9A2436kdTxTJSSTNK": 1.7
+    "HEPG65DZHGePLKrTqkkkJLUb7vt9A2436kdTxTJSSTNK": 1.7,
+    "51SfaAyrYaR8FpibXT4TXtxEpnZSNoDwYVRojtKupump": 2.77
   },
   "shadow": {},
   "shadow_done": {},

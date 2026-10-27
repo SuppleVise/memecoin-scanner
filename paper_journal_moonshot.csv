@@ -27,3 +27,4 @@ time,symbol,token,action,reason,price,usd,fee,pnl_usd,peak_mult,equity
 2026-10-27T00:52:30+00:00,███WIF,8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump,SELL_PART,take profit at 2.0x (now 2.08x),0.0012446,9.8081,0.2002,4.8081,,56.27
 2026-10-27T00:52:35+00:00,Nothing,51SfaAyrYaR8FpibXT4TXtxEpnZSNoDwYVRojtKupump,BUY,score 70.0,0.00027591000000000003,10.0,0.2,,,56.07
 2026-10-27T01:35:02+00:00,Nothing,51SfaAyrYaR8FpibXT4TXtxEpnZSNoDwYVRojtKupump,SELL_PART,take profit at 2.0x (now 2.20x),0.000593978,10.3377,0.211,5.3377,,67.83
+2026-10-27T05:19:18+00:00,Nothing,51SfaAyrYaR8FpibXT4TXtxEpnZSNoDwYVRojtKupump,SELL,"trailing stop 1.26x, peak 2.87x",0.00034153,5.9441,0.1213,0.9441,2.87,67.48
