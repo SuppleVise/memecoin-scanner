@@ -1,22 +1,8 @@
 {
-  "cash": 30.0,
-  "positions": {
-    "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump": {
-      "symbol": "TON",
-      "pair": "6ewGGiNEpb1KPyr2rpTLXZXrB325zr2boX5Gyg8yaYBz",
-      "qty": 47399.32480145487,
-      "orig_qty": 47399.32480145487,
-      "entry": 0.000206754,
-      "cost": 10.0,
-      "peak": 0.000206754,
-      "last": 0.000206754,
-      "opened": 1793113513.310847,
-      "rungs_done": 0,
-      "entry_liq": 36757.32
-    }
-  },
+  "cash": 40.98453377443725,
+  "positions": {},
   "day": "2026-10-27",
-  "day_pnl": -17.34248142674155,
+  "day_pnl": -16.357947652304297,
   "day_trades": 3,
   "halted": false,
   "traded": [
@@ -34,7 +20,8 @@
     "5Mbttpskm2EesN4ECWJiZSMh9cYNkAWLUoKHAbvtpump": 1.0,
     "4cDVSYnzoWsSzYRxe1rETA1hfcgs1ktgpQyeRm6Vpump": 1.0,
     "HZFrwE8NrqehL54sG5ob9L3kUTSSUVSyS5E7PHUPpump": 1.0,
-    "12cJXZfQAMNPrCQjAETJd79TmzseRoneY1QK6wSdpump": 1.0
+    "12cJXZfQAMNPrCQjAETJd79TmzseRoneY1QK6wSdpump": 1.0,
+    "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump": 1.17
   },
   "shadow": {},
   "shadow_done": {},
