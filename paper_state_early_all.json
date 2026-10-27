@@ -1,22 +1,8 @@
 {
-  "cash": -54.99369707248936,
-  "positions": {
-    "2cRhjCGvMQViKtTpgdQUBUxUBfQQpvG2VjnEYZmQpump": {
-      "symbol": "SF",
-      "pair": "81VSRqVhGWZJVaoS27E5K9hecFdY3ZWsYwtRzGCLt3ZE",
-      "qty": 52964.956655208945,
-      "orig_qty": 52964.956655208945,
-      "entry": 0.000185028,
-      "cost": 10.0,
-      "peak": 0.000185028,
-      "last": 0.000185028,
-      "opened": 1793139183.641683,
-      "rungs_done": 0,
-      "entry_liq": 35131.63
-    }
-  },
+  "cash": -46.54459795235619,
+  "positions": {},
   "day": "2026-10-27",
-  "day_pnl": -46.0863761277912,
+  "day_pnl": -47.63727700765803,
   "day_trades": 8,
   "halted": false,
   "traded": [
@@ -46,7 +32,8 @@
     "E73mkqW3DPhxeh3K2hM1nLK32hJaMzwsN5xnnkWFpump": 1.09,
     "GurPuJX3PdeHztbxcZUJ1j787pfNfvuPFeyCJ7VUpump": 1.0,
     "FWQx8Q8Nxtc6S4YkcuUcT7eFPHYdAox8V1UZQ4YWpump": 1.0,
-    "9eATnxHCzDb3qTRKxUqK8PM7daTEJiP6b8zfs4wWpump": 1.0
+    "9eATnxHCzDb3qTRKxUqK8PM7daTEJiP6b8zfs4wWpump": 1.0,
+    "2cRhjCGvMQViKtTpgdQUBUxUBfQQpvG2VjnEYZmQpump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
