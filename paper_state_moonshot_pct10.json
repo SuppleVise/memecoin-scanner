@@ -1,9 +1,23 @@
 {
-  "cash": 36.40546328953813,
-  "positions": {},
+  "cash": 26.405463289538133,
+  "positions": {
+    "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump": {
+      "symbol": "TON",
+      "pair": "6ewGGiNEpb1KPyr2rpTLXZXrB325zr2boX5Gyg8yaYBz",
+      "qty": 21102.225208115313,
+      "orig_qty": 21102.225208115313,
+      "entry": 0.000464406,
+      "cost": 10.0,
+      "peak": 0.000464406,
+      "last": 0.000464406,
+      "opened": 1793118903.8244324,
+      "rungs_done": 0,
+      "entry_liq": 57524.57
+    }
+  },
   "day": "2026-10-27",
   "day_pnl": -13.594536710461856,
-  "day_trades": 5,
+  "day_trades": 6,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
@@ -16,7 +30,8 @@
     "51SfaAyrYaR8FpibXT4TXtxEpnZSNoDwYVRojtKupump",
     "6GaNPFwUv3P7K8nzFRXLba4hnabdmrjiKofmr5Qkpump",
     "27Qg7EcnGfmbthfQeQXTs4qjfnvU6gXf8W1ahJiJpump",
-    "5XapX9FpytfrwqY8Y7mNStwrur8u5fNnJjEcJNXZpump"
+    "5XapX9FpytfrwqY8Y7mNStwrur8u5fNnJjEcJNXZpump",
+    "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
@@ -36,7 +51,7 @@
   "withdraw_alerted": false,
   "summary_day": "",
   "min_cash": 0.0,
-  "round_tickets": 5,
+  "round_tickets": 6,
   "rounds": [
     {
       "round": 1,
@@ -50,6 +65,7 @@
     "NOTHING": 1793062355.5069568,
     "GTAELON": 1793083256.668589,
     "ELON2028": 1793096664.9071205,
-    "URMOM": 1793096664.9115217
+    "URMOM": 1793096664.9115217,
+    "TON": 1793118903.8244338
   }
 }
