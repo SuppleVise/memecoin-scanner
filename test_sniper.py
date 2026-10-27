@@ -128,7 +128,7 @@ class Exits(Base):
         self.bot.on_event(trade("M1", "y", "buy", 1.0, e * 3.1), 30)
         p = self.bot.s["positions"]["M1"]
         self.assertEqual(p["rung"], 1)
-        self.assertAlmostEqual(p["qty"], p["qty0"] * 0.6)
+        self.assertAlmostEqual(p["qty"], p["qty0"] * 0.7)
         self.bot.on_event(trade("M1", "y", "sell", 1.0, e * 1.6), 40)   # -48% from the 3.1x peak
         self.assertFalse(self.bought())
         self.assertEqual(self.bot.s["closed"][-1]["reason"], "trailing stop")

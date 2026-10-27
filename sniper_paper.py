@@ -12,7 +12,7 @@ decision (that is how late a real bot would land), every side pays pump.fun's fe
 trading API's fee and a priority fee. Prices come from the bonding curve in each event
 (vSolInBondingCurve / vTokensInBondingCurve), so no DexScreener lag.
 
-Exits: creator sells (instant), -45% stop, gamble's profit ladder, 45% trail once the first
+Exits: creator sells (instant), -45% stop, profit ladder (30% at 3x, 40% at 6x, 15% at 11x, 15% at 21x), 45% trail once the first
 rung is hit, 10-minute time stop, or no trades for IDLE_EXIT_S (sold at the last price
 minus a haircut, because a dead coin has nobody to sell to).
 """
@@ -52,7 +52,9 @@ S = {
     "PUMP_FEE_PCT": 1.25, "API_FEE_PCT": 1.0, "PRIORITY_FEE_USD": 0.05,
     # exits (gamble's ladder in price multiples)
     "STOP_PCT": 45.0, "TRAIL_PCT": 45.0, "TIME_STOP_S": 600,
-    "LADDER": [(3.0, 0.4), (6.0, 0.2), (11.0, 0.1), (31.0, 0.1), (51.0, 0.1)],
+    # MikeSz 2026-10-27 ("2x 30%, 5x 40%" in profit terms): 30% at +200% (3x price), 40% at +500% (6x);
+    # last 30% split at +1000% (11x) and +2000% (21x), so the data shows which of those is reachable
+    "LADDER": [(3.0, 0.3), (6.0, 0.4), (11.0, 0.15), (21.0, 0.15)],
     "IDLE_EXIT_S": 120, "IDLE_HAIRCUT_PCT": 15.0,
 }
 
