@@ -1,5 +1,5 @@
 {
-  "cash": -61.22190979002285,
+  "cash": -67.95344566115068,
   "positions": {
     "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump": {
       "symbol": "XD",
@@ -9,24 +9,10 @@
       "entry": 0.0005174460000000001,
       "cost": 10.0,
       "peak": 0.0006655,
-      "last": 0.0006356,
+      "last": 0.0006065,
       "opened": 1793035062.42354,
       "rungs_done": 0,
       "entry_liq": 73396.06
-    },
-    "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump": {
-      "symbol": "\u2588\u2588\u2588WIF",
-      "pair": "35QgKestyQozSeRbZa7c7WDhR32svTgC6RZVDS8KcEmQ",
-      "qty": 4824.829161661317,
-      "orig_qty": 16082.76387220439,
-      "entry": 0.000609348,
-      "cost": 3.0,
-      "peak": 0.002193,
-      "last": 0.002015,
-      "opened": 1793059578.9545183,
-      "rungs_done": 2,
-      "entry_liq": 64584.48,
-      "sold_at": 0.00201
     },
     "7dVpVqUEbJ9csNWWrDavsA8iAEwvb6BqWu1yVsQgpump": {
       "symbol": "DICTATOR",
@@ -35,16 +21,29 @@
       "orig_qty": 63670.26598578464,
       "entry": 0.000153918,
       "cost": 10.0,
-      "peak": 0.000153918,
-      "last": 0.000153918,
+      "peak": 0.0002297,
+      "last": 0.0002297,
       "opened": 1793103743.6220353,
       "rungs_done": 0,
       "entry_liq": 32011.77
+    },
+    "6zMfMXjovo7ivtrypSP7YspHm5TcbV4Sh5TwSDgapump": {
+      "symbol": "TRUMP2028",
+      "pair": "7yvfSJJzHeGgZ3c4QqutXn8ZBCH3DaZfkc6nTxCPUYVd",
+      "qty": 43592.754706238215,
+      "orig_qty": 43592.754706238215,
+      "entry": 0.000224808,
+      "cost": 10.0,
+      "peak": 0.000224808,
+      "last": 0.000224808,
+      "opened": 1793107180.2678916,
+      "rungs_done": 0,
+      "entry_liq": 44091.65
     }
   },
   "day": "2026-10-27",
-  "day_pnl": -28.79285243619987,
-  "day_trades": 6,
+  "day_pnl": -28.524388307327698,
+  "day_trades": 7,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
@@ -63,7 +62,8 @@
     "6GaNPFwUv3P7K8nzFRXLba4hnabdmrjiKofmr5Qkpump",
     "27Qg7EcnGfmbthfQeQXTs4qjfnvU6gXf8W1ahJiJpump",
     "5XapX9FpytfrwqY8Y7mNStwrur8u5fNnJjEcJNXZpump",
-    "7dVpVqUEbJ9csNWWrDavsA8iAEwvb6BqWu1yVsQgpump"
+    "7dVpVqUEbJ9csNWWrDavsA8iAEwvb6BqWu1yVsQgpump",
+    "6zMfMXjovo7ivtrypSP7YspHm5TcbV4Sh5TwSDgapump"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
@@ -79,14 +79,15 @@
     "WJbYURhAuVEZqKHTwH3nsVtPZ55HKcHtnrUppTapump": 1.23,
     "6GaNPFwUv3P7K8nzFRXLba4hnabdmrjiKofmr5Qkpump": 1.0,
     "5XapX9FpytfrwqY8Y7mNStwrur8u5fNnJjEcJNXZpump": 1.0,
-    "27Qg7EcnGfmbthfQeQXTs4qjfnvU6gXf8W1ahJiJpump": 1.0
+    "27Qg7EcnGfmbthfQeQXTs4qjfnvU6gXf8W1ahJiJpump": 1.0,
+    "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump": 3.6
   },
   "shadow": {},
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": -61.22190979002285,
-  "round_tickets": 17,
+  "min_cash": -67.95344566115068,
+  "round_tickets": 18,
   "symbols_bought": {
     "MFORGE": 1793035062.422963,
     "XD": 1793035062.4235427,
@@ -96,6 +97,7 @@
     "GTAELON": 1793083256.6210606,
     "ELON2028": 1793096664.8308392,
     "URMOM": 1793096664.8312519,
-    "DICTATOR": 1793103743.6220388
+    "DICTATOR": 1793103743.6220388,
+    "TRUMP2028": 1793107180.2678945
   }
 }
