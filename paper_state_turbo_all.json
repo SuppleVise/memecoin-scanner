@@ -1,14 +1,35 @@
 {
-  "cash": 50.0,
-  "positions": {},
-  "day": "2026-10-26",
+  "cash": 40.0,
+  "positions": {
+    "Wc82cyyuPU7Hm6rTWLwmQpD4zzxKwv3vY8Ci3dspump": {
+      "symbol": "NVIDIA",
+      "pair": "AavK17fikhpY64UjoY4foVGNhWVDUhAyBwfkoEqet4VQ",
+      "qty": 107675.03235744596,
+      "orig_qty": 107675.03235744596,
+      "entry": 9.10146e-05,
+      "cost": 10.0,
+      "peak": 9.10146e-05,
+      "last": 9.10146e-05,
+      "opened": 1793080697.9962552,
+      "rungs_done": 0,
+      "entry_liq": 23354.29
+    }
+  },
+  "day": "2026-10-27",
   "day_pnl": 0.0,
-  "day_trades": 0,
+  "day_trades": 1,
   "halted": false,
-  "traded": [],
+  "traded": [
+    "Wc82cyyuPU7Hm6rTWLwmQpD4zzxKwv3vY8Ci3dspump"
+  ],
   "peaks": {},
   "shadow": {},
   "shadow_done": {},
   "withdraw_alerted": false,
-  "summary_day": ""
+  "summary_day": "",
+  "min_cash": 40.0,
+  "symbols_bought": {
+    "NVIDIA": 1793080697.9962575
+  },
+  "round_tickets": 1
 }
