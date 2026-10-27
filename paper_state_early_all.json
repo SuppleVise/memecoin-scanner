@@ -1,22 +1,8 @@
 {
-  "cash": -8.907320944698164,
-  "positions": {
-    "HZFrwE8NrqehL54sG5ob9L3kUTSSUVSyS5E7PHUPpump": {
-      "symbol": "DMAGA2028",
-      "pair": "8uGHJR8QcWf7oZ9uxbgyYCTqwunizVfttb4QtJ12T14c",
-      "qty": 32187.079186783594,
-      "orig_qty": 32187.079186783594,
-      "entry": 0.00030447,
-      "cost": 10.0,
-      "peak": 0.00030447,
-      "last": 0.00030447,
-      "opened": 1793069709.9758685,
-      "rungs_done": 0,
-      "entry_liq": 45391.61
-    }
-  },
+  "cash": -6.249802371439714,
+  "positions": {},
   "day": "2026-10-27",
-  "day_pnl": 0.0,
+  "day_pnl": -7.342481426741551,
   "day_trades": 1,
   "halted": false,
   "traded": [
@@ -32,7 +18,8 @@
     "Asgq1QLYv4WxfEXfkcnu4jEZkcq5WA3GXW1ciEXbpump": 1.0,
     "5Mbttpskm2EesN4ECWJiZSMh9cYNkAWLUoKHAbvtpump": 1.0,
     "4cDVSYnzoWsSzYRxe1rETA1hfcgs1ktgpQyeRm6Vpump": 1.0,
-    "8ttNP8EzDJeZXTdNLpYtpTd9fm2Dj9q9HenyqRfhpump": 1.0
+    "8ttNP8EzDJeZXTdNLpYtpTd9fm2Dj9q9HenyqRfhpump": 1.0,
+    "HZFrwE8NrqehL54sG5ob9L3kUTSSUVSyS5E7PHUPpump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
