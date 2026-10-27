@@ -61,7 +61,13 @@ def fomo_fee(notional_usd: float) -> float:
 
 # --- Plumbing ----------------------------------------------------------------
 POLL_SECONDS = 60
-COPYCAT_WINDOW_H = 1.0   # buy at most one coin per name (symbol) per hour
+COPYCAT_WINDOW_H = 1.0
+# MikeSz 27 Oct test: no daily ticket count or open-position cap, only cash and the $50 daily loss
+# limit stop buying. Set False to go back to each mode's own limits.
+NO_TICKET_LIMITS = True
+# RugCheck "insider networks": wallets funded from the same source that together hold supply.
+# More than this many detected insiders = reject (the pattern behind most of our rugs).
+MAX_GRAPH_INSIDERS = 0   # buy at most one coin per name (symbol) per hour
 DEXSCREENER = "https://api.dexscreener.com"
 RUGCHECK = "https://api.rugcheck.xyz/v1"
 STATE_FILE = "paper_state.json"
@@ -172,8 +178,8 @@ MODES = {
         "MOONBAG_NO_TRAIL": True,         # last 10% has no trailing stop: 31x, rug or dead coin only
         "TRAIL_PCT": 45.0,
         "DEAD_EXIT_MULT": 0.15,
-        "TIME_STOP_H": 48.0,
-        "TIME_STOP_MIN_MULT": 1.0,
+        "TIME_STOP_H": 0.5,               # MikeSz 27 Oct: max hold 30 min, rugs hit within the hour
+        "TIME_STOP_MIN_MULT": float("inf"),
         "LIQUIDITY_DROP_EXIT_PCT": 50.0,
         "GECKO_PATHS": ["/new_pools", "/new_pools?page=2", "/trending_pools?duration=5m"],
         "USE_DEX_BOOSTS": False,   # paid promotion is noise at this age
@@ -212,8 +218,8 @@ MODES = {
         "MOONBAG_NO_TRAIL": True,
         "TRAIL_PCT": 45.0,
         "DEAD_EXIT_MULT": 0.15,
-        "TIME_STOP_H": 24.0,
-        "TIME_STOP_MIN_MULT": 1.0,
+        "TIME_STOP_H": 0.5,               # MikeSz 27 Oct: max hold 30 min, rugs hit within the hour
+        "TIME_STOP_MIN_MULT": float("inf"),
         "LIQUIDITY_DROP_EXIT_PCT": 50.0,
         "GECKO_PATHS": ["/new_pools", "/new_pools?page=2", "/new_pools?page=3"],
         "USE_DEX_BOOSTS": False,
@@ -278,6 +284,8 @@ def apply_mode(name, label=""):
         g[k] = v
     for k, v in MODES[name].items():
         g[k] = v
+    if g["NO_TICKET_LIMITS"]:
+        g["MAX_TRADES_PER_DAY"], g["MAX_OPEN_POSITIONS"] = 10_000, 10_000
     MODE = name
     sfx = f"{name}_{label}" if label else name
     STATE_FILE = f"paper_state_{sfx}.json"

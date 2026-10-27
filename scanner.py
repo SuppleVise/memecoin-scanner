@@ -255,6 +255,9 @@ def rug_reasons(report):
         lp = max(((m.get("lp") or {}).get("lpLockedPct") or 0 for m in markets), default=0)
     if lp < C.MIN_LP_LOCKED_PCT:
         r.append(f"LP locked {lp:.0f}%")
+    insiders = report.get("graphInsidersDetected") or 0
+    if insiders > C.MAX_GRAPH_INSIDERS:
+        r.append(f"insider network: {insiders} linked wallets")
     pools = _pool_accounts(report)
     holders = [h for h in (report.get("topHolders") or [])
                if h.get("address") not in pools and h.get("owner") not in pools]

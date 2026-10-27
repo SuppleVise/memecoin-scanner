@@ -5,6 +5,7 @@ import time
 import unittest
 
 import config as C
+C.NO_TICKET_LIMITS = False   # test each mode's own limits; the switch has its own test
 import scanner
 from paper import Paper
 
@@ -211,6 +212,35 @@ class Moonshot(unittest.TestCase):
     def test_universe_targets_small_caps(self):
         p = pair(marketCap=5_000_000, fdv=5_000_000)
         self.assertTrue(any("mcap" in r for r in scanner.universe_reasons(p, NOW)))
+
+
+class Switches(unittest.TestCase):
+    def setUp(self):
+        self.saved = dict(vars(C))
+
+    def tearDown(self):
+        vars(C).update(self.saved)
+
+    def test_no_ticket_limits_switch(self):
+        C.NO_TICKET_LIMITS = True
+        C.apply_mode("moonshot")
+        self.assertGreaterEqual(C.MAX_TRADES_PER_DAY, 1000)
+        C.NO_TICKET_LIMITS = False
+        C.apply_mode("moonshot")
+        self.assertEqual(C.MAX_TRADES_PER_DAY, 5)
+
+    def test_insider_network_rejected(self):
+        rep = {"score_normalised": 1, "lpLockedPct": 100, "token": {}, "risks": [],
+               "topHolders": [{"address": "a", "pct": 2}], "graphInsidersDetected": 7}
+        C.apply_mode("turbo")
+        self.assertTrue(any("insider" in r for r in scanner.rug_reasons(rep)))
+        rep["graphInsidersDetected"] = 0
+        self.assertEqual(scanner.rug_reasons(rep), [])
+
+    def test_early_and_turbo_sell_after_30_minutes(self):
+        for m in ("early", "turbo"):
+            C.apply_mode(m)
+            self.assertEqual((C.TIME_STOP_H, C.TIME_STOP_MIN_MULT), (0.5, float("inf")))
 
 
 class Gamble(unittest.TestCase):
