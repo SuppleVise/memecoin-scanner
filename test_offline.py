@@ -399,6 +399,13 @@ class StopAndMilestones(unittest.TestCase):
         self.book.missed_update({}, t + 25 * 3600)
         self.assertEqual(self.book.s["missed"], {})              # stops following after 24 h
 
+    def test_restart_after_halt_even_if_coins_recovered_and_daily_loss_reset(self):
+        self.book.s.update(cash=14.0, halted=True, day_pnl=-60.0)
+        self.assertIsNotNone(self.book.bust_restart())
+        self.assertEqual((self.book.s["cash"], self.book.s["halted"], self.book.s["day_pnl"]),
+                         (C.START_BALANCE_USD, False, 0.0))
+        self.assertIsNone(self.book.can_enter("NEW", symbol="NEW"))
+
     def test_copycat_same_name_blocked_for_an_hour(self):
         t = time.time()
         sig = lambda tok: {"token": tok, "symbol": "Ginnan", "pair": "P" + tok, "price": 0.001,

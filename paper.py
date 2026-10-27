@@ -339,7 +339,10 @@ class Paper:
         """MikeSz's rule: if the paper account is broke (nothing open, not enough for a ticket),
         close the round and start over with START_BALANCE_USD. Shadow/missed tracking carries on.
         Returns the finished round's record, or None."""
-        if self.variant == "all" or self.s["positions"] or self.equity() >= C.KILL_SWITCH_EQUITY_USD:
+        # also restart when the kill switch tripped earlier and the open coins then recovered a bit:
+        # otherwise the account stays halted for good with $10-20 that it never trades
+        if self.variant == "all" or self.s["positions"] or (
+                self.equity() >= C.KILL_SWITCH_EQUITY_USD and not self.s["halted"]):
             return None
         rounds = self.s.setdefault("rounds", [])
         rec = {"round": len(rounds) + 1, "ended": datetime.fromtimestamp(now or time.time(), timezone.utc)
@@ -348,7 +351,9 @@ class Paper:
         rounds.append(rec)
         self.log(symbol="-", token="-", action="RESTART", reason=f"round {rec['round']} bust, new ${C.START_BALANCE_USD:.0f}",
                  price="", usd=C.START_BALANCE_USD, fee=0, pnl_usd="")
-        self.s.update(cash=C.START_BALANCE_USD, halted=False, withdraw_alerted=False, round_tickets=0)
+        # a new round is a fresh $50: today's losses from the old round don't block it
+        self.s.update(cash=C.START_BALANCE_USD, halted=False, withdraw_alerted=False, round_tickets=0,
+                      day_pnl=0.0)
         self.save()
         return rec
 
