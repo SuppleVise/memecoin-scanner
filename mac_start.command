@@ -6,7 +6,7 @@ DIR="$HOME/memecoin-scanner-mac"
 RAW="https://raw.githubusercontent.com/SuppleVise/memecoin-scanner/main"
 mkdir -p "$DIR" && cd "$DIR" || exit 1
 ok=1
-for f in config.py scanner.py paper.py run.py mac_test.sh; do
+for f in config.py scanner.py paper.py run.py sniper_paper.py mac_test.sh; do
   curl -fsSL "$RAW/$f" -o "$f.new" && mv "$f.new" "$f" || ok=0
 done
 [ $ok = 1 ] && echo "Code updated from GitHub." || echo "Update failed (no internet?), starting the version you have."

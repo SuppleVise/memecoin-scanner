@@ -164,6 +164,22 @@ MikeSz's 2026-10-26 test: coins 1-3 minutes old from $1k mcap, $10 tickets, 20 a
 30 s. Not in the GitHub workflow, which checks every 40+ minutes. Expect this to be the hardest
 arena: snipers buy in the first seconds and a 1-2 minute buyer is usually their exit.
 
+## Sniper (Mac only, paper)
+
+`sniper_paper.py` listens to PumpPortal's free live feed of every pump.fun launch and its trades
+(no API key, no wallet). Each new coin is watched for its first 60 s. It buys on paper only when at
+least 6 different wallets bought, net inflow is 1.5+ SOL, buys outnumber sells 2:1, no single wallet
+brought half the money, the creator bought under 3 SOL and hasn't sold, the price isn't already 3x
+launch, the name wasn't bought in the last hour and the creator didn't launch another coin in the
+last hour. The fill is the first trade 1.5 s after the decision plus 2% slippage; each side pays
+pump.fun 1.25% + trading API 1% + $0.05 priority fee. Exits: creator sells (at once), −45% stop,
+gamble's ladder, 45% trail after the first rung, 10-minute time stop, or no trades for 2 minutes
+(sold 15% under the last price). Same $50 rounds and $10 tickets as gamble. Started by MMFX Start;
+the summary includes how many launches the creator dumped within 75 s.
+
+Going real would mean a separate Solana wallet with $50 and PumpPortal's trade API. That is not
+built and needs MikeSz's explicit go after the paper results.
+
 ## Missed movers (are the filters too strict?)
 
 Every coin a filter rejects (except ones simply too old or too big) is followed for 24 h. If it
