@@ -1,5 +1,5 @@
 {
-  "cash": 52.299176892034424,
+  "cash": 32.299176892034424,
   "positions": {
     "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump": {
       "symbol": "\u2588\u2588\u2588WIF",
@@ -9,16 +9,42 @@
       "entry": 0.000609348,
       "cost": 3.0,
       "peak": 0.002193,
-      "last": 0.001707,
+      "last": 0.001471,
       "opened": 1793059578.9552093,
       "rungs_done": 2,
       "entry_liq": 64584.48,
       "sold_at": 0.00201
+    },
+    "27Qg7EcnGfmbthfQeQXTs4qjfnvU6gXf8W1ahJiJpump": {
+      "symbol": "ELON2028",
+      "pair": "6jEdE2E3c6J7snnq9vTbLLuz2WsYi7rX5oVvWy8HyPDg",
+      "qty": 19544.02590979435,
+      "orig_qty": 19544.02590979435,
+      "entry": 0.000501432,
+      "cost": 10.0,
+      "peak": 0.000501432,
+      "last": 0.000501432,
+      "opened": 1793096664.907119,
+      "rungs_done": 0,
+      "entry_liq": 63372.42
+    },
+    "5XapX9FpytfrwqY8Y7mNStwrur8u5fNnJjEcJNXZpump": {
+      "symbol": "urmom",
+      "pair": "8TYacYUTtFqBgLwez8nt6wkBkpQsej8oQq3k6fNp8vwU",
+      "qty": 35193.56460532931,
+      "orig_qty": 35193.56460532931,
+      "entry": 0.00027846,
+      "cost": 10.0,
+      "peak": 0.00027846,
+      "last": 0.00027846,
+      "opened": 1793096664.9115202,
+      "rungs_done": 0,
+      "entry_liq": 44129.94
     }
   },
   "day": "2026-10-27",
   "day_pnl": 5.299176892034428,
-  "day_trades": 3,
+  "day_trades": 5,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
@@ -29,7 +55,9 @@
     "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5",
     "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump",
     "51SfaAyrYaR8FpibXT4TXtxEpnZSNoDwYVRojtKupump",
-    "6GaNPFwUv3P7K8nzFRXLba4hnabdmrjiKofmr5Qkpump"
+    "6GaNPFwUv3P7K8nzFRXLba4hnabdmrjiKofmr5Qkpump",
+    "27Qg7EcnGfmbthfQeQXTs4qjfnvU6gXf8W1ahJiJpump",
+    "5XapX9FpytfrwqY8Y7mNStwrur8u5fNnJjEcJNXZpump"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
@@ -46,7 +74,7 @@
   "withdraw_alerted": false,
   "summary_day": "",
   "min_cash": 0.0,
-  "round_tickets": 3,
+  "round_tickets": 5,
   "rounds": [
     {
       "round": 1,
@@ -58,6 +86,8 @@
   "symbols_bought": {
     "\u2588\u2588\u2588WIF": 1793059578.9552107,
     "NOTHING": 1793062355.5069568,
-    "GTAELON": 1793083256.668589
+    "GTAELON": 1793083256.668589,
+    "ELON2028": 1793096664.9071205,
+    "URMOM": 1793096664.9115217
   }
 }
