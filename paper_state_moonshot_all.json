@@ -1,5 +1,5 @@
 {
-  "cash": -51.22190979002285,
+  "cash": -61.22190979002285,
   "positions": {
     "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump": {
       "symbol": "XD",
@@ -9,7 +9,7 @@
       "entry": 0.0005174460000000001,
       "cost": 10.0,
       "peak": 0.0006655,
-      "last": 0.0005998,
+      "last": 0.0006356,
       "opened": 1793035062.42354,
       "rungs_done": 0,
       "entry_liq": 73396.06
@@ -22,16 +22,29 @@
       "entry": 0.000609348,
       "cost": 3.0,
       "peak": 0.002193,
-      "last": 0.001806,
+      "last": 0.002015,
       "opened": 1793059578.9545183,
       "rungs_done": 2,
       "entry_liq": 64584.48,
       "sold_at": 0.00201
+    },
+    "7dVpVqUEbJ9csNWWrDavsA8iAEwvb6BqWu1yVsQgpump": {
+      "symbol": "DICTATOR",
+      "pair": "GnicFd5WkN4uc3hiwHA77pMyYDkBNwaChjEiZqQqskNt",
+      "qty": 63670.26598578464,
+      "orig_qty": 63670.26598578464,
+      "entry": 0.000153918,
+      "cost": 10.0,
+      "peak": 0.000153918,
+      "last": 0.000153918,
+      "opened": 1793103743.6220353,
+      "rungs_done": 0,
+      "entry_liq": 32011.77
     }
   },
   "day": "2026-10-27",
   "day_pnl": -28.79285243619987,
-  "day_trades": 5,
+  "day_trades": 6,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
@@ -49,7 +62,8 @@
     "51SfaAyrYaR8FpibXT4TXtxEpnZSNoDwYVRojtKupump",
     "6GaNPFwUv3P7K8nzFRXLba4hnabdmrjiKofmr5Qkpump",
     "27Qg7EcnGfmbthfQeQXTs4qjfnvU6gXf8W1ahJiJpump",
-    "5XapX9FpytfrwqY8Y7mNStwrur8u5fNnJjEcJNXZpump"
+    "5XapX9FpytfrwqY8Y7mNStwrur8u5fNnJjEcJNXZpump",
+    "7dVpVqUEbJ9csNWWrDavsA8iAEwvb6BqWu1yVsQgpump"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
@@ -71,8 +85,8 @@
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": -52.05973205865439,
-  "round_tickets": 16,
+  "min_cash": -61.22190979002285,
+  "round_tickets": 17,
   "symbols_bought": {
     "MFORGE": 1793035062.422963,
     "XD": 1793035062.4235427,
@@ -81,6 +95,7 @@
     "NOTHING": 1793062355.4535584,
     "GTAELON": 1793083256.6210606,
     "ELON2028": 1793096664.8308392,
-    "URMOM": 1793096664.8312519
+    "URMOM": 1793096664.8312519,
+    "DICTATOR": 1793103743.6220388
   }
 }
