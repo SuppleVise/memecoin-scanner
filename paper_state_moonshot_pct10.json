@@ -1,5 +1,5 @@
 {
-  "cash": 32.299176892034424,
+  "cash": 33.136999160665965,
   "positions": {
     "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump": {
       "symbol": "\u2588\u2588\u2588WIF",
@@ -9,28 +9,15 @@
       "entry": 0.000609348,
       "cost": 3.0,
       "peak": 0.002193,
-      "last": 0.001309,
+      "last": 0.001806,
       "opened": 1793059578.9552093,
       "rungs_done": 2,
       "entry_liq": 64584.48,
       "sold_at": 0.00201
-    },
-    "27Qg7EcnGfmbthfQeQXTs4qjfnvU6gXf8W1ahJiJpump": {
-      "symbol": "ELON2028",
-      "pair": "6jEdE2E3c6J7snnq9vTbLLuz2WsYi7rX5oVvWy8HyPDg",
-      "qty": 19544.02590979435,
-      "orig_qty": 19544.02590979435,
-      "entry": 0.000501432,
-      "cost": 10.0,
-      "peak": 0.000501432,
-      "last": 0.0003559,
-      "opened": 1793096664.907119,
-      "rungs_done": 0,
-      "entry_liq": 63372.42
     }
   },
   "day": "2026-10-27",
-  "day_pnl": -4.700823107965572,
+  "day_pnl": -13.863000839334028,
   "day_trades": 5,
   "halted": false,
   "traded": [
@@ -55,7 +42,8 @@
     "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5": 1.82,
     "51SfaAyrYaR8FpibXT4TXtxEpnZSNoDwYVRojtKupump": 2.77,
     "6GaNPFwUv3P7K8nzFRXLba4hnabdmrjiKofmr5Qkpump": 1.0,
-    "5XapX9FpytfrwqY8Y7mNStwrur8u5fNnJjEcJNXZpump": 1.0
+    "5XapX9FpytfrwqY8Y7mNStwrur8u5fNnJjEcJNXZpump": 1.0,
+    "27Qg7EcnGfmbthfQeQXTs4qjfnvU6gXf8W1ahJiJpump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
