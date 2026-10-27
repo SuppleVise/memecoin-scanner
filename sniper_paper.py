@@ -233,6 +233,8 @@ class Sniper:
         self.s["positions"][mint] = {"symbol": w["symbol"], "creator": w["creator"], "qty": qty,
                                      "qty0": qty, "entry": fill, "last": price, "peak": price,
                                      "t_in": now, "last_t": now, "rung": 0, "cost": usd}
+        print(f"  [sniper] PAPER BUY {w['symbol']} $10 ({len(w['buyers'])} buyers in {now - w['t0']:.0f}s)  {mint}",
+              flush=True)
         self.log(time=int(now), symbol=w["symbol"], mint=mint, action="BUY", reason="early flow",
                  price_sol=f"{fill:.3e}", usd=f"{usd:.2f}", fee=f"{fee:.2f}", cash=f"{self.s['cash']:.2f}")
         self.save()
@@ -256,6 +258,7 @@ class Sniper:
         self.s.setdefault("closed", []).append({"symbol": p["symbol"], "pnl": round(pnl, 2),
                                                "peak": round(p["peak"] / p["entry"], 2), "reason": reason})
         self._count("exit: " + reason)
+        print(f"  [sniper] SOLD {p['symbol']} {reason}: ${pnl:+.2f} (peak {p['peak'] / p['entry']:.1f}x)", flush=True)
         del self.s["positions"][mint]
         self._maybe_restart()
         self.save()
@@ -462,7 +465,7 @@ def run():
     signal.signal(signal.SIGTERM, on_signal)
     signal.signal(signal.SIGINT, on_signal)
     print(f"PAPER MODE [sniper] pump.fun launches, SOL ${bot.sol_usd:.0f}, book {STATE_FILE}", flush=True)
-    last_sol, last_save, backoff = time.time(), time.time(), 5
+    last_sol, last_save, last_beat, backoff = time.time(), time.time(), time.time(), 5
     while not stop["now"]:
         try:
             ws = WS(FEED_HOST, FEED_PATH)
@@ -493,6 +496,11 @@ def run():
                 if now - last_save > 30:
                     bot.save()
                     last_save = now
+                if now - last_beat > 300:   # proof of life in the Terminal: is the feed really flowing?
+                    print(f"{time.strftime('%H:%M:%S')} [sniper] launches seen {bot.s['seen']}, "
+                          f"watching {len(bot.watch)}, bought {bot.s['passed']}, open {len(bot.s['positions'])}, "
+                          f"round {bot.s['rounds']} cash ${bot.s['cash']:.2f}", flush=True)
+                    last_beat = now
         except (OSError, ConnectionError, ssl.SSLError) as e:
             if stop["now"]:
                 break
