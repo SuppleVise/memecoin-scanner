@@ -85,6 +85,23 @@ class Entry(Base):
         self.assertFalse(self.bought())
 
 
+class Follow(Base):
+    def test_skipped_coin_with_buyers_is_recorded_10_min(self):
+        self.bot.on_event(create(dev_buy=5.0), 0)          # rejected: big dev bag
+        _, unsub = self.bot.on_event(trade("M1", "a", "buy", 0.1, 1.1), 9)
+        self.assertEqual(unsub, [])
+        self.crowd(t=9)
+        self.assertIn("M1", self.bot.follow)
+        self.assertFalse(self.bought())
+        self.assertEqual(self.bot.tick(300)[1], [])
+        self.assertEqual(self.bot.tick(601)[1], ["M1"])
+
+    def test_dead_launch_is_dropped_after_the_watch(self):
+        self.bot.on_event(create(), 0)
+        self.assertEqual(self.bot.tick(80)[1], ["M1"])   # nobody bought: not worth recording
+        self.assertNotIn("M1", self.bot.follow)
+
+
 class Exits(Base):
     def open(self):
         self.bot.on_event(create(), 0)

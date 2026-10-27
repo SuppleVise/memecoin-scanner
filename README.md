@@ -177,6 +177,10 @@ gamble's ladder, 45% trail after the first rung, 10-minute time stop, or no trad
 (sold 15% under the last price). Same $50 rounds and $10 tickets as gamble. Started by MMFX Start;
 the summary includes how many launches the creator dumped within 75 s.
 
+It also records the raw feed to `feed/pump_<date>.jsonl.gz` (every launch, its first 75 s of trades,
+10 minutes for coins with 3+ buyers, and everything on coins it holds), so the filter can be tuned on
+replays of real launches instead of guesses.
+
 Going real would mean a separate Solana wallet with $50 and PumpPortal's trade API. That is not
 built and needs MikeSz's explicit go after the paper results.
 

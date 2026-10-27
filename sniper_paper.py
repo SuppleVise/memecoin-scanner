@@ -18,6 +18,7 @@ minus a haircut, because a dead coin has nobody to sell to).
 """
 import base64
 import csv
+import gzip
 import json
 import os
 import signal
@@ -29,6 +30,8 @@ import sys
 import time
 
 FEED_HOST, FEED_PATH = "pumpportal.fun", "/api/data"
+FOLLOW_MIN_BUYERS, FOLLOW_S = 3, 600   # skipped coins with 3+ buyers are recorded for 10 min
+DROP_FIELDS = ("signature", "uri", "bondingCurveKey", "pool")   # not needed for replays, saves disk
 
 S = {
     # account (same shape as gamble: $50 rounds, $10 tickets, restart when bust)
@@ -97,6 +100,8 @@ class Sniper:
             p["last_t"] = time.time()   # don't call a coin dead just because the bot was off
         self.watch = {}     # mint -> early-flow stats while we decide (not saved: stale after a restart)
         self.pending = {}   # mint -> decision time; filled on the first trade after LATENCY_S
+        self.follow = {}    # mint -> skipped coin kept 10 min only to record how it ended (data for tuning
+                            # the filter; never traded). Dropped after WATCH_S if it has under 3 buyers.
 
     # --- bookkeeping ---------------------------------------------------------
     def save(self):
@@ -154,6 +159,9 @@ class Sniper:
         if not price:
             return [], []
         sub, unsub = [], []
+        f = self.follow.get(mint)
+        if f and ev["txType"] == "buy":
+            f["buyers"].add(ev.get("traderPublicKey", ""))
         w = self.watch.get(mint)
         if w:
             w["last"] = price
@@ -171,6 +179,7 @@ class Sniper:
                 if now - w["t0"] <= S["WATCH_S"]:
                     self.s["dev_dumped_early"] += 1
                 self._count("creator sold while watching")
+                self._retire(mint, w)
                 del self.watch[mint]
                 if mint not in self.s["positions"] and mint not in self.pending:
                     unsub.append(mint)
@@ -181,6 +190,7 @@ class Sniper:
                     self.s["passed"] += 1
                 elif verdict:
                     self._count(verdict)
+                    self._retire(mint, w)
                     del self.watch[mint]
                     unsub.append(mint)
         if mint in self.pending and now - self.pending[mint] >= S["LATENCY_S"]:
@@ -194,7 +204,13 @@ class Sniper:
                 self._check_exits(mint, price, now)
         if mint not in self.watch and mint not in self.pending and mint not in self.s["positions"]:
             unsub.append(mint)   # done with this coin, whatever the reason
-        return sub, list(dict.fromkeys(unsub))
+        return sub, self._keep(unsub)
+
+    def _retire(self, mint, w):
+        self.follow[mint] = {"t0": w["t0"], "buyers": set(w["buyers"])}
+
+    def _keep(self, unsub):
+        return [m for m in dict.fromkeys(unsub) if m not in self.follow]
 
     def _verdict(self, w, now):
         """'buy', a rejection reason, or None (keep watching)."""
@@ -289,7 +305,13 @@ class Sniper:
         for mint, w in list(self.watch.items()):
             if now - w["t0"] > S["WATCH_S"] and mint not in self.pending:
                 self._count("too little real buying")
+                self._retire(mint, w)
                 del self.watch[mint]
+                unsub.append(mint)
+        for mint, f in list(self.follow.items()):
+            age = now - f["t0"]
+            if age > FOLLOW_S or (age > S["WATCH_S"] and len(f["buyers"]) < FOLLOW_MIN_BUYERS):
+                del self.follow[mint]
                 unsub.append(mint)
         for mint, t in list(self.pending.items()):
             if now - t > 30:   # nobody traded after our decision: no fill
@@ -307,7 +329,7 @@ class Sniper:
             for key, hours in (("names", S["COPYCAT_H"]), ("creators", S["SERIAL_CREATOR_H"])):
                 self.s[key] = {k: t for k, t in self.s[key].items() if now - t < hours * 3600}
             self.s["pruned"] = now
-        return [], unsub
+        return [], self._keep(unsub)
 
     def close_all(self, now, reason="bot stopped"):
         """On stop, sell what's open at the last price, so the next run starts clean."""
@@ -466,12 +488,15 @@ def run():
     signal.signal(signal.SIGINT, on_signal)
     print(f"PAPER MODE [sniper] pump.fun launches, SOL ${bot.sol_usd:.0f}, book {STATE_FILE}", flush=True)
     last_sol, last_save, last_beat, backoff = time.time(), time.time(), time.time(), 5
+    os.makedirs("feed", exist_ok=True)
+    # raw feed recording, one gzip file per UTC day: lets the filter be tuned on replays, not guesses
+    rec = gzip.open(time.strftime("feed/pump_%Y-%m-%d.jsonl.gz", time.gmtime()), "at")
     while not stop["now"]:
         try:
             ws = WS(FEED_HOST, FEED_PATH)
             ws.send({"method": "subscribeNewToken"})
             # after a reconnect: coins we hold or watch need their trades again
-            again = list(bot.s["positions"]) + list(bot.watch)
+            again = list(bot.s["positions"]) + list(bot.watch) + list(bot.follow)
             for i in range(0, len(again), 100):
                 ws.send({"method": "subscribeTokenTrade", "keys": again[i:i + 100]})
             backoff = 5
@@ -485,6 +510,9 @@ def run():
                         ev = None
                     if isinstance(ev, dict):
                         sub, unsub = bot.on_event(ev, now)
+                        if ev.get("txType"):
+                            rec.write(json.dumps({"t": round(now, 2), **{k: v for k, v in ev.items()
+                                                                          if k not in DROP_FIELDS}}) + "\n")
                 _, more = bot.tick(now)
                 unsub += more
                 if sub:
@@ -507,6 +535,7 @@ def run():
             print(f"[sniper] feed dropped ({e}), reconnecting in {backoff}s", flush=True)
             time.sleep(backoff)
             backoff = min(backoff * 2, 120)
+    rec.close()
     bot.close_all(time.time())
     bot.save()
 
