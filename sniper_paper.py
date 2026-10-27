@@ -156,6 +156,7 @@ class Sniper:
 
     def _on_trade(self, ev, now):
         mint, price = ev["mint"], curve_price(ev)
+        self.s["trades_seen"] = self.s.get("trades_seen", 0) + 1
         if not price:
             return [], []
         sub, unsub = [], []
@@ -356,6 +357,7 @@ class Sniper:
             f"Total P&L all rounds ${self.total_pnl():+.2f} on ${S['START_USD'] * self.s['rounds']:.0f} staked",
             f"Coins seen {self.s['seen']}, passed filter {self.s['passed']}, trades closed {len(closed)}, "
             f"wins {len(wins)}",
+            f"Trades received {self.s.get('trades_seen', 0)} (0 = trade feed not arriving)\n"
             f"Creator dumped in first {S['WATCH_S']}s: {self.s['dev_dumped_early']} of {self.s['seen']}",
             f"Running {hours:.1f} h",
         ]
