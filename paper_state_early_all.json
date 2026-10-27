@@ -1,22 +1,8 @@
 {
   "cash": -16.249802371439714,
-  "positions": {
-    "12cJXZfQAMNPrCQjAETJd79TmzseRoneY1QK6wSdpump": {
-      "symbol": "NVIDIA",
-      "pair": "EWLffdFpKCAMGWCX7vQQKTBEHyNcFtXfWJRvG6B5iUKH",
-      "qty": 47800.21461320847,
-      "orig_qty": 47800.21461320847,
-      "entry": 0.00020502,
-      "cost": 10.0,
-      "peak": 0.00020502,
-      "last": 0.00020502,
-      "opened": 1793089143.764961,
-      "rungs_done": 0,
-      "entry_liq": 36000.32
-    }
-  },
+  "positions": {},
   "day": "2026-10-27",
-  "day_pnl": -7.342481426741551,
+  "day_pnl": -17.34248142674155,
   "day_trades": 2,
   "halted": false,
   "traded": [
@@ -34,7 +20,8 @@
     "5Mbttpskm2EesN4ECWJiZSMh9cYNkAWLUoKHAbvtpump": 1.0,
     "4cDVSYnzoWsSzYRxe1rETA1hfcgs1ktgpQyeRm6Vpump": 1.0,
     "8ttNP8EzDJeZXTdNLpYtpTd9fm2Dj9q9HenyqRfhpump": 1.0,
-    "HZFrwE8NrqehL54sG5ob9L3kUTSSUVSyS5E7PHUPpump": 1.0
+    "HZFrwE8NrqehL54sG5ob9L3kUTSSUVSyS5E7PHUPpump": 1.0,
+    "12cJXZfQAMNPrCQjAETJd79TmzseRoneY1QK6wSdpump": 1.0
   },
   "shadow": {},
   "shadow_done": {},

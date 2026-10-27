@@ -30,3 +30,5 @@ time,symbol,token,action,reason,price,usd,fee,pnl_usd,peak_mult,equity
 2026-10-27T05:19:18+00:00,Nothing,51SfaAyrYaR8FpibXT4TXtxEpnZSNoDwYVRojtKupump,SELL,"trailing stop 1.26x, peak 2.87x",0.00034153,5.9441,0.1213,0.9441,2.87,67.48
 2026-10-27T06:40:52+00:00,███WIF,8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump,SELL_PART,take profit at 3.0x (now 3.37x),0.0020129199999999996,6.3452,0.1295,4.3452,,71.58
 2026-10-27T06:40:56+00:00,GTAELON,6GaNPFwUv3P7K8nzFRXLba4hnabdmrjiKofmr5Qkpump,BUY,score 68.2,0.00045441,10.0,0.2,,,71.38
+2026-10-27T09:04:19+00:00,PumpkinBot,5QREAgtfP1NkuymRaFdHxr5QNF2Yry9M1YCyaompump,SELL_PART,take profit at 3.0x (now 3.00x),0.0012975200000000001,5.6521,0.1153,3.6521,,72.08
+2026-10-27T09:04:19+00:00,GTAELON,6GaNPFwUv3P7K8nzFRXLba4hnabdmrjiKofmr5Qkpump,SELL,"liquidity pulled $2,266 (was $56,572 at buy)",8.017949996526532e-08,0.0,0.0017,-10.0,1.0,66.18
