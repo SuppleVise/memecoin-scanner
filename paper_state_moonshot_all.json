@@ -1,5 +1,5 @@
 {
-  "cash": -39.42905735382297,
+  "cash": -49.42905735382297,
   "positions": {
     "HEPG65DZHGePLKrTqkkkJLUb7vt9A2436kdTxTJSSTNK": {
       "symbol": "FOMOPAD",
@@ -9,7 +9,7 @@
       "entry": 0.00013453800000000002,
       "cost": 10.0,
       "peak": 0.0002292,
-      "last": 8.86e-05,
+      "last": 9.141e-05,
       "opened": 1793009108.5176456,
       "rungs_done": 0,
       "entry_liq": 32172.82
@@ -22,7 +22,7 @@
       "entry": 0.0005174460000000001,
       "cost": 10.0,
       "peak": 0.0006655,
-      "last": 0.0005448,
+      "last": 0.00051,
       "opened": 1793035062.42354,
       "rungs_done": 0,
       "entry_liq": 73396.06
@@ -35,15 +35,28 @@
       "entry": 0.000322116,
       "cost": 10.0,
       "peak": 0.000322116,
-      "last": 0.0002726,
+      "last": 0.0002702,
       "opened": 1793040344.259296,
       "rungs_done": 0,
       "entry_liq": 46592.38
+    },
+    "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump": {
+      "symbol": "\u2588\u2588\u2588WIF",
+      "pair": "35QgKestyQozSeRbZa7c7WDhR32svTgC6RZVDS8KcEmQ",
+      "qty": 16082.76387220439,
+      "orig_qty": 16082.76387220439,
+      "entry": 0.000609348,
+      "cost": 10.0,
+      "peak": 0.000609348,
+      "last": 0.000609348,
+      "opened": 1793059578.9545183,
+      "rungs_done": 0,
+      "entry_liq": 64584.48
     }
   },
-  "day": "2026-10-26",
-  "day_pnl": -49.42905735382297,
-  "day_trades": 9,
+  "day": "2026-10-27",
+  "day_pnl": 0.0,
+  "day_trades": 1,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
@@ -56,7 +69,8 @@
     "HEPG65DZHGePLKrTqkkkJLUb7vt9A2436kdTxTJSSTNK",
     "fR9dwtL4PhAcV19XyFnnsAvWcXsk93raxvWdWCqpump",
     "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump",
-    "WJbYURhAuVEZqKHTwH3nsVtPZ55HKcHtnrUppTapump"
+    "WJbYURhAuVEZqKHTwH3nsVtPZ55HKcHtnrUppTapump",
+    "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
@@ -72,11 +86,12 @@
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": -39.42905735382297,
-  "round_tickets": 11,
+  "min_cash": -49.42905735382297,
+  "round_tickets": 12,
   "symbols_bought": {
     "MFORGE": 1793035062.422963,
     "XD": 1793035062.4235427,
-    "WIZARDCAT": 1793040344.259298
+    "WIZARDCAT": 1793040344.259298,
+    "\u2588\u2588\u2588WIF": 1793059578.95452
   }
 }
