@@ -166,8 +166,10 @@ arena: snipers buy in the first seconds and a 1-2 minute buyer is usually their 
 
 ## Sniper (Mac only, paper)
 
-`sniper_paper.py` listens to PumpPortal's free live feed of every pump.fun launch and its trades
-(no API key, no wallet). Each new coin is watched for its first 60 s. It buys on paper only when at
+`sniper_paper.py` listens to PumpPortal's free feed of every pump.fun launch and reads each coin's
+trades straight from Solana (logsSubscribe on the public RPC, decoding pump's TradeEvent; PumpPortal's
+own trade stream costs 0.01 SOL per 10k events). No API key, no wallet. If the public RPC throttles,
+put a Helius websocket URL in `rpc_url.txt` on the Mac (never commit it). Each new coin is watched for its first 60 s. It buys on paper only when at
 least 6 different wallets bought, net inflow is 1.5+ SOL, buys outnumber sells 2:1, no single wallet
 brought half the money, the creator bought under 3 SOL and hasn't sold, the price isn't already 3x
 launch, the name wasn't bought in the last hour and the creator didn't launch another coin in the

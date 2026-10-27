@@ -1,6 +1,7 @@
 """Paper sniper for brand-new pump.fun coins. No wallet, no keys, no orders.
 
-Listens to PumpPortal's free live feed (every pump.fun launch and its trades), watches each
+Listens to PumpPortal's free feed of every pump.fun launch, follows each coin's trades straight
+from Solana (logsSubscribe on a public RPC; PumpPortal's own trade stream costs SOL), watches each
 new coin for its first minute, and buys on paper only when the early order flow looks like
 real buyers rather than the creator and their bundle wallets:
 
@@ -388,9 +389,10 @@ def tls_context():
 
 
 class WS:
-    """Minimal websocket client: text frames, ping/pong, close. Enough for one JSON feed."""
+    """Minimal websocket client: text frames, ping/pong, close. Enough for a JSON feed.
+    recv() never loses a half-received frame: it parses from its buffer and only consumes whole frames."""
 
-    def __init__(self, host, path):
+    def __init__(self, host, path, timeout=1.0):
         raw = socket.create_connection((host, 443), timeout=15)
         self.sock = tls_context().wrap_socket(raw, server_hostname=host)
         key = base64.b64encode(os.urandom(16)).decode()
@@ -406,7 +408,8 @@ class WS:
         status, _, self.buf = head.partition(b"\r\n\r\n")
         if b" 101 " not in status.split(b"\r\n")[0]:
             raise ConnectionError(status.split(b"\r\n")[0].decode(errors="replace"))
-        self.sock.settimeout(1.0)
+        self.frag = b""
+        self.sock.settimeout(timeout)
 
     def send(self, obj, opcode=1):
         data = json.dumps(obj).encode() if opcode == 1 else obj
@@ -421,39 +424,155 @@ class WS:
             head += bytes([0x80 | 127]) + struct.pack(">Q", n)
         self.sock.sendall(head + mask + bytes(b ^ mask[i % 4] for i, b in enumerate(data)))
 
-    def _read(self, n):
-        while len(self.buf) < n:
-            chunk = self.sock.recv(65536)   # socket.timeout propagates: "no message this second"
-            if not chunk:
-                raise ConnectionError("feed closed")
-            self.buf += chunk
-        out, self.buf = self.buf[:n], self.buf[n:]
-        return out
+    def _frame(self):
+        """(fin, opcode, payload) if a whole frame is buffered, else None."""
+        buf = self.buf
+        if len(buf) < 2:
+            return None
+        n, at = buf[1] & 0x7F, 2
+        if n == 126:
+            if len(buf) < 4:
+                return None
+            n, at = struct.unpack(">H", buf[2:4])[0], 4
+        elif n == 127:
+            if len(buf) < 10:
+                return None
+            n, at = struct.unpack(">Q", buf[2:10])[0], 10
+        if len(buf) < at + n:
+            return None
+        self.buf = buf[at + n:]
+        return buf[0] & 0x80, buf[0] & 0x0F, buf[at:at + n]
 
     def recv(self):
-        """Next text message, or None if nothing arrived within a second."""
-        msg = b""
+        """Next text message, or None if nothing complete arrived within the timeout."""
+        while True:
+            f = self._frame()
+            if f is None:
+                try:
+                    chunk = self.sock.recv(65536)
+                except socket.timeout:
+                    return None
+                if not chunk:
+                    raise ConnectionError("feed closed")
+                self.buf += chunk
+                continue
+            fin, op, payload = f
+            if op == 9:
+                self.send(payload, opcode=10)
+            elif op == 8:
+                raise ConnectionError("feed sent close")
+            elif op in (0, 1, 2):
+                self.frag += payload
+                if fin:
+                    msg, self.frag = self.frag, b""
+                    return msg.decode(errors="replace")
+
+
+# --- pump.fun trades straight from Solana (PumpPortal's trade stream is paid) -----------------------
+PUMP_PROGRAM = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P"
+TRADE_DISC = bytes([189, 219, 127, 211, 78, 230, 97, 238])   # anchor "event:TradeEvent", from pump's IDL
+PUBLIC_RPC = "wss://api.mainnet-beta.solana.com/"
+B58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+
+
+def b58(raw):
+    n, out = int.from_bytes(raw, "big"), ""
+    while n:
+        n, r = divmod(n, 58)
+        out = B58[r] + out
+    return "1" * (len(raw) - len(raw.lstrip(b"\0"))) + out
+
+
+def trades_from_logs(logs):
+    """pump.fun TradeEvents in a transaction's logs, in PumpPortal's event shape.
+    Layout (pump IDL): disc 8 | mint 32 | sol u64 | tokens u64 | is_buy u8 | user 32 | ts i64 |
+    virtual_sol u64 | virtual_tokens u64 | ...more fields we don't need."""
+    out = []
+    for line in logs:
+        if not line.startswith("Program data: "):
+            continue
         try:
-            while True:
-                b0, b1 = self._read(2)
-                n = b1 & 0x7F
-                if n == 126:
-                    n = struct.unpack(">H", self._read(2))[0]
-                elif n == 127:
-                    n = struct.unpack(">Q", self._read(8))[0]
-                payload = self._read(n)
-                op = b0 & 0x0F
-                if op == 9:
-                    self.send(payload, opcode=10)
-                    continue
-                if op == 8:
-                    raise ConnectionError("feed sent close")
-                if op in (0, 1, 2):
-                    msg += payload
-                    if b0 & 0x80:
-                        return msg.decode(errors="replace")
-        except socket.timeout:
+            raw = base64.b64decode(line[14:])
+        except ValueError:
+            continue
+        if len(raw) < 113 or raw[:8] != TRADE_DISC:
+            continue
+        sol, tok = struct.unpack_from("<QQ", raw, 40)
+        vsol, vtok = struct.unpack_from("<QQ", raw, 97)
+        out.append({"txType": "buy" if raw[56] else "sell", "mint": b58(raw[8:40]),
+                    "traderPublicKey": b58(raw[57:89]), "solAmount": sol / 1e9, "tokenAmount": tok / 1e6,
+                    "vSolInBondingCurve": vsol / 1e9, "vTokensInBondingCurve": vtok / 1e6})
+    return out
+
+
+def rpc_url():
+    """Public Solana RPC by default. If it throttles, put a Helius (free) websocket URL in rpc_url.txt."""
+    url = PUBLIC_RPC
+    if os.path.exists("rpc_url.txt"):
+        with open("rpc_url.txt") as f:
+            url = f.read().strip() or url
+    rest = url.split("://", 1)[-1]
+    host, _, path = rest.partition("/")
+    return host, "/" + path
+
+
+class TradeFeed:
+    """One logsSubscribe per coin we care about, on a Solana RPC websocket."""
+
+    def __init__(self):
+        host, path = rpc_url()
+        self.host = host
+        self.ws = WS(host, path, timeout=0.1)
+        self.next_id, self.asked, self.sub_of, self.mint_of, self.errors = 1, {}, {}, {}, 0
+        self.notes = 0   # transactions seen; many notes but 0 trades = events not in the logs (decoder issue)
+
+    def _call(self, method, params):
+        i, self.next_id = self.next_id, self.next_id + 1
+        self.ws.send({"jsonrpc": "2.0", "id": i, "method": method, "params": params})
+        return i
+
+    def subscribe(self, mints):
+        waiting = set(self.asked.values())
+        for m in mints:
+            if m not in self.sub_of and m not in waiting:
+                self.asked[self._call("logsSubscribe", [{"mentions": [m]}, {"commitment": "processed"}])] = m
+                waiting.add(m)
+
+    def unsubscribe(self, mints):
+        for m in mints:
+            sid = self.sub_of.pop(m, None)
+            if sid is not None:
+                self.mint_of.pop(sid, None)
+                self._call("logsUnsubscribe", [sid])
+            else:
+                for i, mm in self.asked.items():
+                    if mm == m:
+                        self.asked[i] = None   # drop it as soon as the subscription is confirmed
+
+    def poll(self):
+        """None when nothing arrived; otherwise a (possibly empty) list of trade events."""
+        raw = self.ws.recv()
+        if raw is None:
             return None
+        try:
+            msg = json.loads(raw)
+        except ValueError:
+            return []
+        if msg.get("id") in self.asked:
+            m, sid = self.asked.pop(msg["id"]), msg.get("result")
+            if "error" in msg:
+                self.errors += 1
+            elif m is None and sid is not None:
+                self._call("logsUnsubscribe", [sid])
+            elif sid is not None:
+                self.sub_of[m], self.mint_of[sid] = sid, m
+            return []
+        if msg.get("method") == "logsNotification":
+            self.notes += 1
+            v = msg.get("params", {}).get("result", {}).get("value", {})
+            if v.get("err") is None:
+                return trades_from_logs(v.get("logs") or [])
+        return []
 
 
 def sol_usd(default=150.0):
@@ -495,34 +614,40 @@ def run():
     os.makedirs("feed", exist_ok=True)
     # raw feed recording, one gzip file per UTC day: lets the filter be tuned on replays, not guesses
     rec = gzip.open(time.strftime("feed/pump_%Y-%m-%d.jsonl.gz", time.gmtime()), "at")
+
+    def handle(ev, now, feed):
+        sub, unsub = bot.on_event(ev, now)
+        rec.write(json.dumps({"t": round(now, 2), **{k: v for k, v in ev.items() if k not in DROP_FIELDS}}) + "\n")
+        feed.subscribe(sub)
+        feed.unsubscribe(unsub)
+
     while not stop["now"]:
         try:
-            ws = WS(FEED_HOST, FEED_PATH)
-            ws.send({"method": "subscribeNewToken"})
+            launches = WS(FEED_HOST, FEED_PATH, timeout=0.1)   # PumpPortal: new coins (free)
+            launches.send({"method": "subscribeNewToken"})
+            feed = TradeFeed()                                  # Solana RPC: their trades (free)
+            print(f"[sniper] connected: launches from {FEED_HOST}, trades from {feed.host}", flush=True)
             # after a reconnect: coins we hold or watch need their trades again
-            again = list(bot.s["positions"]) + list(bot.watch) + list(bot.follow)
-            for i in range(0, len(again), 100):
-                ws.send({"method": "subscribeTokenTrade", "keys": again[i:i + 100]})
+            feed.subscribe(list(bot.s["positions"]) + list(bot.watch) + list(bot.follow))
             backoff = 5
             while not stop["now"]:
-                raw, now = ws.recv(), time.time()
-                sub, unsub = [], []
-                if raw:
+                raw = launches.recv()
+                while raw is not None:
                     try:
                         ev = json.loads(raw)
                     except ValueError:
                         ev = None
-                    if isinstance(ev, dict):
-                        sub, unsub = bot.on_event(ev, now)
-                        if ev.get("txType"):
-                            rec.write(json.dumps({"t": round(now, 2), **{k: v for k, v in ev.items()
-                                                                          if k not in DROP_FIELDS}}) + "\n")
-                _, more = bot.tick(now)
-                unsub += more
-                if sub:
-                    ws.send({"method": "subscribeTokenTrade", "keys": sub[:100]})
-                if unsub:
-                    ws.send({"method": "unsubscribeTokenTrade", "keys": unsub[:100]})
+                    if isinstance(ev, dict) and ev.get("txType") == "create":
+                        handle(ev, time.time(), feed)
+                    raw = launches.recv()
+                for _ in range(500):   # drain the trade stream, but come back for launches
+                    trades = feed.poll()
+                    if trades is None:
+                        break
+                    for ev in trades:
+                        handle(ev, time.time(), feed)
+                now = time.time()
+                feed.unsubscribe(bot.tick(now)[1])
                 if now - last_sol > 300:
                     bot.sol_usd, last_sol = sol_usd(bot.sol_usd), now
                 if now - last_save > 30:
@@ -530,8 +655,10 @@ def run():
                     last_save = now
                 if now - last_beat > 300:   # proof of life in the Terminal: is the feed really flowing?
                     print(f"{time.strftime('%H:%M:%S')} [sniper] launches seen {bot.s['seen']}, "
-                          f"watching {len(bot.watch)}, bought {bot.s['passed']}, open {len(bot.s['positions'])}, "
-                          f"round {bot.s['rounds']} cash ${bot.s['cash']:.2f}", flush=True)
+                          f"trades seen {bot.s.get('trades_seen', 0)} (from {feed.notes} txs), watching {len(bot.watch)}, "
+                          f"bought {bot.s['passed']}, open {len(bot.s['positions'])}, "
+                          f"round {bot.s['rounds']} cash ${bot.s['cash']:.2f}"
+                          + (f", RPC errors {feed.errors}" if feed.errors else ""), flush=True)
                     last_beat = now
         except (OSError, ConnectionError, ssl.SSLError) as e:
             if stop["now"]:

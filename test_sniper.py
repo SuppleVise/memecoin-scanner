@@ -174,8 +174,80 @@ class Frames(unittest.TestCase):
         n, mask = f[1] & 0x7F, f[2:6]
         body = bytes(b ^ mask[i % 4] for i, b in enumerate(f[6:6 + n]))
         self.assertEqual(body, b'{"method": "subscribeNewToken"}')
-        ws.buf = bytes([0x81, len(body)]) + body   # unmasked server frame
+        ws.buf, ws.frag = bytes([0x81, len(body)]) + body, b""   # unmasked server frame
         self.assertEqual(ws.recv(), body.decode())
+
+    def test_half_frame_is_kept_until_the_rest_arrives(self):
+        import socket
+        chunks = []
+
+        class Sock:
+            def recv(self, n):
+                if not chunks:
+                    raise socket.timeout()
+                return chunks.pop(0)
+        ws = SP.WS.__new__(SP.WS)
+        ws.sock, ws.frag = Sock(), b""
+        body = b'{"a": 1}' * 40                      # 320 bytes: 2-byte extended length
+        frame = bytes([0x81, 126]) + len(body).to_bytes(2, "big") + body
+        ws.buf = frame[:50]
+        self.assertIsNone(ws.recv())                # timeout mid-frame: nothing lost
+        chunks.append(frame[50:])
+        self.assertEqual(ws.recv(), body.decode())
+
+
+def b58decode(s):
+    n = 0
+    for ch in s:
+        n = n * 58 + SP.B58.index(ch)
+    raw = n.to_bytes((n.bit_length() + 7) // 8, "big")
+    return b"\0" * (len(s) - len(s.lstrip("1"))) + raw
+
+
+def trade_log(mint, user, is_buy, sol_lamports, tok_raw, vsol, vtok):
+    import base64, struct
+    raw = (SP.TRADE_DISC + b58decode(mint) + struct.pack("<QQ", sol_lamports, tok_raw) + bytes([is_buy])
+           + b58decode(user) + struct.pack("<qQQQQ", 1761580000, vsol, vtok, 0, 0) + b"more fields")
+    return "Program data: " + base64.b64encode(raw).decode()
+
+
+class SolanaLogs(unittest.TestCase):
+    MINT, USER = "7c95d1uqguq9RoFvSzydCXzufrUVi1cy4gQduzg8pump", SP.PUMP_PROGRAM
+
+    def test_base58_roundtrip(self):
+        for k in (SP.PUMP_PROGRAM, self.MINT, "11111111111111111111111111111111"):
+            self.assertEqual(SP.b58(b58decode(k)), k)
+
+    def test_trade_event_decoded_like_pumpportal(self):
+        logs = ["Program 6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P invoke [1]",
+                "Program log: Instruction: Buy",
+                trade_log(self.MINT, self.USER, 1, 500_000_000, 12_345_000_000, 35_000_000_000, 900_000_000_000_000),
+                "Program data: G3KpTd7rY3YAAAAA"]   # a CreateEvent: ignored
+        [ev] = SP.trades_from_logs(logs)
+        self.assertEqual((ev["txType"], ev["mint"], ev["traderPublicKey"]), ("buy", self.MINT, self.USER))
+        self.assertAlmostEqual(ev["solAmount"], 0.5)
+        self.assertAlmostEqual(SP.curve_price(ev), 35.0 / 900_000_000.0)
+
+    def test_feed_maps_subscriptions_and_notifications(self):
+        sent = []
+        feed = SP.TradeFeed.__new__(SP.TradeFeed)
+        feed.next_id, feed.asked, feed.sub_of, feed.mint_of, feed.errors, feed.notes = 1, {}, {}, {}, 0, 0
+        replies = []
+        feed.ws = type("W", (), {"send": lambda self, o: sent.append(o),
+                                 "recv": lambda self: replies.pop(0) if replies else None})()
+        feed.subscribe([self.MINT, self.MINT])
+        self.assertEqual(len(sent), 1)
+        replies.append('{"jsonrpc":"2.0","result":77,"id":1}')
+        self.assertEqual(feed.poll(), [])
+        self.assertEqual(feed.sub_of[self.MINT], 77)
+        note = {"jsonrpc": "2.0", "method": "logsNotification", "params": {"subscription": 77, "result": {
+            "value": {"err": None, "logs": [trade_log(self.MINT, self.USER, 0, 1, 1, 30_000_000_000, 10**15)]}}}}
+        replies.append(__import__("json").dumps(note))
+        self.assertEqual(feed.poll()[0]["txType"], "sell")
+        self.assertIsNone(feed.poll())
+        feed.unsubscribe([self.MINT])
+        self.assertEqual(sent[-1]["method"], "logsUnsubscribe")
+        self.assertEqual(sent[-1]["params"], [77])
 
 
 if __name__ == "__main__":
