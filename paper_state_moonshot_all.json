@@ -1,19 +1,6 @@
 {
-  "cash": -39.38359037668113,
+  "cash": -34.21304371179834,
   "positions": {
-    "HEPG65DZHGePLKrTqkkkJLUb7vt9A2436kdTxTJSSTNK": {
-      "symbol": "FOMOPAD",
-      "pair": "7Fk5EjHYGGZjHFQoEvNVcaig366uohk9de8EjfKJxoTK",
-      "qty": 72841.87367137909,
-      "orig_qty": 72841.87367137909,
-      "entry": 0.00013453800000000002,
-      "cost": 10.0,
-      "peak": 0.0002292,
-      "last": 7.833e-05,
-      "opened": 1793009108.5176456,
-      "rungs_done": 0,
-      "entry_liq": 32172.82
-    },
     "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump": {
       "symbol": "XD",
       "pair": "KMDZkLZzKVN1VbMxbnojRYezPK7jGpbndMTB5xfsRHm",
@@ -22,7 +9,7 @@
       "entry": 0.0005174460000000001,
       "cost": 10.0,
       "peak": 0.0006655,
-      "last": 0.0005747,
+      "last": 0.0004911,
       "opened": 1793035062.42354,
       "rungs_done": 0,
       "entry_liq": 73396.06
@@ -35,7 +22,7 @@
       "entry": 0.000322116,
       "cost": 10.0,
       "peak": 0.000322116,
-      "last": 0.0002618,
+      "last": 0.0002674,
       "opened": 1793040344.259296,
       "rungs_done": 0,
       "entry_liq": 46592.38
@@ -47,8 +34,8 @@
       "orig_qty": 16082.76387220439,
       "entry": 0.000609348,
       "cost": 5.0,
-      "peak": 0.00149,
-      "last": 0.00149,
+      "peak": 0.001597,
+      "last": 0.001597,
       "opened": 1793059578.9545183,
       "rungs_done": 1,
       "entry_liq": 64584.48,
@@ -62,7 +49,7 @@
       "entry": 0.00027591000000000003,
       "cost": 5.0,
       "peak": 0.0006061,
-      "last": 0.0006061,
+      "last": 0.0004564,
       "opened": 1793062355.4535553,
       "rungs_done": 1,
       "entry_liq": 47731.86,
@@ -70,7 +57,7 @@
     }
   },
   "day": "2026-10-27",
-  "day_pnl": 10.045466977141848,
+  "day_pnl": 5.216013642024632,
   "day_trades": 2,
   "halted": false,
   "traded": [
@@ -96,7 +83,8 @@
     "7JEfFdwmXfQf89ty1sF3aspN9oku9fHikA7XZTTXpump": 2.62,
     "3Vkkvo8jxHy6B4pxRLLV3F9EBYRS1NE8mKCxhi1Mpump": 1.0,
     "8gnyYyngFtzPP6K9YRQ8a7kZWKQ5tzu5N2D23Rafxrn5": 1.82,
-    "fR9dwtL4PhAcV19XyFnnsAvWcXsk93raxvWdWCqpump": 1.05
+    "fR9dwtL4PhAcV19XyFnnsAvWcXsk93raxvWdWCqpump": 1.05,
+    "HEPG65DZHGePLKrTqkkkJLUb7vt9A2436kdTxTJSSTNK": 1.7
   },
   "shadow": {},
   "shadow_done": {},
