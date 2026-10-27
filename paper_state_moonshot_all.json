@@ -1,5 +1,5 @@
 {
-  "cash": -49.42905735382297,
+  "cash": -49.72131773705226,
   "positions": {
     "HEPG65DZHGePLKrTqkkkJLUb7vt9A2436kdTxTJSSTNK": {
       "symbol": "FOMOPAD",
@@ -9,7 +9,7 @@
       "entry": 0.00013453800000000002,
       "cost": 10.0,
       "peak": 0.0002292,
-      "last": 9.141e-05,
+      "last": 9.825e-05,
       "opened": 1793009108.5176456,
       "rungs_done": 0,
       "entry_liq": 32172.82
@@ -22,7 +22,7 @@
       "entry": 0.0005174460000000001,
       "cost": 10.0,
       "peak": 0.0006655,
-      "last": 0.00051,
+      "last": 0.0005282,
       "opened": 1793035062.42354,
       "rungs_done": 0,
       "entry_liq": 73396.06
@@ -35,7 +35,7 @@
       "entry": 0.000322116,
       "cost": 10.0,
       "peak": 0.000322116,
-      "last": 0.0002702,
+      "last": 0.0002685,
       "opened": 1793040344.259296,
       "rungs_done": 0,
       "entry_liq": 46592.38
@@ -43,20 +43,34 @@
     "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump": {
       "symbol": "\u2588\u2588\u2588WIF",
       "pair": "35QgKestyQozSeRbZa7c7WDhR32svTgC6RZVDS8KcEmQ",
-      "qty": 16082.76387220439,
+      "qty": 8041.381936102195,
       "orig_qty": 16082.76387220439,
       "entry": 0.000609348,
-      "cost": 10.0,
-      "peak": 0.000609348,
-      "last": 0.000609348,
+      "cost": 5.0,
+      "peak": 0.001257,
+      "last": 0.001257,
       "opened": 1793059578.9545183,
+      "rungs_done": 1,
+      "entry_liq": 64584.48,
+      "sold_at": 0.001257
+    },
+    "51SfaAyrYaR8FpibXT4TXtxEpnZSNoDwYVRojtKupump": {
+      "symbol": "Nothing",
+      "pair": "GfgxhqZmKF1V2MfS94LdmK8Ckgf7rhzPJdZztTJjZKHQ",
+      "qty": 35518.828603530135,
+      "orig_qty": 35518.828603530135,
+      "entry": 0.00027591000000000003,
+      "cost": 10.0,
+      "peak": 0.00027591000000000003,
+      "last": 0.00027591000000000003,
+      "opened": 1793062355.4535553,
       "rungs_done": 0,
-      "entry_liq": 64584.48
+      "entry_liq": 47731.86
     }
   },
   "day": "2026-10-27",
-  "day_pnl": 0.0,
-  "day_trades": 1,
+  "day_pnl": 4.707739616770713,
+  "day_trades": 2,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
@@ -70,7 +84,8 @@
     "fR9dwtL4PhAcV19XyFnnsAvWcXsk93raxvWdWCqpump",
     "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump",
     "WJbYURhAuVEZqKHTwH3nsVtPZ55HKcHtnrUppTapump",
-    "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump"
+    "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump",
+    "51SfaAyrYaR8FpibXT4TXtxEpnZSNoDwYVRojtKupump"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
@@ -86,12 +101,13 @@
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": -49.42905735382297,
-  "round_tickets": 12,
+  "min_cash": -49.72131773705226,
+  "round_tickets": 13,
   "symbols_bought": {
     "MFORGE": 1793035062.422963,
     "XD": 1793035062.4235427,
     "WIZARDCAT": 1793040344.259298,
-    "\u2588\u2588\u2588WIF": 1793059578.95452
+    "\u2588\u2588\u2588WIF": 1793059578.95452,
+    "NOTHING": 1793062355.4535584
   }
 }
