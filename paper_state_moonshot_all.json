@@ -1,5 +1,5 @@
 {
-  "cash": -77.95344566115068,
+  "cash": -73.40387711632427,
   "positions": {
     "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump": {
       "symbol": "XD",
@@ -9,7 +9,7 @@
       "entry": 0.0005174460000000001,
       "cost": 10.0,
       "peak": 0.0006655,
-      "last": 0.0005506,
+      "last": 0.0004804,
       "opened": 1793035062.42354,
       "rungs_done": 0,
       "entry_liq": 73396.06
@@ -22,40 +22,14 @@
       "entry": 0.000153918,
       "cost": 10.0,
       "peak": 0.0002297,
-      "last": 0.0001858,
+      "last": 0.0001798,
       "opened": 1793103743.6220353,
       "rungs_done": 0,
       "entry_liq": 32011.77
-    },
-    "6zMfMXjovo7ivtrypSP7YspHm5TcbV4Sh5TwSDgapump": {
-      "symbol": "TRUMP2028",
-      "pair": "7yvfSJJzHeGgZ3c4QqutXn8ZBCH3DaZfkc6nTxCPUYVd",
-      "qty": 43592.754706238215,
-      "orig_qty": 43592.754706238215,
-      "entry": 0.000224808,
-      "cost": 10.0,
-      "peak": 0.0002367,
-      "last": 0.0002367,
-      "opened": 1793107180.2678916,
-      "rungs_done": 0,
-      "entry_liq": 44091.65
-    },
-    "7F968EUuLBzUcCzhD6FZpXaTWAybKZDkWFmwoVArcAc": {
-      "symbol": "Darla",
-      "pair": "tAyCN9K72CVnPW9heKg2y97Jpt1d7TUxjvT3GtRZ77m",
-      "qty": 126518.87196806562,
-      "orig_qty": 126518.87196806562,
-      "entry": 7.745879999999999e-05,
-      "cost": 10.0,
-      "peak": 7.745879999999999e-05,
-      "last": 7.745879999999999e-05,
-      "opened": 1793110370.7389324,
-      "rungs_done": 0,
-      "entry_liq": 21886.57
     }
   },
   "day": "2026-10-27",
-  "day_pnl": -28.524388307327698,
+  "day_pnl": -43.97481976250128,
   "day_trades": 8,
   "halted": false,
   "traded": [
@@ -94,7 +68,9 @@
     "6GaNPFwUv3P7K8nzFRXLba4hnabdmrjiKofmr5Qkpump": 1.0,
     "5XapX9FpytfrwqY8Y7mNStwrur8u5fNnJjEcJNXZpump": 1.0,
     "27Qg7EcnGfmbthfQeQXTs4qjfnvU6gXf8W1ahJiJpump": 1.0,
-    "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump": 3.6
+    "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump": 3.6,
+    "6zMfMXjovo7ivtrypSP7YspHm5TcbV4Sh5TwSDgapump": 1.05,
+    "7F968EUuLBzUcCzhD6FZpXaTWAybKZDkWFmwoVArcAc": 1.0
   },
   "shadow": {},
   "shadow_done": {},
