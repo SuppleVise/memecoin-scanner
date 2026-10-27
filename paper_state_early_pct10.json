@@ -1,9 +1,36 @@
 {
-  "cash": 41.25610529895035,
-  "positions": {},
+  "cash": 21.256105298950352,
+  "positions": {
+    "GurPuJX3PdeHztbxcZUJ1j787pfNfvuPFeyCJ7VUpump": {
+      "symbol": "EI6900",
+      "pair": "55DV3ywKoXniWMRRBavccTyumCaTsJEPjLEzK3GN9ac8",
+      "qty": 130134.67611072602,
+      "orig_qty": 130134.67611072602,
+      "entry": 7.53066e-05,
+      "cost": 10.0,
+      "peak": 7.53066e-05,
+      "last": 7.53066e-05,
+      "opened": 1793127394.2857876,
+      "rungs_done": 0,
+      "entry_liq": 21291.9
+    },
+    "FWQx8Q8Nxtc6S4YkcuUcT7eFPHYdAox8V1UZQ4YWpump": {
+      "symbol": "$GIGR",
+      "pair": "9QB3AtP71GKd837nXxQxPsEpyZzGu4sch89DTvMxfPAx",
+      "qty": 123303.94169988325,
+      "orig_qty": 123303.94169988325,
+      "entry": 7.94784e-05,
+      "cost": 10.0,
+      "peak": 7.94784e-05,
+      "last": 7.94784e-05,
+      "opened": 1793127394.2968564,
+      "rungs_done": 0,
+      "entry_liq": 22473.19
+    }
+  },
   "day": "2026-10-27",
   "day_pnl": -16.086376127791198,
-  "day_trades": 4,
+  "day_trades": 6,
   "halted": false,
   "traded": [
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump",
@@ -13,7 +40,9 @@
     "HZFrwE8NrqehL54sG5ob9L3kUTSSUVSyS5E7PHUPpump",
     "12cJXZfQAMNPrCQjAETJd79TmzseRoneY1QK6wSdpump",
     "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump",
-    "E73mkqW3DPhxeh3K2hM1nLK32hJaMzwsN5xnnkWFpump"
+    "E73mkqW3DPhxeh3K2hM1nLK32hJaMzwsN5xnnkWFpump",
+    "GurPuJX3PdeHztbxcZUJ1j787pfNfvuPFeyCJ7VUpump",
+    "FWQx8Q8Nxtc6S4YkcuUcT7eFPHYdAox8V1UZQ4YWpump"
   ],
   "peaks": {
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump": 1.0,
@@ -30,13 +59,15 @@
   "withdraw_alerted": false,
   "summary_day": "",
   "min_cash": 1.0926790553018364,
-  "round_tickets": 3,
+  "round_tickets": 5,
   "symbols_bought": {
     "MOON": 1793040370.8201036,
     "DMAGA2028": 1793069709.9814568,
     "NVIDIA": 1793089143.7657785,
     "TON": 1793113513.3108492,
-    "TRUMP": 1793121941.978273
+    "TRUMP": 1793121941.978273,
+    "EI6900": 1793127394.2857914,
+    "$GIGR": 1793127394.2968588
   },
   "rounds": [
     {
