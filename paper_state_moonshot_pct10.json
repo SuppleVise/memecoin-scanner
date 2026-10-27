@@ -1,5 +1,5 @@
 {
-  "cash": 39.80813787851933,
+  "cash": 50.145865238890465,
   "positions": {
     "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump": {
       "symbol": "\u2588\u2588\u2588WIF",
@@ -8,8 +8,8 @@
       "orig_qty": 16082.76387220439,
       "entry": 0.000609348,
       "cost": 5.0,
-      "peak": 0.00127,
-      "last": 0.00127,
+      "peak": 0.00149,
+      "last": 0.00149,
       "opened": 1793059578.9552093,
       "rungs_done": 1,
       "entry_liq": 64584.48,
@@ -18,19 +18,20 @@
     "51SfaAyrYaR8FpibXT4TXtxEpnZSNoDwYVRojtKupump": {
       "symbol": "Nothing",
       "pair": "GfgxhqZmKF1V2MfS94LdmK8Ckgf7rhzPJdZztTJjZKHQ",
-      "qty": 35518.828603530135,
+      "qty": 17759.414301765068,
       "orig_qty": 35518.828603530135,
       "entry": 0.00027591000000000003,
-      "cost": 10.0,
-      "peak": 0.00027591000000000003,
-      "last": 0.00027591000000000003,
+      "cost": 5.0,
+      "peak": 0.0006061,
+      "last": 0.0006061,
       "opened": 1793062355.5069542,
-      "rungs_done": 0,
-      "entry_liq": 47731.86
+      "rungs_done": 1,
+      "entry_liq": 47731.86,
+      "sold_at": 0.0006061
     }
   },
   "day": "2026-10-27",
-  "day_pnl": 4.808137878519336,
+  "day_pnl": 10.14586523889047,
   "day_trades": 2,
   "halted": false,
   "traded": [
