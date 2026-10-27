@@ -1,9 +1,23 @@
 {
-  "cash": -15.265268597002459,
-  "positions": {},
+  "cash": -25.26526859700246,
+  "positions": {
+    "E73mkqW3DPhxeh3K2hM1nLK32hJaMzwsN5xnnkWFpump": {
+      "symbol": "Trump",
+      "pair": "EwVnEs1MPryg3eTiJxPXkRiCNPDkVf7jy5nnUSQ1iMsR",
+      "qty": 32262.737196960723,
+      "orig_qty": 32262.737196960723,
+      "entry": 0.00030375599999999997,
+      "cost": 10.0,
+      "peak": 0.00030375599999999997,
+      "last": 0.00030375599999999997,
+      "opened": 1793121941.9772966,
+      "rungs_done": 0,
+      "entry_liq": 45831.51
+    }
+  },
   "day": "2026-10-27",
   "day_pnl": -16.357947652304297,
-  "day_trades": 3,
+  "day_trades": 4,
   "halted": false,
   "traded": [
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump",
@@ -13,7 +27,8 @@
     "8ttNP8EzDJeZXTdNLpYtpTd9fm2Dj9q9HenyqRfhpump",
     "HZFrwE8NrqehL54sG5ob9L3kUTSSUVSyS5E7PHUPpump",
     "12cJXZfQAMNPrCQjAETJd79TmzseRoneY1QK6wSdpump",
-    "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump"
+    "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump",
+    "E73mkqW3DPhxeh3K2hM1nLK32hJaMzwsN5xnnkWFpump"
   ],
   "peaks": {
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump": 1.0,
@@ -30,12 +45,13 @@
   "withdraw_alerted": false,
   "summary_day": "",
   "min_cash": -26.249802371439714,
-  "round_tickets": 8,
+  "round_tickets": 9,
   "symbols_bought": {
     "MOON": 1793040370.8192253,
     "ONLYCATS": 1793051699.7842877,
     "DMAGA2028": 1793069709.9758701,
     "NVIDIA": 1793089143.7649632,
-    "TON": 1793113513.310092
+    "TON": 1793113513.310092,
+    "TRUMP": 1793121941.9772997
   }
 }
