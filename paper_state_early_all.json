@@ -1,22 +1,8 @@
 {
   "cash": -56.54459795235619,
-  "positions": {
-    "37yGBGNuPn2rBYwJLp1Kampjjv1yEubzaTB1nbUtpump": {
-      "symbol": "GROKIUS",
-      "pair": "4N7myfdpN7J7mBmSkH8h4g2guhuZhtE738PTo2Au8sZG",
-      "qty": 50540.994935586015,
-      "orig_qty": 50540.994935586015,
-      "entry": 0.00019390200000000003,
-      "cost": 10.0,
-      "peak": 0.00019390200000000003,
-      "last": 0.00019390200000000003,
-      "opened": 1793209478.6262047,
-      "rungs_done": 0,
-      "entry_liq": 35488.67
-    }
-  },
+  "positions": {},
   "day": "2026-10-28",
-  "day_pnl": 0.0,
+  "day_pnl": -10.0,
   "day_trades": 1,
   "halted": false,
   "traded": [
@@ -48,7 +34,8 @@
     "GurPuJX3PdeHztbxcZUJ1j787pfNfvuPFeyCJ7VUpump": 1.0,
     "FWQx8Q8Nxtc6S4YkcuUcT7eFPHYdAox8V1UZQ4YWpump": 1.0,
     "9eATnxHCzDb3qTRKxUqK8PM7daTEJiP6b8zfs4wWpump": 1.0,
-    "2cRhjCGvMQViKtTpgdQUBUxUBfQQpvG2VjnEYZmQpump": 1.0
+    "2cRhjCGvMQViKtTpgdQUBUxUBfQQpvG2VjnEYZmQpump": 1.0,
+    "37yGBGNuPn2rBYwJLp1Kampjjv1yEubzaTB1nbUtpump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
