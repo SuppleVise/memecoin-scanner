@@ -62,7 +62,7 @@
       "symbol": "PUMPCAT",
       "entry": 0.0002317,
       "peak": 0.0002317,
-      "last": 1.993e-06,
+      "last": 2.028e-06,
       "opened": 1793028731.9336917,
       "url": "https://dexscreener.com/solana/487y8ngssaazjejzycwy9sawfyb8t5zss5feqqccea5s",
       "hits": [],
@@ -154,7 +154,7 @@
       "peak_after_stop": 0.0264797507788162,
       "liq": 21291.9,
       "rug": true,
-      "miss": 0
+      "miss": 1
     },
     "FWQx8Q8Nxtc6S4YkcuUcT7eFPHYdAox8V1UZQ4YWpump": {
       "symbol": "$GIGR",
@@ -216,12 +216,12 @@
       "symbol": "SIB",
       "entry": 0.0001794,
       "peak": 0.0002332,
-      "last": 2.032e-06,
+      "last": 2.037e-06,
       "opened": 1793215423.319647,
       "url": "https://dexscreener.com/solana/8zts9bykajwtlbpsmjdwzs4grrxa1u7bccq7vetxvsxr",
       "hits": [],
       "stop_hit": true,
-      "peak_after_stop": 0,
+      "peak_after_stop": 0.011354515050167225,
       "liq": 34727.77,
       "rug": true,
       "miss": 0
@@ -243,334 +243,6 @@
   "withdraw_alerted": false,
   "summary_day": "2026-10-28",
   "missed": {
-    "EcyAmytzuodgAR3CT5uEm8VMfykroYc8TvxLAR7Lmqnv": {
-      "symbol": "LAUNCH",
-      "entry": 9.096e-06,
-      "peak": 9.096e-06,
-      "reason": "size/age: too new (1m), mcap $9,096, 24h vol $9, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/d3hr61xzuqaz1m9orhszka6wynwrdtftnu7ynr4prw93"
-    },
-    "5XAhr1wTMPapytrkxYN5pCCUuhqpwc5f35tEEDn4pump": {
-      "symbol": "Face",
-      "entry": 5.761e-07,
-      "peak": 5.761e-07,
-      "reason": "size/age: too new (1m), liquidity $0, mcap $576, 24h vol $647, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/8p7vpau4rvpqfz6hjsoywxbe75yx9rcjggtrpnvunajy"
-    },
-    "7BWPGyffsiQANUdwGHCBxLT8X4QVa8pakd5GwWjBpump": {
-      "symbol": "Pdoc",
-      "entry": 2.741e-06,
-      "peak": 3.178e-06,
-      "reason": "size/age: too new (1m), liquidity $0, mcap $2,742, 24h vol $66, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/cmscdukrqtjizzxp7ar3yfjaj4mmdw8cv3ctac1cayjy"
-    },
-    "GJBNmS8N38o11J9JpsXAQoPCfiEVoHGSANeHtpU9pump": {
-      "symbol": "$RENT",
-      "entry": 1.894e-07,
-      "peak": 1.894e-07,
-      "reason": "size/age: too new (1m), liquidity $0, mcap $189, 24h vol $754, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/3acui7qfnt2smznq2hnkgj1bmsw4rmptunkc2cppb9ws"
-    },
-    "FitLwZBL2KvQ5wn92t71DqveQhMTxyugZPP5kSvkpump": {
-      "symbol": "DSBot",
-      "entry": 2.856e-06,
-      "peak": 2.856e-06,
-      "reason": "size/age: too new (1m), liquidity $0, mcap $2,856, 24h vol $873, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/e6gxlmj5cjhredgfrxxnywlnqef7alg6uq6xyh9c7y6f"
-    },
-    "9wL4JePb1WDB9c3Ne7EybxqrzYDruuDXvhZc5kEcpump": {
-      "symbol": "WIRED",
-      "entry": 2.974e-06,
-      "peak": 2.974e-06,
-      "reason": "size/age: too new (1m), liquidity $0, mcap $2,974, 24h vol $457, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/ffcrfj4kto4cdsz2b64vryjnp5qmbneuzm9rwhnofwbc"
-    },
-    "xpzpsngqiEQ2Ly8Yj2fJea7RvwHonBkDEasHMy4pump": {
-      "symbol": "Sol",
-      "entry": 6.19e-06,
-      "peak": 6.19e-06,
-      "reason": "size/age: too new (1m), liquidity $0, mcap $6,190, 24h vol $3,853, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/3hvyv7aufylxhwhnqwxqnnuge3vgr5ernwggvnp4cu5x"
-    },
-    "3ocbp6XpPJUytN6KNnnF6AocHcz2EdSmoVjKMyfJpump": {
-      "symbol": "$CCOW",
-      "entry": 9.586e-08,
-      "peak": 9.586e-08,
-      "reason": "size/age: too new (2m), liquidity $0, mcap $96, 24h vol $639, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/cjuzb9zyymtl8pwmzknrrzrdmuyh9z54yqjc73gsebio"
-    },
-    "BcXuJPQnLG6jkhD2KZyAb6cFTu6KK5sCujZj7dozpump": {
-      "symbol": "2009 TR",
-      "entry": 3.22e-06,
-      "peak": 3.22e-06,
-      "reason": "size/age: too new (2m), liquidity $0, mcap $3,221, 24h vol $190, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/fyjdcdxsxobz5kb9tm1amytncrdrcja61cfmh8tcita8"
-    },
-    "2RCsDVbEzxbZFx2byHivADTE4tBcyXq1mzDdzJrcpump": {
-      "symbol": "HUMAN",
-      "entry": 2.893e-06,
-      "peak": 2.912e-06,
-      "reason": "size/age: too new (2m), liquidity $0, mcap $2,893, 24h vol $20, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/autqktsa9aukojj8fhvarkrzebziiyep3tdtsbusqjsu"
-    },
-    "2nhD8LNtCHNEg1phas8N3UoVFhY9QTSEmCrijfxZpump": {
-      "symbol": "FGUARD",
-      "entry": 3.299e-06,
-      "peak": 5.31e-06,
-      "reason": "size/age: too new (2m), liquidity $0, mcap $3,299, 24h vol $229, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/2vspefwwpse5dh8bedn7acp8qwd5jhehjt52zzhubrzn"
-    },
-    "Fa8LVScX3puZGB7GY8cKM5jbJ8XWL82P7DHV8ED8pump": {
-      "symbol": "ASS",
-      "entry": 2.967e-06,
-      "peak": 2.967e-06,
-      "reason": "size/age: too new (2m), liquidity $0, mcap $2,968, 24h vol $59, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/924yv7fqfd6uvpkewjdyxyvgr4yj3jdojqdecnwqfzcs"
-    },
-    "6Eeh9MYsfwnTzkYcYJRjtfZGhBhr2kouhGz7AvLcpump": {
-      "symbol": "BLOK",
-      "entry": 3.097e-06,
-      "peak": 3.097e-06,
-      "reason": "size/age: too new (2m), liquidity $0, mcap $3,098, 24h vol $1,759, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/8enfiakkjhegk8hdpwucg4utc2iskzunscdhwei4xco9"
-    },
-    "ET4H5t7MHnmUpMrwXae54txUGNZUoAcvy6g1exCHpump": {
-      "symbol": "EnzoCoin",
-      "entry": 4.476e-06,
-      "peak": 4.485e-06,
-      "reason": "size/age: too new (4m), liquidity $0, mcap $4,477, 24h vol $65, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/9dt24drveu7hbwaugj5ankuyedu9py866l936pz7rnzm"
-    },
-    "GBhcK8928AJcEsAREiwK73RoMdawYoTYf4XeD6Fppump": {
-      "symbol": "$CAT",
-      "entry": 2.128e-08,
-      "peak": 2.128e-08,
-      "reason": "size/age: too new (4m), liquidity $0, mcap $21, 24h vol $1,034, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/3nnxuyqktwnrevmv5vewjmbmdjufscdvqqf7sd9584c9"
-    },
-    "CzBCighTwtf8gxLZK4UWFEmNWsChCKGQspeBSYZqpump": {
-      "symbol": "LAUNCH",
-      "entry": 5.169e-08,
-      "peak": 5.169e-08,
-      "reason": "size/age: too new (4m), liquidity $0, mcap $52, 24h vol $217, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/fjymjs2kkxrpfalyqncvwb3z4jpnyksfgbysdjzungsh"
-    },
-    "52bRfd9g7KVaq2U73reFBxDCMreyEMd9H8w2AM91TD3M": {
-      "symbol": "SIB",
-      "entry": 2.861e-06,
-      "peak": 2.861e-06,
-      "reason": "size/age: too new (4m), liquidity $0, mcap $2,861, 24h vol $2, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/6u8inr7sczjgxux1ugykzxbhcijzqknf9ztiv7emkwke"
-    },
-    "5uKnqPecvLTfNGyLD6h7kK1mYRByANDFVMtBjZmZpump": {
-      "symbol": "Chatgpt",
-      "entry": 2.905e-06,
-      "peak": 2.905e-06,
-      "reason": "size/age: too new (4m), liquidity $0, mcap $2,905, 24h vol $25, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/hkqov4zxuxeqm5tbxvnwkhxnk6vc75xryejno8yrs6xy"
-    },
-    "HMWTMoLWUsmvkFCK71ddaLYXq8XYpJvDcuy3oeENLqiQ": {
-      "symbol": "SYNCT",
-      "entry": 2.531e-07,
-      "peak": 2.531e-07,
-      "reason": "size/age: too new (8m), liquidity $0, mcap $253, 24h vol $82, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/3bhbhukjyfmx5uze4wqfm9qzrkzezsjitnbjibeqiarr"
-    },
-    "JCgfr5iuXLq4MNu9G6BHa1Vd1qWhHE6PMy35bqnMpump": {
-      "symbol": "Vampurr",
-      "entry": 5.587e-06,
-      "peak": 5.587e-06,
-      "reason": "size/age: too new (4m), liquidity $0, mcap $5,588, 24h vol $6,842",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/dmxjufccu6ac8upgknarfsqex1idadjwm4lk8ubky4ks"
-    },
-    "CCYntLVEZ5kdRqABFkWD9YEw6KhQLbBEvC7y2mdcpump": {
-      "symbol": "$BUFF",
-      "entry": 3.295e-07,
-      "peak": 3.295e-07,
-      "reason": "size/age: too new (4m), liquidity $0, mcap $330, 24h vol $1,196",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/asukeffdminjzyfort45i4pyg7mdp2jmd5yoacl4bt99"
-    },
-    "ESKmMhbVngPy7Lgr4uix12iGiBDScaR1D9vFvyghmNCN": {
-      "symbol": "SODI",
-      "entry": 2.857e-06,
-      "peak": 2.857e-06,
-      "reason": "size/age: too new (4m), liquidity $0, mcap $2,858, 24h vol $182, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/d9rxycr2wwacsjzjhpsmnojs6zwgbegy6ummeu6wlrz8"
-    },
-    "BUyPoEzrCgg4jS436YmXLMxAgGJbKuGiGrSLKAP4pump": {
-      "symbol": "Jack",
-      "entry": 7.489e-08,
-      "peak": 7.489e-08,
-      "reason": "size/age: too new (4m), liquidity $0, mcap $75, 24h vol $2,071",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/l7pp3zyvgivyqtzgwtlcxwuddg6axqvogbkurmyrypr"
-    },
-    "9nHPmg1bzhexyeAVuKS7zD8EoBxThBjGiy8YrTdbpump": {
-      "symbol": "ULTRA",
-      "entry": 1.483e-06,
-      "peak": 1.483e-06,
-      "reason": "size/age: too new (4m), liquidity $0, mcap $1,483, 24h vol $62, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/kp9w3uwaazsrcrip6jtir4c1szoyepgsccakhq9gihv"
-    },
-    "JBKEsT8gxwYcRhz5m7fCJNSa5zK3CQqDLDEMitivpump": {
-      "symbol": "GETPAID",
-      "entry": 1.536e-07,
-      "peak": 1.536e-07,
-      "reason": "size/age: too new (4m), liquidity $0, mcap $154, 24h vol $982",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/9jsk9xxyfugeeizvq44vsyko2q8tkfzh6qrosuzif9lk"
-    },
-    "4yWsaYq6sJVULkkyeabm8wcnNp7n79Nps3wjqsLFpump": {
-      "symbol": "GrokToDo",
-      "entry": 3.077e-06,
-      "peak": 3.077e-06,
-      "reason": "size/age: too new (4m), liquidity $0, mcap $3,078, 24h vol $194, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/9yxmsxfem2ubqhaj8h6p2posc16pvrjksghc4z3mcvmy"
-    },
-    "5LbjCDDiepf5177atXVkhgxLQ11pG5LrSUh12RXvpump": {
-      "symbol": "BCKF",
-      "entry": 3.022e-06,
-      "peak": 3.022e-06,
-      "reason": "size/age: too new (4m), liquidity $0, mcap $3,022, 24h vol $1,347, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/61fx2exsvp5cwop8s6e9y2wr8chd2hubvuojfgeultce"
-    },
-    "GSUPBUqjXB6thF33NwHdQutmSARpBTL3KpaPpzWDkNBd": {
-      "symbol": "XMR",
-      "entry": 4.653e-12,
-      "peak": 4.653e-12,
-      "reason": "size/age: too new (4m), liquidity $0, mcap $0, 24h vol $0, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/33xjnc8rnaxb5vjaeo6gd5mfywtnqvycjqovjpongnsg"
-    },
-    "5LMyiFBjSRVdMYngdAEiGWzEZMTDMUftpZ5J2Erdpump": {
-      "symbol": "BLACKTOBER",
-      "entry": 0.0001582,
-      "peak": 0.0001582,
-      "reason": "momentum: buy/sell 1.20, score 55",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/5lewwmpwkq2jb7dupqbp6dcztipx6tmq7vs8hali1juu"
-    },
-    "MzUxrgP4k6huTD415pA9bKzBA8BvCgyu15TfbEnpump": {
-      "symbol": "OpenBot",
-      "entry": 0.0001087,
-      "peak": 0.000271,
-      "reason": "momentum: 5m -28.6%, score 54",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/bkrbce4jnsxxp2gvnhuy9c3jbvzqoe8aenv5xt74zwgs"
-    },
-    "8quBTcK4T7GNEL6rNe9ae9DZ1FT6n9jppe4wayZKm2Yy": {
-      "symbol": "StonkPool",
-      "entry": 2.877e-05,
-      "peak": 2.877e-05,
-      "reason": "size/age: liquidity $0",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/awrvkw2jzbelnc6erndkvvmsj4ntn7lageuzk6cnnzfh"
-    },
-    "ARNNPR1ZrLM22YkutDrFUzqom4UkLugYXqKn5jWh5W57": {
-      "symbol": "STONKPOOL",
-      "entry": 4.616e-11,
-      "peak": 4.616e-11,
-      "reason": "size/age: liquidity $0, mcap $0, 24h vol $0, thin 1h txns",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/8hs9qfzace6qdqhpp1s5ferfh88ladavbv6pp6ejuaja"
-    },
-    "JZmhMR5Zu1bRmeaERNGE31eExKVBJDQVJGYay8fZU3v": {
-      "symbol": "StonkPool",
-      "entry": 5.35e-05,
-      "peak": 5.35e-05,
-      "reason": "momentum: score 58",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/2pr5lxbt2dlsxse4cqnrh7meralj8grkf7elcxf98enk"
-    },
-    "FXKkstUU4WodJKYxYkivCiUU1LhPnrPqdX1asduAn334": {
-      "symbol": "attentionhq",
-      "entry": 2.629e-05,
-      "peak": 2.629e-05,
-      "reason": "size/age: too new (5m), liquidity $0, 24h vol $13,754",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/dvdkadhkvkxtmbx9bfldccmmkbpoaawx8q6tgcjgg5zn"
-    },
-    "LBmHM5NtKDhyVeeVFegy9kQPbTYWTVj2L6DHBAavqam": {
-      "symbol": "OpenBot",
-      "entry": 7.831e-05,
-      "peak": 7.831e-05,
-      "reason": "size/age: too new (8m)",
-      "opened": 1793175432.0856152,
-      "url": "https://dexscreener.com/solana/5cfcsryzk2pgqzsae53yvchvrae1caflzpnwq3doqnxn"
-    },
-    "2rohYU8PmYvDPR11QBELMdwtSBJ5DQtWni6GQfkEpump": {
-      "symbol": "ONLY",
-      "entry": 1.219e-06,
-      "peak": 1.219e-06,
-      "reason": "size/age: too new (1m), liquidity $0, mcap $1,219, 24h vol $235, thin 1h txns",
-      "opened": 1793178655.8627627,
-      "url": "https://dexscreener.com/solana/eqbhs1eubumxfzzneyecpffupetgr3rjdfs97nem461b"
-    },
-    "DoGvzDDgTdDQv3vuSikdm11LzbVF9U7zAs5d7P14pump": {
-      "symbol": "NOGGE",
-      "entry": 1.541e-06,
-      "peak": 1.541e-06,
-      "reason": "size/age: too new (1m), liquidity $0, mcap $1,542, 24h vol $74, thin 1h txns",
-      "opened": 1793178655.8627627,
-      "url": "https://dexscreener.com/solana/6orwm1r5mvyhv9baoff6xsgryhs4vvoxqqltnz8bydcd"
-    },
-    "G4XNBN45bzzdx6cbjHRtecY44T2P51cjh2esAxiHpump": {
-      "symbol": "GPEPE",
-      "entry": 2.799e-07,
-      "peak": 2.799e-07,
-      "reason": "size/age: too new (1m), liquidity $0, mcap $280, 24h vol $117, thin 1h txns",
-      "opened": 1793178655.8627627,
-      "url": "https://dexscreener.com/solana/3k2qruza1gup7zqrcyomxuumc5ajgyqu6addwehxmdnn"
-    },
-    "9X9un5FhgWUZDgofghgjZS76e7gD82dZSGKyUL5Npump": {
-      "symbol": "FERSPE",
-      "entry": 4.541e-06,
-      "peak": 4.541e-06,
-      "reason": "size/age: too new (1m), liquidity $0, mcap $4,541, 24h vol $34, thin 1h txns",
-      "opened": 1793178655.8627627,
-      "url": "https://dexscreener.com/solana/6qukxosqbljdqoqh1wixywgnzv9dcacga2keunrv6gkl"
-    },
-    "HBCnHSYv5vUVa6BY2mRnRBmNS3Lq5fHLb5ESckztpump": {
-      "symbol": "RL",
-      "entry": 2.864e-06,
-      "peak": 2.864e-06,
-      "reason": "size/age: too new (1m), liquidity $0, mcap $2,865, 24h vol $0, thin 1h txns",
-      "opened": 1793178655.8627627,
-      "url": "https://dexscreener.com/solana/826r7y9dbmsaixjmyhfofqxuvqenprubf6jdzjqctuvi"
-    },
-    "J5h4qRqakRA6ifsZxafYAXjtGQA9AtcPsmttCQN3pump": {
-      "symbol": "Donut",
-      "entry": 3.198e-06,
-      "peak": 3.198e-06,
-      "reason": "size/age: too new (1m), liquidity $0, mcap $3,198, 24h vol $2,300, thin 1h txns",
-      "opened": 1793178655.8627627,
-      "url": "https://dexscreener.com/solana/8jt8i534vkseewgl42sndhdvdavmpmsetwxxjimpop3i"
-    },
     "CHyniAi81yRywntmWE8g9JsbvaZCXUDUVpVYLXTppump": {
       "symbol": "Newt",
       "entry": 3.621e-06,
@@ -4882,7 +4554,7 @@
     "CcySt6V6uMHTHEtGNbkx9QGSM3QoivpdVbwGcJ46pump": {
       "symbol": "REDBARON",
       "entry": 3.844e-06,
-      "peak": 3.844e-06,
+      "peak": 8.679e-06,
       "reason": "size/age: too new (2m), liquidity $0, mcap $3,844, 24h vol $171, thin 1h txns",
       "opened": 1793223237.1547408,
       "url": "https://dexscreener.com/solana/headwng9ocippycqpjgtpjnwceei5bqdhmgrqjrp6jnx"
@@ -4954,7 +4626,7 @@
     "6Y39e9ZEHasUgULob7TAhXRdhYaBXsup2EZq86mP584c": {
       "symbol": "LYBER",
       "entry": 2.782e-06,
-      "peak": 2.782e-06,
+      "peak": 2.784e-06,
       "reason": "size/age: too new (2m), liquidity $0, mcap $2,783, 24h vol $70, thin 1h txns",
       "opened": 1793223237.1547408,
       "url": "https://dexscreener.com/solana/famn6tn3evjrhykt7y93nhwpfskt8po3fpnv4jjcrhdc"
@@ -5002,7 +4674,7 @@
     "677RzFgXjLpApyHAtzjd9sTjiJNGCxrRVvYb1TwWp5qJ": {
       "symbol": "Tucker",
       "entry": 2.397e-05,
-      "peak": 2.397e-05,
+      "peak": 6.847e-05,
       "reason": "size/age: too new (2m), liquidity $0, mcap $23,972",
       "opened": 1793223237.1547408,
       "url": "https://dexscreener.com/solana/6ml1tyklugimhdfpdutr8tbnwznah2jwhydfvpypurmj"
@@ -5046,6 +4718,334 @@
       "reason": "size/age: liquidity $0, 24h vol $16,066",
       "opened": 1793223237.1547408,
       "url": "https://dexscreener.com/solana/djt7165yxudfrhyemew631k2fga4ngu6qyic2n6j1ys"
+    },
+    "45hztB8obCw5Vn22xMcecVvJaDTDsN4R4zr9yYqXpump": {
+      "symbol": "egg",
+      "entry": 3.269e-06,
+      "peak": 3.269e-06,
+      "reason": "size/age: too new (1m), liquidity $0, mcap $3,269, 24h vol $3,905, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/j53ocmkgruvdaphzrldaby4mk7kue3uviivbajjrfeey"
+    },
+    "Bv1a7cEj5aRnJQhMw4kRQqAFesMSd5LwcDnUzq52BMmr": {
+      "symbol": "FLOAT",
+      "entry": 0.0001588,
+      "peak": 0.0001588,
+      "reason": "size/age: too new (1m), 24h vol $6,567, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/fjk9sajdc2q4herppu3ylzkmf2zbyzkpihqlv9e2bn5a"
+    },
+    "6qqHmfvF3DK3nkFUQLUG7FqBKrjpg3Z8kzmJhj4Mpump": {
+      "symbol": "DaShity",
+      "entry": 6.852e-06,
+      "peak": 6.852e-06,
+      "reason": "size/age: too new (1m), liquidity $0, mcap $6,852, 24h vol $7,526",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/d2agjeuynpjr8v7jr1yclr8zfrkz3s6njtpvphu66utt"
+    },
+    "GZtzJ8dL8vwjQQ6v8cC9jYMndvEsU23y3icdaNALpump": {
+      "symbol": "Emile",
+      "entry": 2.864e-06,
+      "peak": 2.864e-06,
+      "reason": "size/age: too new (1m), liquidity $0, mcap $2,864, 24h vol $662, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/7qiuorj7vtoyzttqmwxajwibx9ufulkulwfg9q3pat4p"
+    },
+    "He6BYzs92yyKFh41MFJGyi1PRwEPRZPqpFue9vsZpump": {
+      "symbol": "KEKE",
+      "entry": 3.678e-06,
+      "peak": 3.678e-06,
+      "reason": "size/age: too new (1m), liquidity $0, mcap $3,679, 24h vol $410, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/5clfchcxjwfsupszpqhtgipyyvoe3bsrgvwd9tqzljvm"
+    },
+    "BLfNbX3jgDUkzZTAyuuiqh7ndh2LrJD5MU7DuaqSov35": {
+      "symbol": "MEMES",
+      "entry": 3.137e-06,
+      "peak": 3.137e-06,
+      "reason": "size/age: too new (1m), liquidity $0, mcap $3,137, 24h vol $1,691, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/azwb2utdp4d8cezxdtpjszan9d2ll56tf8xrhgknvvxd"
+    },
+    "GCr37MnR2w4qJRGz3eMgBANswPtrUgNiERHbtecBqnR1": {
+      "symbol": "Tucker",
+      "entry": 4.66e-12,
+      "peak": 4.66e-12,
+      "reason": "size/age: too new (1m), liquidity $0, mcap $0, 24h vol $0, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/fravqkbzhjhnjdac138h5bqdgjxsnvxwa4pv7asubxsx"
+    },
+    "Hv6KbjyQGrpnwepUGfGWNviEjWdCHhs7Y8g8ZeFopump": {
+      "symbol": "trench",
+      "entry": 1.026e-07,
+      "peak": 1.026e-07,
+      "reason": "size/age: too new (1m), liquidity $0, mcap $103, 24h vol $1,206",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/3d27dimgwcrcffutzwksktudeeatuahcodqnmtndcn6r"
+    },
+    "D9Uk2RwkmSHwAuXdSHKc3drwo4GFDL2a1p8hH8Wipump": {
+      "symbol": "ORIGIN",
+      "entry": 2.867e-06,
+      "peak": 2.867e-06,
+      "reason": "size/age: too new (1m), liquidity $0, mcap $2,868, 24h vol $35, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/9vurbpwij6pjxv65fsm1k2qvrozmgfgp2puxx8kjjqwc"
+    },
+    "GeKktNuzHQHH2WuySCsjqyfYEkUvVdo1aTgra3vkpump": {
+      "symbol": "look",
+      "entry": 5.339e-06,
+      "peak": 5.339e-06,
+      "reason": "size/age: too new (1m), liquidity $0, mcap $5,339, 24h vol $29, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/brhpabjn7ku2bhoayb9ippeming9rzgch17lg8kmm3os"
+    },
+    "F7S5jou3ZAVfto1a7uiEYEJjjSLcU9tzuXourzdEcvie": {
+      "symbol": "SECRETSOL",
+      "entry": 2.877e-06,
+      "peak": 2.877e-06,
+      "reason": "size/age: too new (1m), liquidity $0, mcap $2,877, 24h vol $7, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/8bbmjuvhq7bpnyik5jukn95zinwxybxrgjtyalzgb9fi"
+    },
+    "4ocFg3UqJiPTV3r1MwT6xzXK7WLq41hH4m6e4Bndpump": {
+      "symbol": "BAGCAT",
+      "entry": 5.824e-06,
+      "peak": 5.824e-06,
+      "reason": "size/age: too new (1m), liquidity $0, mcap $5,824, 24h vol $5,233",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/arex3p1sfurlwynjfhkck9npssmsi6x1w332akfmagwv"
+    },
+    "56ZbSMZJDZBn3r8rbZxnnWvgutuFvxgRo7FUEmkNpump": {
+      "symbol": "RUNMOON",
+      "entry": 3.156e-06,
+      "peak": 3.156e-06,
+      "reason": "size/age: too new (1m), liquidity $0, mcap $3,157, 24h vol $153, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/g3ezq9xftktyeh76uv5qlz3hulvhckymuxuwopgfm2xj"
+    },
+    "CLGXZ6i17Uwx8JNEbXUW2ZZuVE2AeekicfbUQebSnQJk": {
+      "symbol": "50k",
+      "entry": 2.915e-06,
+      "peak": 2.915e-06,
+      "reason": "size/age: too new (1m), liquidity $0, mcap $2,915, 24h vol $333, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/c48wnqcfp4u9zmfbbqqz1f4r97jmsluxml8yaqanrfxo"
+    },
+    "4jEpknH6LM3xDZs2Ze8cL4uqvd7ENcf3kayBLEf24RsW": {
+      "symbol": "ANT",
+      "entry": 1.339e-05,
+      "peak": 1.339e-05,
+      "reason": "size/age: too new (1m), mcap $13,396",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/e7mz3w7nkk24oxthxdtndqpbmnmqpg2rck1f4ajexyh6"
+    },
+    "GScHkTFqtrY2TsD8fHRv58vruUcAaGu2pUkZkvp2wrAM": {
+      "symbol": "Useful",
+      "entry": 0.0001553,
+      "peak": 0.0001553,
+      "reason": "size/age: too new (2m), liquidity $0, 24h vol $1, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/bvumddnfxgrrtydbucewakvnzd6utzpv7zwp8qm9j3gj"
+    },
+    "BCJo4Deyu9DoJB9h4uyDRh6FuR9xADEqoDmnBQvNpump": {
+      "symbol": "Emile",
+      "entry": 2.864e-06,
+      "peak": 2.864e-06,
+      "reason": "size/age: too new (2m), liquidity $0, mcap $2,864, 24h vol $1,358, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/8ows6q1ulm5dgjdxkjuutnkssxvrjqnwildgfaxs2apv"
+    },
+    "7FYNs8J92esxqfTDo5FxFj2akZbcVDMA3bdgRnHbpump": {
+      "symbol": "ORANGE",
+      "entry": 2.864e-06,
+      "peak": 2.864e-06,
+      "reason": "size/age: too new (2m), liquidity $0, mcap $2,864, 24h vol $120, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/5o5elldkzlef7oxsm4yxm9onpahmrjy6i7xfvgluibmh"
+    },
+    "3PgRhMvGSPy7zxn1c42UvKCWrNdgKsNAwYnF4ZaUpump": {
+      "symbol": "SGRPUP",
+      "entry": 1.108e-06,
+      "peak": 1.108e-06,
+      "reason": "size/age: too new (2m), liquidity $0, mcap $1,109, 24h vol $110, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/8ehmx7dkqfuv9ctwaqx4nkjsunb1sdnhm7joryhcvvsp"
+    },
+    "Gbbi1ZKRZqhNDmt6wnXXKsF3hkfykYumk7CBiwb9pump": {
+      "symbol": "BULLSHARK",
+      "entry": 6.661e-06,
+      "peak": 6.661e-06,
+      "reason": "size/age: too new (2m), liquidity $0, mcap $6,661, 24h vol $1,324, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/7hrnubnchrstcfk4utht3fhbo5njv45gq544x6nwryhc"
+    },
+    "6ajKRHXcWCA6Phu5gC29quP8E2L6ziUBoAja3Ymopump": {
+      "symbol": "TouchBook",
+      "entry": 3.15e-06,
+      "peak": 3.15e-06,
+      "reason": "size/age: too new (2m), liquidity $0, mcap $3,150, 24h vol $109, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/4gzjwmtwwr4h3rkrg9evialng8gbakirthkeyzg7vnh7"
+    },
+    "CSDRLg77pwPrDxGe4gSvrt45E9YnAjBKxervKzKL4ksB": {
+      "symbol": "LAR",
+      "entry": 3.049e-05,
+      "peak": 3.049e-05,
+      "reason": "size/age: too new (4m), liquidity $0, 24h vol $4,683",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/fadbktjprrecveu1kssuaylnfbubqxzsrrrxx5prnhye"
+    },
+    "7f4XweELmRiFiNB4Q362pLWN7Txeco1JYnB1d8xQpump": {
+      "symbol": "ANT",
+      "entry": 2.862e-06,
+      "peak": 2.862e-06,
+      "reason": "size/age: too new (2m), liquidity $0, mcap $2,862, 24h vol $1, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/dz66j2pu2lud7lwjlhwk6334gkq4scefasf1tjikck28"
+    },
+    "285h6eDaWEjmpqWry6prsKBmytsALMPh635MBLj3pump": {
+      "symbol": "MRF",
+      "entry": 2.863e-06,
+      "peak": 2.863e-06,
+      "reason": "size/age: too new (2m), liquidity $0, mcap $2,864, 24h vol $882, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/hc6ujao9rvhlkr5xi4g7t8cgkp773e13f9dbj1sqqrob"
+    },
+    "2b1RrPZ27Dv7NNq9H5Nv8eUsYnJNESaNcRbM8qTupump": {
+      "symbol": "CANONKEY ",
+      "entry": 2.864e-06,
+      "peak": 2.864e-06,
+      "reason": "size/age: too new (3m), liquidity $0, mcap $2,864, 24h vol $186, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/bdma9rhgvqufmhcgywtekdc9j7dsagt9ewwn3g7rax1f"
+    },
+    "4egQCpGZNDyzH5TvbYtg7GfgGTsixdr8Hgx2Aobxpump": {
+      "symbol": "Multi",
+      "entry": 3.135e-06,
+      "peak": 3.135e-06,
+      "reason": "size/age: too new (3m), liquidity $0, mcap $3,135, 24h vol $5,177, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/5mbgzs7e64kkfaperehihblq2r7bt64dmwqcucdury9l"
+    },
+    "C7noTocrYEusHztu9byjfcycBe7isqKtaYaoGqyUpump": {
+      "symbol": "SGRPUP",
+      "entry": 4.923e-06,
+      "peak": 4.923e-06,
+      "reason": "size/age: too new (3m), liquidity $0, mcap $4,923, 24h vol $203, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/8xyi4xysujcugjoyq1stwwzamu6v5kujqqrau4vp5ovz"
+    },
+    "BonLMJYDWB8HpxmUg1nmgKMnxAoc788JNF5c4eJzpump": {
+      "symbol": "HOCK",
+      "entry": 2.862e-06,
+      "peak": 2.862e-06,
+      "reason": "size/age: too new (3m), liquidity $0, mcap $2,862, 24h vol $235, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/cnsjzp2pdwmujbzmb2iyjkgywmt9xxpxghi5rcj3exzt"
+    },
+    "ENMKgpKxkqJiz7N4buqEYeoVkxBngLVxPKgkF5fgpump": {
+      "symbol": "HOCK",
+      "entry": 2.938e-06,
+      "peak": 2.938e-06,
+      "reason": "size/age: too new (3m), liquidity $0, mcap $2,938, 24h vol $42, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/wgpkkqtptjdv7vnw5bnzl9x4vgfn6jreo9pme9a63cc"
+    },
+    "5D4wLGzJuNjEPEsCueRwUC1bE6Ewthw5Gzaxgezgpump": {
+      "symbol": "RTROLL",
+      "entry": 4.195e-05,
+      "peak": 4.195e-05,
+      "reason": "size/age: liquidity $0, 24h vol $8,680, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/8azs9v3v7o2x7cpthvir5otooctfemnbyybazswwzazn"
+    },
+    "5R1h7pAMqVDiN196gzYXH1iZ6KqEAnYQEuA4c5Qpump": {
+      "symbol": "GOONETTE",
+      "entry": 4.066e-06,
+      "peak": 4.066e-06,
+      "reason": "size/age: too new (3m), liquidity $0, mcap $4,066, 24h vol $10,423",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/2oyzri6qtprehyyfoaq1qerapqu7qglabcqsxmo7uawk"
+    },
+    "9EeWn5AsNwKozDGP7nat2diUew9EEANRsk1J7WXQpump": {
+      "symbol": "AT",
+      "entry": 2.862e-06,
+      "peak": 2.862e-06,
+      "reason": "size/age: too new (3m), liquidity $0, mcap $2,862, 24h vol $1, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/c8ofcq3zseyrcpzj4hexw4ge7hqhodycjd3xcnjh3m5z"
+    },
+    "DhKSTHFduCszBf9ukE1G5momaQExKndwBUyxN3CEpump": {
+      "symbol": "RECOVER",
+      "entry": 2.862e-06,
+      "peak": 2.862e-06,
+      "reason": "size/age: too new (3m), liquidity $0, mcap $2,862, 24h vol $81, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/jcfqncsenrd8puvyxdxkaau2wkfb7clyb6vy8dhvsyei"
+    },
+    "m83Fh4uxUQhBp3jXNy68f47ryykn2qNFiMbBV8Tpump": {
+      "symbol": "AT",
+      "entry": 2.862e-06,
+      "peak": 2.862e-06,
+      "reason": "size/age: too new (3m), liquidity $0, mcap $2,862, 24h vol $0, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/d9nkh12gnp1uyvny7jxeq7rlnkbclaquwwpk7ny7r2gc"
+    },
+    "2yViZrNQXYS8LTdBoEjNuDFTCqXUhLWFSfrqVF9Cpump": {
+      "symbol": "AT",
+      "entry": 2.862e-06,
+      "peak": 2.862e-06,
+      "reason": "size/age: too new (3m), liquidity $0, mcap $2,862, 24h vol $1, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/5mzfnom5ehqeaah6neq1z1mqitnhby1vnhqxtm8revy7"
+    },
+    "8UDyKGek3Vuj5FheH19JtuGwjiJLhRcybFdxtKAf6cPq": {
+      "symbol": "DOG",
+      "entry": 4.622e-11,
+      "peak": 4.622e-11,
+      "reason": "size/age: too new (7m), liquidity $0, mcap $0, 24h vol $0, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/5mbmmnnrcri6if7pfb5jujghzjftdjtuvc1hzz4zu57h"
+    },
+    "SCFcqGLrKL1YCvofhvpqNe4wLVWzZg8pkvsGnt2f1U5": {
+      "symbol": "Tucker",
+      "entry": 9.888e-07,
+      "peak": 9.888e-07,
+      "reason": "rug filter: rugcheck score 52, danger: Large Amount of LP Unlocked, LP locked 0%",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/gybyyfvjxszntu2fzub8wztxkxpsbspcc34wwz1pfw6n"
+    },
+    "84zzLqxgLujAxw57eaqERHVuiN5mieGrU9CKzuDdkn9S": {
+      "symbol": "MEME69",
+      "entry": 4.638e-11,
+      "peak": 4.638e-11,
+      "reason": "size/age: liquidity $0, mcap $0, 24h vol $0, thin 1h txns",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/cqbb3mmncznknc9rranxkslpuyzpkn7moopspheaukum"
+    },
+    "H9hkmAQFy8dDmkumVC1oL5HTFztbUiWsB7W9h25bpump": {
+      "symbol": "RETARD",
+      "entry": 4.206e-05,
+      "peak": 4.206e-05,
+      "reason": "size/age: too new (9m), liquidity $0",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/eb3kjvccnnycf8tamt5ryucgqfpsikhfvqvnzjmrkl3n"
+    },
+    "9gomFEABEWSzuutXs1NQgFBeTWy2Gozi4NgvJ8g1pump": {
+      "symbol": "DOG",
+      "entry": 7.922e-06,
+      "peak": 7.922e-06,
+      "reason": "size/age: too new (8m), liquidity $0, mcap $7,923",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/8d3cm9v1hvgbbsrbcgjsda69xqadqy2yyyd4vy3edwut"
+    },
+    "Nc4NZ24fDcwvMA91VdjWoF1VgHxhrnyvV9b9KB8qvXC": {
+      "symbol": "Tucker",
+      "entry": 0.0001105,
+      "peak": 0.0001105,
+      "reason": "rug filter: rugcheck score 52, danger: Large Amount of LP Unlocked, LP locked 0%",
+      "opened": 1793225793.270143,
+      "url": "https://dexscreener.com/solana/5mkofb5dqjpg85vdnidrj1kna35dtdkpt7ts2chfrhzb"
     }
   },
   "missed_big": [
