@@ -1,5 +1,5 @@
 {
-  "cash": -113.88001339829309,
+  "cash": -123.88001339829309,
   "positions": {
     "Hhnf3dZTBvhedKjFCNh8Ci23YLEQg1MKTzMTHUwruMmz": {
       "symbol": "Stonkz",
@@ -9,7 +9,7 @@
       "entry": 0.000132906,
       "cost": 10.0,
       "peak": 0.000132906,
-      "last": 9.465e-05,
+      "last": 8.943e-05,
       "opened": 1793160294.0403035,
       "rungs_done": 0,
       "entry_liq": 35234.09
@@ -22,15 +22,28 @@
       "entry": 0.0005361119999999999,
       "cost": 10.0,
       "peak": 0.0007134,
-      "last": 0.0007134,
+      "last": 0.0006713,
       "opened": 1793167996.8292334,
       "rungs_done": 0,
       "entry_liq": 62122.3
+    },
+    "HfPVTUsSd55Aab6BACWCy6dXo5pQgTUFnyGzgspFpump": {
+      "symbol": "CA",
+      "pair": "5k6mkLebf8vLk33DxxUVprswib5PKorJxx7yHdiMh8P6",
+      "qty": 136204.18397015738,
+      "orig_qty": 136204.18397015738,
+      "entry": 7.19508e-05,
+      "cost": 10.0,
+      "peak": 7.19508e-05,
+      "last": 7.19508e-05,
+      "opened": 1793181603.3796554,
+      "rungs_done": 0,
+      "entry_liq": 21168.48
     }
   },
   "day": "2026-10-28",
   "day_pnl": -26.327485804129473,
-  "day_trades": 4,
+  "day_trades": 5,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
@@ -56,7 +69,8 @@
     "Hhnf3dZTBvhedKjFCNh8Ci23YLEQg1MKTzMTHUwruMmz",
     "2nPPKzFCYDZLqHxJJdFJA1iV2V4ZqV9K6z8qSiYTpump",
     "69Y6D9xQKkDYPvESDiKaQpU9Z5FXzY8LB7PthQkmpump",
-    "3yM6w93HMUZSHrMSGVPR2cW4Wvubvkscht1541i6pump"
+    "3yM6w93HMUZSHrMSGVPR2cW4Wvubvkscht1541i6pump",
+    "HfPVTUsSd55Aab6BACWCy6dXo5pQgTUFnyGzgspFpump"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
@@ -86,8 +100,8 @@
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": -113.88001339829309,
-  "round_tickets": 24,
+  "min_cash": -123.88001339829309,
+  "round_tickets": 25,
   "symbols_bought": {
     "MFORGE": 1793035062.422963,
     "XD": 1793035062.4235427,
@@ -104,6 +118,7 @@
     "STONKZ": 1793160294.0403056,
     "FRONGUS": 1793165307.3457053,
     "RAPPORT": 1793167996.8292363,
-    "SI": 1793175407.895873
+    "SI": 1793175407.895873,
+    "CA": 1793181603.3796575
   }
 }
