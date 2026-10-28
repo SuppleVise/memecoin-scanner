@@ -9,27 +9,14 @@
       "entry": 0.000132906,
       "cost": 10.0,
       "peak": 0.000132906,
-      "last": 9.685e-05,
+      "last": 0.0001018,
       "opened": 1793160294.0413575,
       "rungs_done": 0,
       "entry_liq": 35234.09
-    },
-    "2nPPKzFCYDZLqHxJJdFJA1iV2V4ZqV9K6z8qSiYTpump": {
-      "symbol": "FRONGUS",
-      "pair": "2MQY9wfM2vttdKvRKV9k9Ma7z988AdxqmUAYKCeHgAcT",
-      "qty": 52501.87506696668,
-      "orig_qty": 52501.87506696668,
-      "entry": 0.00018666,
-      "cost": 10.0,
-      "peak": 0.00018666,
-      "last": 0.00018666,
-      "opened": 1793165307.4151413,
-      "rungs_done": 0,
-      "entry_liq": 38769.93
     }
   },
   "day": "2026-10-28",
-  "day_pnl": 0.0,
+  "day_pnl": -10.0,
   "day_trades": 2,
   "halted": false,
   "traded": [
@@ -60,7 +47,8 @@
     "5XapX9FpytfrwqY8Y7mNStwrur8u5fNnJjEcJNXZpump": 1.0,
     "27Qg7EcnGfmbthfQeQXTs4qjfnvU6gXf8W1ahJiJpump": 1.0,
     "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump": 3.6,
-    "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump": 1.0
+    "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump": 1.0,
+    "2nPPKzFCYDZLqHxJJdFJA1iV2V4ZqV9K6z8qSiYTpump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
