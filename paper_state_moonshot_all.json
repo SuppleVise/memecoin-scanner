@@ -1,5 +1,5 @@
 {
-  "cash": -77.55252759416362,
+  "cash": -87.55252759416362,
   "positions": {
     "7dVpVqUEbJ9csNWWrDavsA8iAEwvb6BqWu1yVsQgpump": {
       "symbol": "DICTATOR",
@@ -9,15 +9,28 @@
       "entry": 0.000153918,
       "cost": 10.0,
       "peak": 0.0002589,
-      "last": 0.0001147,
+      "last": 9.036e-05,
       "opened": 1793103743.6220353,
       "rungs_done": 0,
       "entry_liq": 32011.77
+    },
+    "Hhnf3dZTBvhedKjFCNh8Ci23YLEQg1MKTzMTHUwruMmz": {
+      "symbol": "Stonkz",
+      "pair": "Ew6pcWVRa7hRdw3j5pTh3DsyiW7GpbC3AHNXiGzsfzsT",
+      "qty": 73736.32492137302,
+      "orig_qty": 73736.32492137302,
+      "entry": 0.000132906,
+      "cost": 10.0,
+      "peak": 0.000132906,
+      "last": 0.000132906,
+      "opened": 1793160294.0403035,
+      "rungs_done": 0,
+      "entry_liq": 35234.09
     }
   },
-  "day": "2026-10-27",
-  "day_pnl": -58.12347024034064,
-  "day_trades": 9,
+  "day": "2026-10-28",
+  "day_pnl": 0.0,
+  "day_trades": 1,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
@@ -39,7 +52,8 @@
     "7dVpVqUEbJ9csNWWrDavsA8iAEwvb6BqWu1yVsQgpump",
     "6zMfMXjovo7ivtrypSP7YspHm5TcbV4Sh5TwSDgapump",
     "7F968EUuLBzUcCzhD6FZpXaTWAybKZDkWFmwoVArcAc",
-    "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump"
+    "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump",
+    "Hhnf3dZTBvhedKjFCNh8Ci23YLEQg1MKTzMTHUwruMmz"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
@@ -66,8 +80,8 @@
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": -83.40387711632427,
-  "round_tickets": 20,
+  "min_cash": -87.55252759416362,
+  "round_tickets": 21,
   "symbols_bought": {
     "MFORGE": 1793035062.422963,
     "XD": 1793035062.4235427,
@@ -80,6 +94,7 @@
     "DICTATOR": 1793103743.6220388,
     "TRUMP2028": 1793107180.2678945,
     "DARLA": 1793110370.7389352,
-    "TON": 1793118903.8236086
+    "TON": 1793118903.8236086,
+    "STONKZ": 1793160294.0403056
   }
 }
