@@ -1,19 +1,6 @@
 {
-  "cash": -107.55252759416362,
+  "cash": -113.88001339829309,
   "positions": {
-    "7dVpVqUEbJ9csNWWrDavsA8iAEwvb6BqWu1yVsQgpump": {
-      "symbol": "DICTATOR",
-      "pair": "GnicFd5WkN4uc3hiwHA77pMyYDkBNwaChjEiZqQqskNt",
-      "qty": 63670.26598578464,
-      "orig_qty": 63670.26598578464,
-      "entry": 0.000153918,
-      "cost": 10.0,
-      "peak": 0.0002589,
-      "last": 9.226e-05,
-      "opened": 1793103743.6220353,
-      "rungs_done": 0,
-      "entry_liq": 32011.77
-    },
     "Hhnf3dZTBvhedKjFCNh8Ci23YLEQg1MKTzMTHUwruMmz": {
       "symbol": "Stonkz",
       "pair": "Ew6pcWVRa7hRdw3j5pTh3DsyiW7GpbC3AHNXiGzsfzsT",
@@ -22,7 +9,7 @@
       "entry": 0.000132906,
       "cost": 10.0,
       "peak": 0.000132906,
-      "last": 9.679e-05,
+      "last": 8.872e-05,
       "opened": 1793160294.0403035,
       "rungs_done": 0,
       "entry_liq": 35234.09
@@ -35,15 +22,28 @@
       "entry": 0.0005361119999999999,
       "cost": 10.0,
       "peak": 0.0006551,
-      "last": 0.0006551,
+      "last": 0.0005036,
       "opened": 1793167996.8292334,
       "rungs_done": 0,
       "entry_liq": 62122.3
+    },
+    "3yM6w93HMUZSHrMSGVPR2cW4Wvubvkscht1541i6pump": {
+      "symbol": "SI",
+      "pair": "3KgVPft91E1E3YedModfn1gwcLDSMErFDFhLGHa65LCj",
+      "qty": 37781.53022907944,
+      "orig_qty": 37781.53022907944,
+      "entry": 0.000259386,
+      "cost": 10.0,
+      "peak": 0.000259386,
+      "last": 0.000259386,
+      "opened": 1793175407.8958702,
+      "rungs_done": 0,
+      "entry_liq": 46117.9
     }
   },
   "day": "2026-10-28",
-  "day_pnl": -10.0,
-  "day_trades": 3,
+  "day_pnl": -16.327485804129473,
+  "day_trades": 4,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
@@ -68,7 +68,8 @@
     "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump",
     "Hhnf3dZTBvhedKjFCNh8Ci23YLEQg1MKTzMTHUwruMmz",
     "2nPPKzFCYDZLqHxJJdFJA1iV2V4ZqV9K6z8qSiYTpump",
-    "69Y6D9xQKkDYPvESDiKaQpU9Z5FXzY8LB7PthQkmpump"
+    "69Y6D9xQKkDYPvESDiKaQpU9Z5FXzY8LB7PthQkmpump",
+    "3yM6w93HMUZSHrMSGVPR2cW4Wvubvkscht1541i6pump"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
@@ -90,14 +91,15 @@
     "7F968EUuLBzUcCzhD6FZpXaTWAybKZDkWFmwoVArcAc": 1.0,
     "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump": 1.0,
     "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump": 1.29,
-    "2nPPKzFCYDZLqHxJJdFJA1iV2V4ZqV9K6z8qSiYTpump": 1.0
+    "2nPPKzFCYDZLqHxJJdFJA1iV2V4ZqV9K6z8qSiYTpump": 1.0,
+    "7dVpVqUEbJ9csNWWrDavsA8iAEwvb6BqWu1yVsQgpump": 1.68
   },
   "shadow": {},
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": -107.55252759416362,
-  "round_tickets": 23,
+  "min_cash": -113.88001339829309,
+  "round_tickets": 24,
   "symbols_bought": {
     "MFORGE": 1793035062.422963,
     "XD": 1793035062.4235427,
@@ -113,6 +115,7 @@
     "TON": 1793118903.8236086,
     "STONKZ": 1793160294.0403056,
     "FRONGUS": 1793165307.3457053,
-    "RAPPORT": 1793167996.8292363
+    "RAPPORT": 1793167996.8292363,
+    "SI": 1793175407.895873
   }
 }
