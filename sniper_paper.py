@@ -524,7 +524,8 @@ class TradeFeed:
         self.host = host
         self.ws = WS(host, path, timeout=0.1)
         self.next_id, self.asked, self.sub_of, self.mint_of, self.errors = 1, {}, {}, {}, 0
-        self.notes = 0   # transactions seen; many notes but 0 trades = events not in the logs (decoder issue)
+        self.notes = 0   # successful transactions seen; many notes but 0 trades = events not in the logs
+        self.failed = self.truncated = 0   # failed txs; txs whose logs Solana cut short (trade may be missed)
 
     def _call(self, method, params):
         i, self.next_id = self.next_id, self.next_id + 1
@@ -568,9 +569,12 @@ class TradeFeed:
                 self.sub_of[m], self.mint_of[sid] = sid, m
             return []
         if msg.get("method") == "logsNotification":
-            self.notes += 1
             v = msg.get("params", {}).get("result", {}).get("value", {})
-            if v.get("err") is None:
+            if v.get("err") is not None:
+                self.failed += 1   # failed transactions (bots spam these) move no price
+            else:
+                self.notes += 1
+                self.truncated += any("Log truncated" in line for line in v.get("logs") or [])
                 return trades_from_logs(v.get("logs") or [])
         return []
 
@@ -655,7 +659,8 @@ def run():
                     last_save = now
                 if now - last_beat > 300:   # proof of life in the Terminal: is the feed really flowing?
                     print(f"{time.strftime('%H:%M:%S')} [sniper] launches seen {bot.s['seen']}, "
-                          f"trades seen {bot.s.get('trades_seen', 0)} (from {feed.notes} txs), watching {len(bot.watch)}, "
+                          f"trades seen {bot.s.get('trades_seen', 0)} (from {feed.notes} ok txs, {feed.failed} failed, "
+                          f"{feed.truncated} cut short), watching {len(bot.watch)}, "
                           f"bought {bot.s['passed']}, open {len(bot.s['positions'])}, "
                           f"round {bot.s['rounds']} cash ${bot.s['cash']:.2f}"
                           + (f", RPC errors {feed.errors}" if feed.errors else ""), flush=True)

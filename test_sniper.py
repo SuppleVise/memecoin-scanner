@@ -232,6 +232,7 @@ class SolanaLogs(unittest.TestCase):
         sent = []
         feed = SP.TradeFeed.__new__(SP.TradeFeed)
         feed.next_id, feed.asked, feed.sub_of, feed.mint_of, feed.errors, feed.notes = 1, {}, {}, {}, 0, 0
+        feed.failed = feed.truncated = 0
         replies = []
         feed.ws = type("W", (), {"send": lambda self, o: sent.append(o),
                                  "recv": lambda self: replies.pop(0) if replies else None})()
