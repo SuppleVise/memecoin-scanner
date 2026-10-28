@@ -9,7 +9,7 @@
       "entry": 0.000132906,
       "cost": 10.0,
       "peak": 0.000132906,
-      "last": 8.872e-05,
+      "last": 9.465e-05,
       "opened": 1793160294.0403035,
       "rungs_done": 0,
       "entry_liq": 35234.09
@@ -21,28 +21,15 @@
       "orig_qty": 18279.76243769959,
       "entry": 0.0005361119999999999,
       "cost": 10.0,
-      "peak": 0.0006551,
-      "last": 0.0005036,
+      "peak": 0.0007134,
+      "last": 0.0007134,
       "opened": 1793167996.8292334,
       "rungs_done": 0,
       "entry_liq": 62122.3
-    },
-    "3yM6w93HMUZSHrMSGVPR2cW4Wvubvkscht1541i6pump": {
-      "symbol": "SI",
-      "pair": "3KgVPft91E1E3YedModfn1gwcLDSMErFDFhLGHa65LCj",
-      "qty": 37781.53022907944,
-      "orig_qty": 37781.53022907944,
-      "entry": 0.000259386,
-      "cost": 10.0,
-      "peak": 0.000259386,
-      "last": 0.000259386,
-      "opened": 1793175407.8958702,
-      "rungs_done": 0,
-      "entry_liq": 46117.9
     }
   },
   "day": "2026-10-28",
-  "day_pnl": -16.327485804129473,
+  "day_pnl": -26.327485804129473,
   "day_trades": 4,
   "halted": false,
   "traded": [
@@ -92,7 +79,8 @@
     "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump": 1.0,
     "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump": 1.29,
     "2nPPKzFCYDZLqHxJJdFJA1iV2V4ZqV9K6z8qSiYTpump": 1.0,
-    "7dVpVqUEbJ9csNWWrDavsA8iAEwvb6BqWu1yVsQgpump": 1.68
+    "7dVpVqUEbJ9csNWWrDavsA8iAEwvb6BqWu1yVsQgpump": 1.68,
+    "3yM6w93HMUZSHrMSGVPR2cW4Wvubvkscht1541i6pump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
