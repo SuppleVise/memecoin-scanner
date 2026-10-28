@@ -1,9 +1,23 @@
 {
-  "cash": 21.256105298950352,
-  "positions": {},
-  "day": "2026-10-27",
-  "day_pnl": -36.0863761277912,
-  "day_trades": 6,
+  "cash": 11.256105298950352,
+  "positions": {
+    "37yGBGNuPn2rBYwJLp1Kampjjv1yEubzaTB1nbUtpump": {
+      "symbol": "GROKIUS",
+      "pair": "4N7myfdpN7J7mBmSkH8h4g2guhuZhtE738PTo2Au8sZG",
+      "qty": 50540.994935586015,
+      "orig_qty": 50540.994935586015,
+      "entry": 0.00019390200000000003,
+      "cost": 10.0,
+      "peak": 0.00019390200000000003,
+      "last": 0.00019390200000000003,
+      "opened": 1793209478.6275072,
+      "rungs_done": 0,
+      "entry_liq": 35488.67
+    }
+  },
+  "day": "2026-10-28",
+  "day_pnl": 0.0,
+  "day_trades": 1,
   "halted": false,
   "traded": [
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump",
@@ -15,7 +29,8 @@
     "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump",
     "E73mkqW3DPhxeh3K2hM1nLK32hJaMzwsN5xnnkWFpump",
     "GurPuJX3PdeHztbxcZUJ1j787pfNfvuPFeyCJ7VUpump",
-    "FWQx8Q8Nxtc6S4YkcuUcT7eFPHYdAox8V1UZQ4YWpump"
+    "FWQx8Q8Nxtc6S4YkcuUcT7eFPHYdAox8V1UZQ4YWpump",
+    "37yGBGNuPn2rBYwJLp1Kampjjv1yEubzaTB1nbUtpump"
   ],
   "peaks": {
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump": 1.0,
@@ -34,7 +49,7 @@
   "withdraw_alerted": false,
   "summary_day": "",
   "min_cash": 1.0926790553018364,
-  "round_tickets": 5,
+  "round_tickets": 6,
   "symbols_bought": {
     "MOON": 1793040370.8201036,
     "DMAGA2028": 1793069709.9814568,
@@ -42,7 +57,8 @@
     "TON": 1793113513.3108492,
     "TRUMP": 1793121941.978273,
     "EI6900": 1793127394.2857914,
-    "$GIGR": 1793127394.2968588
+    "$GIGR": 1793127394.2968588,
+    "GROKIUS": 1793209478.6275086
   },
   "rounds": [
     {
