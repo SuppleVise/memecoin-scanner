@@ -183,10 +183,13 @@ class Paper:
         p["last"] = price
         p["peak"] = max(p["peak"], price)
         mult = price / p["entry"]
-        liq = (pair.get("liquidity") or {}).get("usd") or 0
+        # DexScreener sometimes leaves liquidity out for a pool that is still trading at the same price
+        # (seen 125 times in the recorded snapshots). Missing is unknown, not $0: booking it as a rug
+        # wrote off live coins at -100% (GHOST: turbo "rugged" at $0 while gamble held it at 2.27x).
+        liq = (pair.get("liquidity") or {}).get("usd")
         ladder = C.LADDER
         out = None
-        if p["entry_liq"] and liq < p["entry_liq"] * (1 - C.LIQUIDITY_DROP_EXIT_PCT / 100):
+        if liq is not None and p["entry_liq"] and liq < p["entry_liq"] * (1 - C.LIQUIDITY_DROP_EXIT_PCT / 100):
             # With the pool drained you can't sell at the last quote: you get roughly the share of
             # liquidity that is left (a $0 pool pays $0). Before this, rugs were booked at the pre-rug price.
             fill = price * min(1.0, liq / p["entry_liq"])

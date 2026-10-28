@@ -124,6 +124,11 @@ class PaperBook(unittest.TestCase):
         self.book.check_exits("TOKEN1", self.px(0.001, liq=20_000))
         self.assertNotIn("TOKEN1", self.book.s["positions"])
 
+    def test_missing_liquidity_is_not_a_rug(self):
+        self.book.enter(self.sig)
+        self.assertIsNone(self.book.check_exits("TOKEN1", {"priceUsd": "0.001"}))   # DexScreener left it out
+        self.assertIn("TOKEN1", self.book.s["positions"])
+
     def test_vanished_pair_treated_as_rug(self):
         self.book.enter(self.sig)
         pnl = self.book.check_exits("TOKEN1", None)

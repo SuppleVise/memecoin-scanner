@@ -239,9 +239,9 @@ def missed_line(book):
 def follow_migration(pos, pair, tok, log=print):
     """Launchpad coins move to a new pool when they graduate, and the old pool shows $0 liquidity.
     That is not a rug if the coin has another pool with the money in it: switch the position to that pool."""
-    liq = ((pair or {}).get("liquidity") or {}).get("usd") or 0
+    liq = ((pair or {}).get("liquidity") or {}).get("usd")
     floor = (pos.get("entry_liq") or 0) * (1 - C.LIQUIDITY_DROP_EXIT_PCT / 100)
-    if pair is not None and liq >= floor:
+    if pair is not None and (liq is None or liq >= floor):   # missing liquidity = unknown, not drained
         return pair
     alt = scanner.fetch_pairs([tok]).get(tok)
     alt_liq = ((alt or {}).get("liquidity") or {}).get("usd") or 0
