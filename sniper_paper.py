@@ -32,7 +32,7 @@ import time
 
 FEED_HOST, FEED_PATH = "pumpportal.fun", "/api/data"
 FOLLOW_MIN_BUYERS, FOLLOW_S = 3, 600   # skipped coins with 3+ buyers are recorded for 10 min
-DROP_FIELDS = ("signature", "uri", "bondingCurveKey", "pool")   # not needed for replays, saves disk
+DROP_FIELDS = ("signature", "bondingCurveKey", "pool")   # not needed for replays, saves disk (uri kept: metadata links test)
 
 S = {
     # account (same shape as gamble: $50 rounds, $10 tickets, restart when bust)
