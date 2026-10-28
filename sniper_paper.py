@@ -46,6 +46,7 @@ S = {
     "MAX_TOP_BUYER_SHARE": 0.5, # one wallet bringing over half the inflow looks like a bundle
     "MAX_DEV_BUY_SOL": 3.0,     # creator buying a big bag at launch tends to dump it on you
     "MAX_ENTRY_MULT": 3.0,      # skip if price already 3x the launch price
+    "MIN_ENTRY_MULT": 0.0,      # require the price to be at least this multiple of launch (0 = off)
     "COPYCAT_H": 1.0,           # same name/symbol bought in the last hour: skip
     "SERIAL_CREATOR_H": 1.0,    # creator launched another coin in the last hour: skip
     # execution model
@@ -56,7 +57,8 @@ S = {
     # MikeSz 2026-10-27 ("2x 30%, 5x 40%" in profit terms): 30% at +200% (3x price), 40% at +500% (6x);
     # last 30% split at +1000% (11x) and +2000% (21x), so the data shows which of those is reachable
     "LADDER": [(3.0, 0.3), (6.0, 0.4), (11.0, 0.15), (21.0, 0.15)],
-    "IDLE_EXIT_S": 120, "IDLE_HAIRCUT_PCT": 15.0,
+    # a coin still on pump.fun's curve can always be sold back to the curve, so no haircut beyond slippage
+    "IDLE_EXIT_S": 120, "IDLE_HAIRCUT_PCT": 0.0,
 }
 
 JOURNAL_FIELDS = ["time", "symbol", "mint", "action", "reason", "price_sol", "usd", "fee",
@@ -73,6 +75,19 @@ def arg(name, default=None):
 LABEL = arg("--label", "")
 SFX = f"sniper_{LABEL}" if LABEL else "sniper"
 STATE_FILE, JOURNAL_FILE = f"paper_state_{SFX}.json", f"paper_journal_{SFX}.csv"
+# Extra books fed by the same launches and trades, each with its own rules and $50 rounds.
+# "momo" (2026-10-28 replay idea, 3 trades of evidence, so a forward test, not a finding):
+# buy only coins already 2x from launch with 15+ buyers after 20 s.
+VARIANTS = {"momo": {"MIN_AGE_S": 20, "MIN_ENTRY_MULT": 2.0, "MIN_BUYERS": 15, "MIN_NET_SOL": 0.0,
+                     "MIN_BUY_SELL_RATIO": 1.0}}
+
+
+def books():
+    out = {"sniper": Sniper()}
+    for name, params in VARIANTS.items():
+        sfx = f"{SFX}_{name}"
+        out[f"sniper {name}"] = Sniper(f"paper_state_{sfx}.json", f"paper_journal_{sfx}.csv", params=params)
+    return out
 QUIET = "--quiet" in sys.argv
 
 
@@ -83,17 +98,14 @@ def curve_price(ev):
         return None
 
 
-def side_fee(usd):
-    return usd * (S["PUMP_FEE_PCT"] + S["API_FEE_PCT"]) / 100 + S["PRIORITY_FEE_USD"]
-
-
 class Sniper:
     """All decisions live here and take `now` explicitly, so tests can replay a fake feed.
     on_event / tick return (subscribe, unsubscribe) mint lists for the socket loop to send."""
 
-    def __init__(self, state_file=STATE_FILE, journal_file=JOURNAL_FILE, sol_usd=150.0):
+    def __init__(self, state_file=STATE_FILE, journal_file=JOURNAL_FILE, sol_usd=150.0, params=None):
+        self.S = dict(S, **(params or {}))   # each book can run its own rules on the same feed
         self.state_file, self.journal_file, self.sol_usd = state_file, journal_file, sol_usd
-        self.s = {"cash": S["START_USD"], "positions": {}, "rounds": 1, "banked": 0.0,
+        self.s = {"cash": self.S["START_USD"], "positions": {}, "rounds": 1, "banked": 0.0,
                   "seen": 0, "passed": 0, "dev_dumped_early": 0, "names": {}, "creators": {},
                   "reasons": {}, "started": time.time()}
         if os.path.exists(state_file):
@@ -105,6 +117,13 @@ class Sniper:
         self.pending = {}   # mint -> decision time; filled on the first trade after LATENCY_S
         self.follow = {}    # mint -> skipped coin kept 10 min only to record how it ended (data for tuning
                             # the filter; never traded). Dropped after WATCH_S if it has under 3 buyers.
+
+    def fee(self, usd):
+        return usd * (self.S["PUMP_FEE_PCT"] + self.S["API_FEE_PCT"]) / 100 + self.S["PRIORITY_FEE_USD"]
+
+    def needs(self, mint):
+        """Still interested in this coin's trades?"""
+        return mint in self.watch or mint in self.pending or mint in self.s["positions"] or mint in self.follow
 
     # --- bookkeeping ---------------------------------------------------------
     def save(self):
@@ -126,7 +145,7 @@ class Sniper:
 
     def total_pnl(self):
         """Across all rounds: money banked from finished rounds plus this round, minus the stakes."""
-        return self.s["banked"] + self.equity() - S["START_USD"] * self.s["rounds"]
+        return self.s["banked"] + self.equity() - self.S["START_USD"] * self.s["rounds"]
 
     def _count(self, reason):
         self.s["reasons"][reason] = self.s["reasons"].get(reason, 0) + 1
@@ -146,7 +165,7 @@ class Sniper:
         self.s["seen"] += 1
         creator = ev.get("traderPublicKey", "")
         name = f"{ev.get('symbol', '')}|{ev.get('name', '')}".upper()
-        serial = now - self.s["creators"].get(creator, -1e12) < S["SERIAL_CREATOR_H"] * 3600
+        serial = now - self.s["creators"].get(creator, -1e12) < self.S["SERIAL_CREATOR_H"] * 3600
         self.s["creators"][creator] = now
         if serial:
             self._count("serial creator")
@@ -180,7 +199,7 @@ class Sniper:
                 w["sells"] += 1
                 w["sold_sol"] += sol
             if w["dev_sold"]:
-                if now - w["t0"] <= S["WATCH_S"]:
+                if now - w["t0"] <= self.S["WATCH_S"]:
                     self.s["dev_dumped_early"] += 1
                 self._count("creator sold while watching")
                 self._retire(mint, w)
@@ -197,7 +216,7 @@ class Sniper:
                     self._retire(mint, w)
                     del self.watch[mint]
                     unsub.append(mint)
-        if mint in self.pending and now - self.pending[mint] >= S["LATENCY_S"]:
+        if mint in self.pending and now - self.pending[mint] >= self.S["LATENCY_S"]:
             self._fill_buy(mint, price, now)
         p = self.s["positions"].get(mint)
         if p:
@@ -219,25 +238,26 @@ class Sniper:
     def _verdict(self, w, now):
         """'buy', a rejection reason, or None (keep watching)."""
         age = now - w["t0"]
-        if age < S["MIN_AGE_S"]:
+        if age < self.S["MIN_AGE_S"]:
             return None
-        if w["dev_buy"] > S["MAX_DEV_BUY_SOL"]:
+        if w["dev_buy"] > self.S["MAX_DEV_BUY_SOL"]:
             return "creator bought a big bag"
-        if w["last"] / w["p0"] > S["MAX_ENTRY_MULT"]:
+        if w["last"] / w["p0"] > self.S["MAX_ENTRY_MULT"]:
             return "already pumped before entry"
-        if now - self.s["names"].get(w["name"], -1e12) < S["COPYCAT_H"] * 3600:
+        if now - self.s["names"].get(w["name"], -1e12) < self.S["COPYCAT_H"] * 3600:
             return "copycat name"
         inflow = sum(w["buyers"].values())
-        ok = (len(w["buyers"]) >= S["MIN_BUYERS"]
-              and inflow - w["sold_sol"] >= S["MIN_NET_SOL"]
-              and w["buys"] >= S["MIN_BUY_SELL_RATIO"] * max(1, w["sells"])
-              and max(w["buyers"].values()) <= S["MAX_TOP_BUYER_SHARE"] * inflow)
+        ok = (len(w["buyers"]) >= self.S["MIN_BUYERS"]
+              and w["last"] / w["p0"] >= self.S["MIN_ENTRY_MULT"]
+              and inflow - w["sold_sol"] >= self.S["MIN_NET_SOL"]
+              and w["buys"] >= self.S["MIN_BUY_SELL_RATIO"] * max(1, w["sells"])
+              and max(w["buyers"].values()) <= self.S["MAX_TOP_BUYER_SHARE"] * inflow)
         if ok:
             return "buy" if self._can_afford() else "no cash (round full)"
-        return "too little real buying" if age >= S["MAX_AGE_S"] else None
+        return "too little real buying" if age >= self.S["MAX_AGE_S"] else None
 
     def _can_afford(self):
-        return len(self.s["positions"]) < S["MAX_OPEN"] and self.s["cash"] >= S["TICKET_USD"]
+        return len(self.s["positions"]) < self.S["MAX_OPEN"] and self.s["cash"] >= self.S["TICKET_USD"]
 
     # --- paper orders ----------------------------------------------------------
     def _fill_buy(self, mint, price, now):
@@ -245,8 +265,8 @@ class Sniper:
         w = self.watch.pop(mint, None)
         if not w or not self._can_afford():
             return
-        usd, fee = S["TICKET_USD"], side_fee(S["TICKET_USD"])
-        fill = price * (1 + S["SLIPPAGE_PCT"] / 100)
+        usd, fee = self.S["TICKET_USD"], self.fee(self.S["TICKET_USD"])
+        fill = price * (1 + self.S["SLIPPAGE_PCT"] / 100)
         qty = (usd - fee) / (fill * self.sol_usd)
         self.s["cash"] -= usd
         self.s["names"][w["name"]] = now
@@ -261,9 +281,9 @@ class Sniper:
 
     def _sell(self, mint, qty, price, now, reason):
         p = self.s["positions"][mint]
-        fill = price * (1 - S["SLIPPAGE_PCT"] / 100)
+        fill = price * (1 - self.S["SLIPPAGE_PCT"] / 100)
         gross = qty * fill * self.sol_usd
-        fee = min(side_fee(gross), gross)
+        fee = min(self.fee(gross), gross)
         self.s["cash"] += gross - fee
         p["qty"] -= qty
         p["proceeds"] = p.get("proceeds", 0.0) + gross - fee
@@ -288,16 +308,16 @@ class Sniper:
         p = self.s["positions"][mint]
         p["peak"] = max(p["peak"], price)
         mult = price / p["entry"]
-        while p["rung"] < len(S["LADDER"]) and mult >= S["LADDER"][p["rung"]][0]:
-            at, frac = S["LADDER"][p["rung"]]
+        while p["rung"] < len(self.S["LADDER"]) and mult >= self.S["LADDER"][p["rung"]][0]:
+            at, frac = self.S["LADDER"][p["rung"]]
             self._sell(mint, min(p["qty"], p["qty0"] * frac), price, now, f"ladder {at:g}x")
             p["rung"] += 1
             self.save()
-        if mult <= 1 - S["STOP_PCT"] / 100:
+        if mult <= 1 - self.S["STOP_PCT"] / 100:
             self._exit(mint, price, now, f"stop -{S['STOP_PCT']:g}%")
-        elif p["rung"] and price <= p["peak"] * (1 - S["TRAIL_PCT"] / 100):
+        elif p["rung"] and price <= p["peak"] * (1 - self.S["TRAIL_PCT"] / 100):
             self._exit(mint, price, now, "trailing stop")
-        elif now - p["t_in"] >= S["TIME_STOP_S"]:
+        elif now - p["t_in"] >= self.S["TIME_STOP_S"]:
             self._exit(mint, price, now, "10-min time stop")
         else:
             return False
@@ -307,14 +327,14 @@ class Sniper:
         """Housekeeping without a trade: drop stale watches, close idle or overdue positions."""
         unsub = []
         for mint, w in list(self.watch.items()):
-            if now - w["t0"] > S["WATCH_S"] and mint not in self.pending:
+            if now - w["t0"] > self.S["WATCH_S"] and mint not in self.pending:
                 self._count("too little real buying")
                 self._retire(mint, w)
                 del self.watch[mint]
                 unsub.append(mint)
         for mint, f in list(self.follow.items()):
             age = now - f["t0"]
-            if age > FOLLOW_S or (age > S["WATCH_S"] and len(f["buyers"]) < FOLLOW_MIN_BUYERS):
+            if age > FOLLOW_S or (age > self.S["WATCH_S"] and len(f["buyers"]) < FOLLOW_MIN_BUYERS):
                 del self.follow[mint]
                 unsub.append(mint)
         for mint, t in list(self.pending.items()):
@@ -323,14 +343,14 @@ class Sniper:
                 self.watch.pop(mint, None)
                 unsub.append(mint)
         for mint, p in list(self.s["positions"].items()):
-            if now - p["last_t"] >= S["IDLE_EXIT_S"]:
-                self._exit(mint, p["last"] * (1 - S["IDLE_HAIRCUT_PCT"] / 100), now, "no trades (dead coin)")
+            if now - p["last_t"] >= self.S["IDLE_EXIT_S"]:
+                self._exit(mint, p["last"] * (1 - self.S["IDLE_HAIRCUT_PCT"] / 100), now, "no trades (dead coin)")
                 unsub.append(mint)
-            elif now - p["t_in"] >= S["TIME_STOP_S"]:
+            elif now - p["t_in"] >= self.S["TIME_STOP_S"]:
                 self._exit(mint, p["last"], now, "10-min time stop")
                 unsub.append(mint)
         if now - self.s.get("pruned", 0) > 600:   # forget names/creators older than the rule windows
-            for key, hours in (("names", S["COPYCAT_H"]), ("creators", S["SERIAL_CREATOR_H"])):
+            for key, hours in (("names", self.S["COPYCAT_H"]), ("creators", self.S["SERIAL_CREATOR_H"])):
                 self.s[key] = {k: t for k, t in self.s[key].items() if now - t < hours * 3600}
             self.s["pruned"] = now
         return [], self._keep(unsub)
@@ -342,10 +362,10 @@ class Sniper:
 
     def _maybe_restart(self):
         """Same as gamble: a round that can't afford a ticket and has nothing open starts over at $50."""
-        if self.s["positions"] or self.s["cash"] >= S["TICKET_USD"]:
+        if self.s["positions"] or self.s["cash"] >= self.S["TICKET_USD"]:
             return
         self.s["banked"] += self.s["cash"]
-        self.s["cash"] = S["START_USD"]
+        self.s["cash"] = self.S["START_USD"]
         self.s["rounds"] += 1
 
     # --- report ----------------------------------------------------------------
@@ -606,7 +626,11 @@ def push(title, text):
 
 
 def run():
-    bot = Sniper(sol_usd=sol_usd())
+    all_books = books()
+    bot = all_books["sniper"]   # the main book: its numbers go in the heartbeat line
+    price = sol_usd()
+    for b in all_books.values():
+        b.sol_usd = price
     stop = {"now": False}
 
     def on_signal(*_):
@@ -619,11 +643,18 @@ def run():
     # raw feed recording, one gzip file per UTC day: lets the filter be tuned on replays, not guesses
     rec = gzip.open(time.strftime("feed/pump_%Y-%m-%d.jsonl.gz", time.gmtime()), "at")
 
+    def release(feed, mints):   # a coin's trades are dropped only when no book wants them any more
+        feed.unsubscribe([m for m in mints if not any(b.needs(m) for b in all_books.values())])
+
     def handle(ev, now, feed):
-        sub, unsub = bot.on_event(ev, now)
+        sub, unsub = [], []
+        for b in all_books.values():
+            more_sub, more_unsub = b.on_event(ev, now)
+            sub += more_sub
+            unsub += more_unsub
         rec.write(json.dumps({"t": round(now, 2), **{k: v for k, v in ev.items() if k not in DROP_FIELDS}}) + "\n")
-        feed.subscribe(sub)
-        feed.unsubscribe(unsub)
+        feed.subscribe(list(dict.fromkeys(sub)))
+        release(feed, list(dict.fromkeys(unsub)))
 
     while not stop["now"]:
         try:
@@ -632,7 +663,8 @@ def run():
             feed = TradeFeed()                                  # Solana RPC: their trades (free)
             print(f"[sniper] connected: launches from {FEED_HOST}, trades from {feed.host}", flush=True)
             # after a reconnect: coins we hold or watch need their trades again
-            feed.subscribe(list(bot.s["positions"]) + list(bot.watch) + list(bot.follow))
+            feed.subscribe(list(dict.fromkeys(m for b in all_books.values()
+                                              for m in list(b.s["positions"]) + list(b.watch) + list(b.follow))))
             backoff = 5
             while not stop["now"]:
                 raw = launches.recv()
@@ -651,11 +683,14 @@ def run():
                     for ev in trades:
                         handle(ev, time.time(), feed)
                 now = time.time()
-                feed.unsubscribe(bot.tick(now)[1])
+                release(feed, [m for b in all_books.values() for m in b.tick(now)[1]])
                 if now - last_sol > 300:
-                    bot.sol_usd, last_sol = sol_usd(bot.sol_usd), now
+                    price, last_sol = sol_usd(bot.sol_usd), now
+                    for b in all_books.values():
+                        b.sol_usd = price
                 if now - last_save > 30:
-                    bot.save()
+                    for b in all_books.values():
+                        b.save()
                     last_save = now
                 if now - last_beat > 300:   # proof of life in the Terminal: is the feed really flowing?
                     print(f"{time.strftime('%H:%M:%S')} [sniper] launches seen {bot.s['seen']}, "
@@ -663,6 +698,8 @@ def run():
                           f"{feed.truncated} cut short), watching {len(bot.watch)}, "
                           f"bought {bot.s['passed']}, open {len(bot.s['positions'])}, "
                           f"round {bot.s['rounds']} cash ${bot.s['cash']:.2f}"
+                          + "".join(f" | {n}: bought {b.s['passed']}, P&L ${b.total_pnl():+.2f}"
+                                    for n, b in all_books.items() if b is not bot)
                           + (f", RPC errors {feed.errors}" if feed.errors else ""), flush=True)
                     last_beat = now
         except (OSError, ConnectionError, ssl.SSLError) as e:
@@ -672,15 +709,17 @@ def run():
             time.sleep(backoff)
             backoff = min(backoff * 2, 120)
     rec.close()
-    bot.close_all(time.time())
-    bot.save()
+    for b in all_books.values():
+        b.close_all(time.time())
+        b.save()
 
 
 def main():
     if "--summary-now" in sys.argv:
-        text = Sniper().summary()
-        print(text)
-        push(f"[{LABEL + ' ' if LABEL else ''}sniper] Summary", text)
+        for name, b in books().items():
+            text = b.summary()
+            print(f"[{name}]\n{text}")
+            push(f"[{LABEL + ' ' if LABEL else ''}{name}] Summary", text)
         return
     run()
 

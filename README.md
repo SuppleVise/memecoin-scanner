@@ -183,6 +183,10 @@ It also records the raw feed to `feed/pump_<date>.jsonl.gz` (every launch, its f
 10 minutes for coins with 3+ buyers, and everything on coins it holds), so the filter can be tuned on
 replays of real launches instead of guesses.
 
+`python3 replay_sniper.py feed/pump_<date>.jsonl.gz [--grid]` replays a recording through the sniper
+(it reproduced the live 2026-10-28 morning book exactly). A second book, `sniper momo`, runs on the
+same feed: coins already 2x from launch with 15+ buyers after 20 s (forward test of a replay idea).
+
 Going real would mean a separate Solana wallet with $50 and PumpPortal's trade API. That is not
 built and needs MikeSz's explicit go after the paper results.
 
