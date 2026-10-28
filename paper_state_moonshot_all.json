@@ -1,5 +1,5 @@
 {
-  "cash": -123.88001339829309,
+  "cash": -121.11820004805932,
   "positions": {
     "Hhnf3dZTBvhedKjFCNh8Ci23YLEQg1MKTzMTHUwruMmz": {
       "symbol": "Stonkz",
@@ -9,7 +9,7 @@
       "entry": 0.000132906,
       "cost": 10.0,
       "peak": 0.000132906,
-      "last": 0.0001073,
+      "last": 0.0001064,
       "opened": 1793160294.0403035,
       "rungs_done": 0,
       "entry_liq": 35234.09
@@ -22,27 +22,14 @@
       "entry": 0.0005361119999999999,
       "cost": 10.0,
       "peak": 0.0007134,
-      "last": 0.0004231,
+      "last": 0.0004588,
       "opened": 1793167996.8292334,
       "rungs_done": 0,
       "entry_liq": 62122.3
-    },
-    "HfPVTUsSd55Aab6BACWCy6dXo5pQgTUFnyGzgspFpump": {
-      "symbol": "CA",
-      "pair": "5k6mkLebf8vLk33DxxUVprswib5PKorJxx7yHdiMh8P6",
-      "qty": 136204.18397015738,
-      "orig_qty": 136204.18397015738,
-      "entry": 7.19508e-05,
-      "cost": 10.0,
-      "peak": 7.19508e-05,
-      "last": 4.612e-05,
-      "opened": 1793181603.3796554,
-      "rungs_done": 0,
-      "entry_liq": 21168.48
     }
   },
   "day": "2026-10-28",
-  "day_pnl": -26.327485804129473,
+  "day_pnl": -33.5656724538957,
   "day_trades": 5,
   "halted": false,
   "traded": [
@@ -94,7 +81,8 @@
     "3B7SHozUFoiGnFC7i6WHZ8zNMbDrhtz9WpXqWt51pump": 1.29,
     "2nPPKzFCYDZLqHxJJdFJA1iV2V4ZqV9K6z8qSiYTpump": 1.0,
     "7dVpVqUEbJ9csNWWrDavsA8iAEwvb6BqWu1yVsQgpump": 1.68,
-    "3yM6w93HMUZSHrMSGVPR2cW4Wvubvkscht1541i6pump": 1.0
+    "3yM6w93HMUZSHrMSGVPR2cW4Wvubvkscht1541i6pump": 1.0,
+    "HfPVTUsSd55Aab6BACWCy6dXo5pQgTUFnyGzgspFpump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
