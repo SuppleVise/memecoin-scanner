@@ -1,9 +1,23 @@
 {
-  "cash": -111.49768404992457,
-  "positions": {},
+  "cash": -121.49768404992457,
+  "positions": {
+    "AZdhikmyj6ibsejv7EjML9SfNmuiMvwDrKXTEU2zpump": {
+      "symbol": "Something",
+      "pair": "FAHXgxDGMw5sfFW77SCHBcT9qiQ2ArrPzo98xJxMf9kk",
+      "qty": 76495.56637941801,
+      "orig_qty": 76495.56637941801,
+      "entry": 0.000128112,
+      "cost": 10.0,
+      "peak": 0.000128112,
+      "last": 0.000128112,
+      "opened": 1793218233.0753617,
+      "rungs_done": 0,
+      "entry_liq": 34740.69
+    }
+  },
   "day": "2026-10-28",
   "day_pnl": -43.945156455760944,
-  "day_trades": 5,
+  "day_trades": 6,
   "halted": false,
   "traded": [
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump",
@@ -30,7 +44,8 @@
     "2nPPKzFCYDZLqHxJJdFJA1iV2V4ZqV9K6z8qSiYTpump",
     "69Y6D9xQKkDYPvESDiKaQpU9Z5FXzY8LB7PthQkmpump",
     "3yM6w93HMUZSHrMSGVPR2cW4Wvubvkscht1541i6pump",
-    "HfPVTUsSd55Aab6BACWCy6dXo5pQgTUFnyGzgspFpump"
+    "HfPVTUsSd55Aab6BACWCy6dXo5pQgTUFnyGzgspFpump",
+    "AZdhikmyj6ibsejv7EjML9SfNmuiMvwDrKXTEU2zpump"
   ],
   "peaks": {
     "ABTGtvVT28SAxRM22EdwrxzywgqKAfPTuhR6QJ3dpump": 1.66,
@@ -64,7 +79,7 @@
   "withdraw_alerted": false,
   "summary_day": "",
   "min_cash": -123.88001339829309,
-  "round_tickets": 25,
+  "round_tickets": 26,
   "symbols_bought": {
     "MFORGE": 1793035062.422963,
     "XD": 1793035062.4235427,
@@ -82,6 +97,7 @@
     "FRONGUS": 1793165307.3457053,
     "RAPPORT": 1793167996.8292363,
     "SI": 1793175407.895873,
-    "CA": 1793181603.3796575
+    "CA": 1793181603.3796575,
+    "SOMETHING": 1793218233.075364
   }
 }

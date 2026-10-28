@@ -1,22 +1,8 @@
 {
-  "cash": 1.2561052989503523,
-  "positions": {
-    "5w2VFC9LAmxAkujyu7PaFdniaXApc7LJW1WCZy4Spump": {
-      "symbol": "SIB",
-      "pair": "8zts9ByKAJWTLbPsMjdWZS4gRRxA1u7BcCQ7vetXvSXr",
-      "qty": 53555.42439941417,
-      "orig_qty": 53555.42439941417,
-      "entry": 0.000182988,
-      "cost": 10.0,
-      "peak": 0.000182988,
-      "last": 0.000182988,
-      "opened": 1793215423.318927,
-      "rungs_done": 0,
-      "entry_liq": 34727.77
-    }
-  },
+  "cash": 10.159439681532819,
+  "positions": {},
   "day": "2026-10-28",
-  "day_pnl": -10.0,
+  "day_pnl": -11.096665617417534,
   "day_trades": 2,
   "halted": false,
   "traded": [
@@ -44,7 +30,8 @@
     "E73mkqW3DPhxeh3K2hM1nLK32hJaMzwsN5xnnkWFpump": 1.09,
     "GurPuJX3PdeHztbxcZUJ1j787pfNfvuPFeyCJ7VUpump": 1.0,
     "FWQx8Q8Nxtc6S4YkcuUcT7eFPHYdAox8V1UZQ4YWpump": 1.0,
-    "37yGBGNuPn2rBYwJLp1Kampjjv1yEubzaTB1nbUtpump": 1.0
+    "37yGBGNuPn2rBYwJLp1Kampjjv1yEubzaTB1nbUtpump": 1.0,
+    "5w2VFC9LAmxAkujyu7PaFdniaXApc7LJW1WCZy4Spump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
