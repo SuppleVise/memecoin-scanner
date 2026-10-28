@@ -349,11 +349,11 @@ class Sniper:
         self.s["rounds"] += 1
 
     # --- report ----------------------------------------------------------------
-    def summary(self):
+    def summary(self, now=None):
         closed = self.s.get("closed", [])
         wins = [c for c in closed if c["pnl"] > 0]
         best = max(closed, key=lambda c: c["pnl"], default=None)
-        hours = max(0.01, (time.time() - self.s["started"]) / 3600)
+        hours = max(0.01, ((now or time.time()) - self.s["started"]) / 3600)
         top = sorted(self.s["reasons"].items(), key=lambda kv: -kv[1])[:6]
         lines = [
             f"Equity this round ${self.equity():.2f} (round {self.s['rounds']}, {len(self.s['positions'])} open)",
