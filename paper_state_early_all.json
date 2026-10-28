@@ -1,23 +1,23 @@
 {
-  "cash": -67.64126356977371,
+  "cash": -71.45211937061919,
   "positions": {
-    "6pjRwzGg2QS1VSf6Z4TQZwyMxUysrUajkRmbbQ89P6KG": {
-      "symbol": "FLOATER",
-      "pair": "Dac3Fzmt6Pq6zyyrMBRpkuGHTKqyCnSU8NRT5gzHZYwd",
-      "qty": 45128.43183304322,
-      "orig_qty": 45128.43183304322,
-      "entry": 0.000217158,
+    "EnMv4aju8JzWkYQfUXbfekhwRWqXvMELKxrMLaHQpump": {
+      "symbol": "FLOATCAT",
+      "pair": "F14JKspBoUjYhswkGqp9SrSd5t2jBpJkqm7NVcEnUffg",
+      "qty": 43891.47161834126,
+      "orig_qty": 43891.47161834126,
+      "entry": 0.000223278,
       "cost": 10.0,
-      "peak": 0.000217158,
-      "last": 0.000217158,
-      "opened": 1793228267.5026531,
+      "peak": 0.000223278,
+      "last": 0.000223278,
+      "opened": 1793230464.3046494,
       "rungs_done": 0,
-      "entry_liq": 100239.66
+      "entry_liq": 38656.38
     }
   },
   "day": "2026-10-28",
-  "day_pnl": -11.096665617417534,
-  "day_trades": 3,
+  "day_pnl": -14.907521418263002,
+  "day_trades": 4,
   "halted": false,
   "traded": [
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump",
@@ -35,7 +35,8 @@
     "2cRhjCGvMQViKtTpgdQUBUxUBfQQpvG2VjnEYZmQpump",
     "37yGBGNuPn2rBYwJLp1Kampjjv1yEubzaTB1nbUtpump",
     "5w2VFC9LAmxAkujyu7PaFdniaXApc7LJW1WCZy4Spump",
-    "6pjRwzGg2QS1VSf6Z4TQZwyMxUysrUajkRmbbQ89P6KG"
+    "6pjRwzGg2QS1VSf6Z4TQZwyMxUysrUajkRmbbQ89P6KG",
+    "EnMv4aju8JzWkYQfUXbfekhwRWqXvMELKxrMLaHQpump"
   ],
   "peaks": {
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump": 1.0,
@@ -52,14 +53,15 @@
     "9eATnxHCzDb3qTRKxUqK8PM7daTEJiP6b8zfs4wWpump": 1.0,
     "2cRhjCGvMQViKtTpgdQUBUxUBfQQpvG2VjnEYZmQpump": 1.0,
     "37yGBGNuPn2rBYwJLp1Kampjjv1yEubzaTB1nbUtpump": 1.0,
-    "5w2VFC9LAmxAkujyu7PaFdniaXApc7LJW1WCZy4Spump": 1.0
+    "5w2VFC9LAmxAkujyu7PaFdniaXApc7LJW1WCZy4Spump": 1.0,
+    "6pjRwzGg2QS1VSf6Z4TQZwyMxUysrUajkRmbbQ89P6KG": 1.0
   },
   "shadow": {},
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": -67.64126356977371,
-  "round_tickets": 16,
+  "min_cash": -71.45211937061919,
+  "round_tickets": 17,
   "symbols_bought": {
     "MOON": 1793040370.8192253,
     "ONLYCATS": 1793051699.7842877,
@@ -73,6 +75,7 @@
     "SF": 1793139183.6416855,
     "GROKIUS": 1793209478.626207,
     "SIB": 1793215423.3180423,
-    "FLOATER": 1793228267.5026562
+    "FLOATER": 1793228267.5026562,
+    "FLOATCAT": 1793230464.3046522
   }
 }
