@@ -1,9 +1,23 @@
 {
-  "cash": -57.64126356977372,
-  "positions": {},
+  "cash": -67.64126356977371,
+  "positions": {
+    "6pjRwzGg2QS1VSf6Z4TQZwyMxUysrUajkRmbbQ89P6KG": {
+      "symbol": "FLOATER",
+      "pair": "Dac3Fzmt6Pq6zyyrMBRpkuGHTKqyCnSU8NRT5gzHZYwd",
+      "qty": 45128.43183304322,
+      "orig_qty": 45128.43183304322,
+      "entry": 0.000217158,
+      "cost": 10.0,
+      "peak": 0.000217158,
+      "last": 0.000217158,
+      "opened": 1793228267.5026531,
+      "rungs_done": 0,
+      "entry_liq": 100239.66
+    }
+  },
   "day": "2026-10-28",
   "day_pnl": -11.096665617417534,
-  "day_trades": 2,
+  "day_trades": 3,
   "halted": false,
   "traded": [
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump",
@@ -20,7 +34,8 @@
     "9eATnxHCzDb3qTRKxUqK8PM7daTEJiP6b8zfs4wWpump",
     "2cRhjCGvMQViKtTpgdQUBUxUBfQQpvG2VjnEYZmQpump",
     "37yGBGNuPn2rBYwJLp1Kampjjv1yEubzaTB1nbUtpump",
-    "5w2VFC9LAmxAkujyu7PaFdniaXApc7LJW1WCZy4Spump"
+    "5w2VFC9LAmxAkujyu7PaFdniaXApc7LJW1WCZy4Spump",
+    "6pjRwzGg2QS1VSf6Z4TQZwyMxUysrUajkRmbbQ89P6KG"
   ],
   "peaks": {
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump": 1.0,
@@ -43,8 +58,8 @@
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": -66.54459795235618,
-  "round_tickets": 15,
+  "min_cash": -67.64126356977371,
+  "round_tickets": 16,
   "symbols_bought": {
     "MOON": 1793040370.8192253,
     "ONLYCATS": 1793051699.7842877,
@@ -57,6 +72,7 @@
     "FRONGY": 1793134652.1222036,
     "SF": 1793139183.6416855,
     "GROKIUS": 1793209478.626207,
-    "SIB": 1793215423.3180423
+    "SIB": 1793215423.3180423,
+    "FLOATER": 1793228267.5026562
   }
 }
