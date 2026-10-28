@@ -46,7 +46,8 @@ S = {
     "MAX_TOP_BUYER_SHARE": 0.5, # one wallet bringing over half the inflow looks like a bundle
     "MAX_DEV_BUY_SOL": 3.0,     # creator buying a big bag at launch tends to dump it on you
     "MAX_ENTRY_MULT": 3.0,      # skip if price already 3x the launch price
-    "MIN_ENTRY_MULT": 0.0,      # require the price to be at least this multiple of launch (0 = off)
+    "MIN_ENTRY_MULT": 0.0,
+    "MAX_FIRST_JUMP": 0.0,      # skip coins whose first trade already lifted price this much (bundled launch); 0 = off      # require the price to be at least this multiple of launch (0 = off)
     "COPYCAT_H": 1.0,           # same name/symbol bought in the last hour: skip
     "SERIAL_CREATOR_H": 1.0,    # creator launched another coin in the last hour: skip
     # execution model
@@ -187,6 +188,7 @@ class Sniper:
             f["buyers"].add(ev.get("traderPublicKey", ""))
         w = self.watch.get(mint)
         if w:
+            w.setdefault("first", price)
             w["last"] = price
             sol, who = float(ev.get("solAmount") or 0), ev.get("traderPublicKey", "")
             if who == w["creator"]:
@@ -242,6 +244,8 @@ class Sniper:
             return None
         if w["dev_buy"] > self.S["MAX_DEV_BUY_SOL"]:
             return "creator bought a big bag"
+        if self.S["MAX_FIRST_JUMP"] and w.get("first", w["last"]) / w["p0"] > self.S["MAX_FIRST_JUMP"]:
+            return "jump at launch (bundle)"
         if w["last"] / w["p0"] > self.S["MAX_ENTRY_MULT"]:
             return "already pumped before entry"
         if now - self.s["names"].get(w["name"], -1e12) < self.S["COPYCAT_H"] * 3600:
