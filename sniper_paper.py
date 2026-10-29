@@ -22,12 +22,14 @@ import csv
 import gzip
 import json
 import os
+import queue
 import signal
 import socket
 import ssl
 import struct
 import subprocess
 import sys
+import threading
 import time
 
 FEED_HOST, FEED_PATH = "pumpportal.fun", "/api/data"
@@ -627,6 +629,33 @@ def sol_usd(default=150.0):
         return default
 
 
+# Coin metadata (the create event's uri points at a JSON with twitter/telegram/website links).
+# Fetched in background threads so the feed never waits, and recorded as "meta" events: the
+# research says a Telegram link goes with ~9x more graduations; replays decide if it helps us.
+META_JOBS, META_DONE = queue.Queue(maxsize=300), queue.Queue()
+
+
+def fetch_meta(mint, uri):
+    try:
+        out = subprocess.run(["curl", "-sSL", "-m", "8", uri], capture_output=True, text=True, timeout=12)
+        d = json.loads(out.stdout)
+    except Exception:
+        d = None
+    ev = {"txType": "meta", "mint": mint, "ok": isinstance(d, dict)}
+    if isinstance(d, dict):
+        ext = d.get("extensions") if isinstance(d.get("extensions"), dict) else {}
+        for k in ("twitter", "telegram", "website"):
+            v = d.get(k) or ext.get(k)
+            ev[k] = str(v)[:200] if v else ""
+    return ev
+
+
+def meta_worker():
+    while True:
+        mint, uri = META_JOBS.get()
+        META_DONE.put(fetch_meta(mint, uri))
+
+
 def ntfy_topic():
     if os.environ.get("NTFY_TOPIC"):
         return os.environ["NTFY_TOPIC"].strip()
@@ -664,7 +693,17 @@ def run():
     def release(feed, mints):   # a coin's trades are dropped only when no book wants them any more
         feed.unsubscribe([m for m in mints if not any(b.needs(m) for b in all_books.values())])
 
+    for _ in range(4):
+        threading.Thread(target=meta_worker, daemon=True).start()
+
     def handle(ev, now, feed):
+        if ev.get("txType") == "create" and str(ev.get("uri", "")).startswith("http"):
+            try:
+                META_JOBS.put_nowait((ev.get("mint"), ev["uri"]))
+            except queue.Full:
+                pass   # links are nice to have; never let them slow the feed
+        while not META_DONE.empty():
+            rec.write(json.dumps({"t": round(now, 2), **META_DONE.get()}) + "\n")
         sub, unsub = [], []
         for b in all_books.values():
             more_sub, more_unsub = b.on_event(ev, now)
