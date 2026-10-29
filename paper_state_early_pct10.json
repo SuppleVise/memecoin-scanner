@@ -1,35 +1,8 @@
 {
-  "cash": 30.50206380638064,
-  "positions": {
-    "HxH6J2YcdAiVUWkFioJ8j4MoMDf1hPntXcCbQDBwpump": {
-      "symbol": "GTA",
-      "pair": "2fSrCS1uwWMUMEyDdrMw8SdBdFQm1viqyWYtsCTPbPs6",
-      "qty": 59307.67368675865,
-      "orig_qty": 59307.67368675865,
-      "entry": 0.00016524,
-      "cost": 10.0,
-      "peak": 0.00016524,
-      "last": 0.00016524,
-      "opened": 1793281986.81682,
-      "rungs_done": 0,
-      "entry_liq": 32661.81
-    },
-    "9B5uDwoTPkXXb67vaHiqWmyvWuUEDBMSU6ssZH1Zpump": {
-      "symbol": "Chloe",
-      "pair": "FWGKsjgkLLAjhMToBi8ncEvMuWXnnpZCfwiK1riT8naC",
-      "qty": 36727.229117946874,
-      "orig_qty": 36727.229117946874,
-      "entry": 0.000266832,
-      "cost": 10.0,
-      "peak": 0.000266832,
-      "last": 0.000266832,
-      "opened": 1793281986.8170128,
-      "rungs_done": 0,
-      "entry_liq": 43868.06
-    }
-  },
+  "cash": 38.470640470626584,
+  "positions": {},
   "day": "2026-10-29",
-  "day_pnl": 0.5020638063806384,
+  "day_pnl": -11.529359529373416,
   "day_trades": 3,
   "halted": false,
   "traded": [
@@ -64,7 +37,9 @@
     "37yGBGNuPn2rBYwJLp1Kampjjv1yEubzaTB1nbUtpump": 1.0,
     "5w2VFC9LAmxAkujyu7PaFdniaXApc7LJW1WCZy4Spump": 1.0,
     "6pjRwzGg2QS1VSf6Z4TQZwyMxUysrUajkRmbbQ89P6KG": 1.0,
-    "J7cqsaTuXUavwA3sp238tSpartUfYwDrJAaHuDvypump": 1.12
+    "J7cqsaTuXUavwA3sp238tSpartUfYwDrJAaHuDvypump": 1.12,
+    "HxH6J2YcdAiVUWkFioJ8j4MoMDf1hPntXcCbQDBwpump": 1.0,
+    "9B5uDwoTPkXXb67vaHiqWmyvWuUEDBMSU6ssZH1Zpump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
