@@ -9,7 +9,7 @@ MODES="moonshot early turbo gamble"
 # so fetch these here (mac_test.sh itself is always refreshed).
 RAW="https://raw.githubusercontent.com/SuppleVise/memecoin-scanner/main"
 for f in sniper_paper.py; do
-  curl -fsSL "$RAW/$f" -o "$f.new" && mv "$f.new" "$f"; rm -f "$f.new"
+  curl -fsSL "$RAW/$f?t=$(date +%s)" -o "$f.new" && mv "$f.new" "$f"; rm -f "$f.new"
 done
 # Ctrl+C: stop the scanners, then push one summary per mode to the phone
 finish() {
