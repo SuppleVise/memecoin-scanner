@@ -1,9 +1,36 @@
 {
-  "cash": 50.50206380638064,
-  "positions": {},
+  "cash": 30.50206380638064,
+  "positions": {
+    "HxH6J2YcdAiVUWkFioJ8j4MoMDf1hPntXcCbQDBwpump": {
+      "symbol": "GTA",
+      "pair": "2fSrCS1uwWMUMEyDdrMw8SdBdFQm1viqyWYtsCTPbPs6",
+      "qty": 59307.67368675865,
+      "orig_qty": 59307.67368675865,
+      "entry": 0.00016524,
+      "cost": 10.0,
+      "peak": 0.00016524,
+      "last": 0.00016524,
+      "opened": 1793281986.81682,
+      "rungs_done": 0,
+      "entry_liq": 32661.81
+    },
+    "9B5uDwoTPkXXb67vaHiqWmyvWuUEDBMSU6ssZH1Zpump": {
+      "symbol": "Chloe",
+      "pair": "FWGKsjgkLLAjhMToBi8ncEvMuWXnnpZCfwiK1riT8naC",
+      "qty": 36727.229117946874,
+      "orig_qty": 36727.229117946874,
+      "entry": 0.000266832,
+      "cost": 10.0,
+      "peak": 0.000266832,
+      "last": 0.000266832,
+      "opened": 1793281986.8170128,
+      "rungs_done": 0,
+      "entry_liq": 43868.06
+    }
+  },
   "day": "2026-10-29",
   "day_pnl": 0.5020638063806384,
-  "day_trades": 1,
+  "day_trades": 3,
   "halted": false,
   "traded": [
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump",
@@ -19,7 +46,9 @@
     "37yGBGNuPn2rBYwJLp1Kampjjv1yEubzaTB1nbUtpump",
     "5w2VFC9LAmxAkujyu7PaFdniaXApc7LJW1WCZy4Spump",
     "6pjRwzGg2QS1VSf6Z4TQZwyMxUysrUajkRmbbQ89P6KG",
-    "J7cqsaTuXUavwA3sp238tSpartUfYwDrJAaHuDvypump"
+    "J7cqsaTuXUavwA3sp238tSpartUfYwDrJAaHuDvypump",
+    "HxH6J2YcdAiVUWkFioJ8j4MoMDf1hPntXcCbQDBwpump",
+    "9B5uDwoTPkXXb67vaHiqWmyvWuUEDBMSU6ssZH1Zpump"
   ],
   "peaks": {
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump": 1.0,
@@ -42,7 +71,7 @@
   "withdraw_alerted": false,
   "summary_day": "",
   "min_cash": 0.1594396815328185,
-  "round_tickets": 1,
+  "round_tickets": 3,
   "symbols_bought": {
     "MOON": 1793040370.8201036,
     "DMAGA2028": 1793069709.9814568,
@@ -53,7 +82,9 @@
     "$GIGR": 1793127394.2968588,
     "GROKIUS": 1793209478.6275086,
     "SIB": 1793215423.3189292,
-    "FLOATER": 1793236251.9610832
+    "FLOATER": 1793236251.9610832,
+    "GTA": 1793281986.816821,
+    "CHLOE": 1793281986.8170135
   },
   "rounds": [
     {

@@ -1,9 +1,36 @@
 {
-  "cash": -70.95005556423855,
-  "positions": {},
+  "cash": -90.95005556423855,
+  "positions": {
+    "HxH6J2YcdAiVUWkFioJ8j4MoMDf1hPntXcCbQDBwpump": {
+      "symbol": "GTA",
+      "pair": "2fSrCS1uwWMUMEyDdrMw8SdBdFQm1viqyWYtsCTPbPs6",
+      "qty": 59307.67368675865,
+      "orig_qty": 59307.67368675865,
+      "entry": 0.00016524,
+      "cost": 10.0,
+      "peak": 0.00016524,
+      "last": 0.00016524,
+      "opened": 1793281986.813725,
+      "rungs_done": 0,
+      "entry_liq": 32661.81
+    },
+    "9B5uDwoTPkXXb67vaHiqWmyvWuUEDBMSU6ssZH1Zpump": {
+      "symbol": "Chloe",
+      "pair": "FWGKsjgkLLAjhMToBi8ncEvMuWXnnpZCfwiK1riT8naC",
+      "qty": 36727.229117946874,
+      "orig_qty": 36727.229117946874,
+      "entry": 0.000266832,
+      "cost": 10.0,
+      "peak": 0.000266832,
+      "last": 0.000266832,
+      "opened": 1793281986.8142185,
+      "rungs_done": 0,
+      "entry_liq": 43868.06
+    }
+  },
   "day": "2026-10-29",
   "day_pnl": 0.5020638063806384,
-  "day_trades": 1,
+  "day_trades": 3,
   "halted": false,
   "traded": [
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump",
@@ -23,7 +50,9 @@
     "5w2VFC9LAmxAkujyu7PaFdniaXApc7LJW1WCZy4Spump",
     "6pjRwzGg2QS1VSf6Z4TQZwyMxUysrUajkRmbbQ89P6KG",
     "EnMv4aju8JzWkYQfUXbfekhwRWqXvMELKxrMLaHQpump",
-    "J7cqsaTuXUavwA3sp238tSpartUfYwDrJAaHuDvypump"
+    "J7cqsaTuXUavwA3sp238tSpartUfYwDrJAaHuDvypump",
+    "HxH6J2YcdAiVUWkFioJ8j4MoMDf1hPntXcCbQDBwpump",
+    "9B5uDwoTPkXXb67vaHiqWmyvWuUEDBMSU6ssZH1Zpump"
   ],
   "peaks": {
     "FcqKM8X2Fme8GLkPsyRpsbXZhLkRSbuaorrnheu5pump": 1.0,
@@ -49,8 +78,8 @@
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": -81.45211937061919,
-  "round_tickets": 18,
+  "min_cash": -90.95005556423855,
+  "round_tickets": 20,
   "symbols_bought": {
     "MOON": 1793040370.8192253,
     "ONLYCATS": 1793051699.7842877,
@@ -65,6 +94,8 @@
     "GROKIUS": 1793209478.626207,
     "SIB": 1793215423.3180423,
     "FLOATER": 1793236251.9602406,
-    "FLOATCAT": 1793230464.3046522
+    "FLOATCAT": 1793230464.3046522,
+    "GTA": 1793281986.8137274,
+    "CHLOE": 1793281986.8142197
   }
 }
