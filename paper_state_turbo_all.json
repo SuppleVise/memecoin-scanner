@@ -1,22 +1,8 @@
 {
-  "cash": 30.0,
-  "positions": {
-    "ApSeXZAZPfe3gVPY414EnYrTJ2ywdSW9Bv1Y385zgos3": {
-      "symbol": "microduck",
-      "pair": "5SU16Ad4Sp7H6SuWR58SZNYpfXAXsoLCN2SyZ2AHp5fA",
-      "qty": 385392.82540131983,
-      "orig_qty": 385392.82540131983,
-      "entry": 2.54286e-05,
-      "cost": 10.0,
-      "peak": 2.54286e-05,
-      "last": 2.54286e-05,
-      "opened": 1793266507.5482445,
-      "rungs_done": 0,
-      "entry_liq": 42800.57
-    }
-  },
+  "cash": 50.061114807736175,
+  "positions": {},
   "day": "2026-10-29",
-  "day_pnl": 0.0,
+  "day_pnl": 10.061114807736175,
   "day_trades": 1,
   "halted": false,
   "traded": [
@@ -24,7 +10,8 @@
     "ApSeXZAZPfe3gVPY414EnYrTJ2ywdSW9Bv1Y385zgos3"
   ],
   "peaks": {
-    "Wc82cyyuPU7Hm6rTWLwmQpD4zzxKwv3vY8Ci3dspump": 1.0
+    "Wc82cyyuPU7Hm6rTWLwmQpD4zzxKwv3vY8Ci3dspump": 1.0,
+    "ApSeXZAZPfe3gVPY414EnYrTJ2ywdSW9Bv1Y385zgos3": 2.13
   },
   "shadow": {},
   "shadow_done": {},
