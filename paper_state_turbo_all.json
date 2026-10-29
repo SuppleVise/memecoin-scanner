@@ -1,12 +1,27 @@
 {
-  "cash": 40.0,
-  "positions": {},
-  "day": "2026-10-27",
-  "day_pnl": -10.0,
+  "cash": 30.0,
+  "positions": {
+    "ApSeXZAZPfe3gVPY414EnYrTJ2ywdSW9Bv1Y385zgos3": {
+      "symbol": "microduck",
+      "pair": "5SU16Ad4Sp7H6SuWR58SZNYpfXAXsoLCN2SyZ2AHp5fA",
+      "qty": 385392.82540131983,
+      "orig_qty": 385392.82540131983,
+      "entry": 2.54286e-05,
+      "cost": 10.0,
+      "peak": 2.54286e-05,
+      "last": 2.54286e-05,
+      "opened": 1793266507.5482445,
+      "rungs_done": 0,
+      "entry_liq": 42800.57
+    }
+  },
+  "day": "2026-10-29",
+  "day_pnl": 0.0,
   "day_trades": 1,
   "halted": false,
   "traded": [
-    "Wc82cyyuPU7Hm6rTWLwmQpD4zzxKwv3vY8Ci3dspump"
+    "Wc82cyyuPU7Hm6rTWLwmQpD4zzxKwv3vY8Ci3dspump",
+    "ApSeXZAZPfe3gVPY414EnYrTJ2ywdSW9Bv1Y385zgos3"
   ],
   "peaks": {
     "Wc82cyyuPU7Hm6rTWLwmQpD4zzxKwv3vY8Ci3dspump": 1.0
@@ -15,9 +30,10 @@
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
-  "min_cash": 40.0,
+  "min_cash": 30.0,
   "symbols_bought": {
-    "NVIDIA": 1793080697.9962575
+    "NVIDIA": 1793080697.9962575,
+    "MICRODUCK": 1793266507.5482476
   },
-  "round_tickets": 1
+  "round_tickets": 2
 }
