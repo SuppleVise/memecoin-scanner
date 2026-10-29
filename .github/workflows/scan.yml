@@ -2,8 +2,10 @@
 # Secret needed: Settings > Secrets and variables > Actions > New secret NTFY_TOPIC = your topic name.
 name: memecoin-scan
 on:
-  schedule:
-    - cron: "*/5 * * * *"   # GitHub may delay scheduled runs by several minutes
+  # Switched off 2026-10-29 (MikeSz): moonshot/early/turbo lost money for 4 days. Only the Mac
+  # sniper books (momo) keep running. To restart, put these two lines back:
+  # schedule:
+  #   - cron: "*/5 * * * *"
   workflow_dispatch:
     inputs:
       test_push:

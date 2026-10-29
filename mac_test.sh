@@ -4,7 +4,9 @@
 # gamble and sniper run only here: GitHub checks too rarely for coins minutes or seconds old.
 # Ctrl+C stops all.
 cd "$(dirname "$0")"
-MODES="moonshot early turbo gamble"
+# 2026-10-29 (MikeSz): scanner modes switched off after 4 losing days (gamble went broke 13
+# times); only the pump.fun sniper books run. To bring one back: MODES="early" (etc.)
+MODES=""
 # Files added after the Desktop launcher was made: that launcher only refreshes its own list,
 # so fetch these here (mac_test.sh itself is always refreshed).
 RAW="https://raw.githubusercontent.com/SuppleVise/memecoin-scanner/main"
