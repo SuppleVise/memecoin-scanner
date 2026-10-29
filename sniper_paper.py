@@ -655,7 +655,7 @@ def run():
         stop["now"] = True
     signal.signal(signal.SIGTERM, on_signal)
     signal.signal(signal.SIGINT, on_signal)
-    print(f"PAPER MODE [sniper] pump.fun launches, SOL ${bot.sol_usd:.0f}, book {STATE_FILE}", flush=True)
+    print(f"PAPER MODE [sniper] pump.fun launches, SOL ${bot.sol_usd:.0f}, books: {', '.join(all_books)}", flush=True)
     last_sol, last_save, last_beat, backoff = time.time(), time.time(), time.time(), 5
     os.makedirs("feed", exist_ok=True)
     # raw feed recording, one gzip file per UTC day: lets the filter be tuned on replays, not guesses
