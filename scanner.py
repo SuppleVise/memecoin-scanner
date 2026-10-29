@@ -181,6 +181,25 @@ def fetch_rugcheck(mint):
     return get_json(f"{C.RUGCHECK}/tokens/{mint}/report")
 
 
+# RugCheck's insider count flaps between reports (29 Oct: PODCAT showed 33 linked wallets to
+# moonshot, then 0 to turbo a minute later, and turbo bought it). Once any mode has seen a coin
+# fail the rug filter, every mode keeps skipping it. Shared plain file, one mint per line.
+RUG_SEEN_FILE = "rug_rejected.txt"
+
+
+def rug_seen(mint):
+    try:
+        with open(RUG_SEEN_FILE) as f:
+            return mint in {line.strip() for line in f}
+    except OSError:
+        return False
+
+
+def remember_rug(mint):
+    with open(RUG_SEEN_FILE, "a") as f:
+        f.write(mint + "\n")
+
+
 # --- Filters (pure functions: pair dict / report dict in, reasons out) -------
 
 def universe_reasons(pair, now_ms=None):
@@ -341,9 +360,15 @@ def scan(log=print, skip=(), rejected=None):
             log(f"  - {sym}: momentum {', '.join(bad)}")
             _reject(rejected, addr, p, sym, "momentum: " + ", ".join(bad))
             continue
+        if rug_seen(addr):
+            log(f"  x {sym}: RUG FILTER failed earlier (kept out even if RugCheck now says clean)")
+            _reject(rejected, addr, p, sym, "rug filter: failed earlier")
+            continue
         log(f"  ? {sym}: momentum OK (score {score}), checking RugCheck...")
         report = fetch_rugcheck(addr)  # only for survivors, to stay under rate limits
         bad = rug_reasons(report)
+        if bad and report:   # a missing report (timeout, rate limit) is not proof of a rug
+            remember_rug(addr)
         if bad:
             log(f"  x {sym}: RUG FILTER {', '.join(bad)}")
             _reject(rejected, addr, p, sym, "rug filter: " + ", ".join(bad))
