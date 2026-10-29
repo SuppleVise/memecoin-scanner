@@ -1,22 +1,8 @@
 {
-  "cash": 40.0,
-  "positions": {
-    "J7cqsaTuXUavwA3sp238tSpartUfYwDrJAaHuDvypump": {
-      "symbol": "FLOATER",
-      "pair": "3JowsWwkEi8nTMrKm3KnLhM7xSBm7teLRzf9QENeLS8o",
-      "qty": 45298.647511810006,
-      "orig_qty": 45298.647511810006,
-      "entry": 0.000216342,
-      "cost": 10.0,
-      "peak": 0.000216342,
-      "last": 0.000216342,
-      "opened": 1793236251.9610813,
-      "rungs_done": 0,
-      "entry_liq": 38096.5
-    }
-  },
+  "cash": 50.50206380638064,
+  "positions": {},
   "day": "2026-10-29",
-  "day_pnl": 0.0,
+  "day_pnl": 0.5020638063806384,
   "day_trades": 1,
   "halted": false,
   "traded": [
@@ -48,7 +34,8 @@
     "FWQx8Q8Nxtc6S4YkcuUcT7eFPHYdAox8V1UZQ4YWpump": 1.0,
     "37yGBGNuPn2rBYwJLp1Kampjjv1yEubzaTB1nbUtpump": 1.0,
     "5w2VFC9LAmxAkujyu7PaFdniaXApc7LJW1WCZy4Spump": 1.0,
-    "6pjRwzGg2QS1VSf6Z4TQZwyMxUysrUajkRmbbQ89P6KG": 1.0
+    "6pjRwzGg2QS1VSf6Z4TQZwyMxUysrUajkRmbbQ89P6KG": 1.0,
+    "J7cqsaTuXUavwA3sp238tSpartUfYwDrJAaHuDvypump": 1.12
   },
   "shadow": {},
   "shadow_done": {},
