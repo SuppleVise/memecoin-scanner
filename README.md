@@ -185,7 +185,10 @@ replays of real launches instead of guesses.
 
 `python3 replay_sniper.py feed/pump_<date>.jsonl.gz [--grid]` replays a recording through the sniper
 (it reproduced the live 2026-10-28 morning book exactly). A second book, `sniper momo`, runs on the
-same feed: coins already 2x from launch with 15+ buyers after 20 s (forward test of a replay idea).
+same feed: coins already 2x from launch with 15+ buyers after 20 s (forward test of a replay idea),
+plus `sniper momo10` (same with 10+ buyers). Since 2026-10-29 the original early-flow book is off
+(`RUN_MAIN = False`): it lost $134.89 on $200 live over 24 h. Full-day replay of 28 Oct: momo
+11 trades +$26.37, momo10 15 trades +$34.77; small samples, judged at 100+ trades.
 
 Going real would mean a separate Solana wallet with $50 and PumpPortal's trade API. That is not
 built and needs MikeSz's explicit go after the paper results.

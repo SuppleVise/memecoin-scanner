@@ -47,7 +47,10 @@ S = {
     "MAX_DEV_BUY_SOL": 3.0,     # creator buying a big bag at launch tends to dump it on you
     "MAX_ENTRY_MULT": 3.0,      # skip if price already 3x the launch price
     "MIN_ENTRY_MULT": 0.0,
-    "MAX_FIRST_JUMP": 0.0,      # skip coins whose first trade already lifted price this much (bundled launch); 0 = off      # require the price to be at least this multiple of launch (0 = off)
+    "MAX_FIRST_JUMP": 0.0,
+    "BUNDLE_S": 0.0,            # buys this soon after launch count as bundle/sniper buys, not real buyers; 0 = off
+    "MAX_BUNDLE_SHARE": 1.0,    # skip if those early buys are more than this share of all buying
+    "MIN_BUY_SOL": 0.0,         # buys smaller than this (bot dust) don't count as a real buyer      # skip coins whose first trade already lifted price this much (bundled launch); 0 = off      # require the price to be at least this multiple of launch (0 = off)
     "COPYCAT_H": 1.0,           # same name/symbol bought in the last hour: skip
     "SERIAL_CREATOR_H": 1.0,    # creator launched another coin in the last hour: skip
     # execution model
@@ -81,10 +84,15 @@ STATE_FILE, JOURNAL_FILE = f"paper_state_{SFX}.json", f"paper_journal_{SFX}.csv"
 # buy only coins already 2x from launch with 15+ buyers after 20 s.
 VARIANTS = {"momo": {"MIN_AGE_S": 20, "MIN_ENTRY_MULT": 2.0, "MIN_BUYERS": 15, "MIN_NET_SOL": 0.0,
                      "MIN_BUY_SELL_RATIO": 1.0}}
+# momo with a lower buyer bar: more trades, same idea (replay 28 Oct: 15 trades, positive on both halves)
+VARIANTS["momo10"] = dict(VARIANTS["momo"], MIN_BUYERS=10)
+# The original early-flow book lost $134.89 on $200 in 24 h live (80 trades) and on every replayed
+# rule variant, so it is retired: set to True only to compare it again.
+RUN_MAIN = False
 
 
 def books():
-    out = {"sniper": Sniper()}
+    out = {"sniper": Sniper()} if RUN_MAIN else {}
     for name, params in VARIANTS.items():
         sfx = f"{SFX}_{name}"
         out[f"sniper {name}"] = Sniper(f"paper_state_{sfx}.json", f"paper_journal_{sfx}.csv", params=params)
@@ -196,7 +204,10 @@ class Sniper:
                     w["dev_sold"] = True
             elif ev["txType"] == "buy":
                 w["buys"] += 1
-                w["buyers"][who] = w["buyers"].get(who, 0.0) + sol
+                if now - w["t0"] <= self.S["BUNDLE_S"]:
+                    w["bundle_sol"] = w.get("bundle_sol", 0.0) + sol
+                elif sol >= self.S["MIN_BUY_SOL"]:
+                    w["buyers"][who] = w["buyers"].get(who, 0.0) + sol
             else:
                 w["sells"] += 1
                 w["sold_sol"] += sol
@@ -251,7 +262,10 @@ class Sniper:
         if now - self.s["names"].get(w["name"], -1e12) < self.S["COPYCAT_H"] * 3600:
             return "copycat name"
         inflow = sum(w["buyers"].values())
-        ok = (len(w["buyers"]) >= self.S["MIN_BUYERS"]
+        bundle = w.get("bundle_sol", 0.0)
+        if bundle and bundle > self.S["MAX_BUNDLE_SHARE"] * (bundle + inflow):
+            return "bundled launch"
+        ok = (w["buyers"] and len(w["buyers"]) >= self.S["MIN_BUYERS"]
               and w["last"] / w["p0"] >= self.S["MIN_ENTRY_MULT"]
               and inflow - w["sold_sol"] >= self.S["MIN_NET_SOL"]
               and w["buys"] >= self.S["MIN_BUY_SELL_RATIO"] * max(1, w["sells"])
@@ -631,7 +645,7 @@ def push(title, text):
 
 def run():
     all_books = books()
-    bot = all_books["sniper"]   # the main book: its numbers go in the heartbeat line
+    bot = next(iter(all_books.values()))   # the first book: its numbers go in the heartbeat line
     price = sol_usd()
     for b in all_books.values():
         b.sol_usd = price
