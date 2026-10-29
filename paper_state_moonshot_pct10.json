@@ -1,22 +1,8 @@
 {
-  "cash": 1.8600744873825654,
-  "positions": {
-    "AZdhikmyj6ibsejv7EjML9SfNmuiMvwDrKXTEU2zpump": {
-      "symbol": "Something",
-      "pair": "FAHXgxDGMw5sfFW77SCHBcT9qiQ2ArrPzo98xJxMf9kk",
-      "qty": 76495.56637941801,
-      "orig_qty": 76495.56637941801,
-      "entry": 0.000128112,
-      "cost": 10.0,
-      "peak": 0.000128112,
-      "last": 8.256e-05,
-      "opened": 1793218233.0763078,
-      "rungs_done": 0,
-      "entry_liq": 34740.69
-    }
-  },
+  "cash": 50.0,
+  "positions": {},
   "day": "2026-10-28",
-  "day_pnl": -15.537402675575219,
+  "day_pnl": 0.0,
   "day_trades": 3,
   "halted": false,
   "traded": [
@@ -50,20 +36,27 @@
     "8U6Rw9WVtPb9ShnUo1HeSKBLrGxWLSczCd2RSdYFpump": 3.6,
     "J7ZfGzTcDwHhxhRCDFgSy4avH2xoBQczz9d4wJXrpump": 1.0,
     "2nPPKzFCYDZLqHxJJdFJA1iV2V4ZqV9K6z8qSiYTpump": 1.0,
-    "Hhnf3dZTBvhedKjFCNh8Ci23YLEQg1MKTzMTHUwruMmz": 1.0
+    "Hhnf3dZTBvhedKjFCNh8Ci23YLEQg1MKTzMTHUwruMmz": 1.0,
+    "AZdhikmyj6ibsejv7EjML9SfNmuiMvwDrKXTEU2zpump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
   "withdraw_alerted": false,
   "summary_day": "",
   "min_cash": 0.0,
-  "round_tickets": 9,
+  "round_tickets": 0,
   "rounds": [
     {
       "round": 1,
       "ended": "2026-10-26T18:45:44+00:00",
       "left_usd": 7.98,
       "tickets": 6
+    },
+    {
+      "round": 2,
+      "ended": "2026-10-29T00:09:55+00:00",
+      "left_usd": 1.86,
+      "tickets": 9
     }
   ],
   "symbols_bought": {

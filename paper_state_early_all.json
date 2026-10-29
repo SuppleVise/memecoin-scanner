@@ -1,22 +1,8 @@
 {
   "cash": -71.45211937061919,
-  "positions": {
-    "EnMv4aju8JzWkYQfUXbfekhwRWqXvMELKxrMLaHQpump": {
-      "symbol": "FLOATCAT",
-      "pair": "F14JKspBoUjYhswkGqp9SrSd5t2jBpJkqm7NVcEnUffg",
-      "qty": 43891.47161834126,
-      "orig_qty": 43891.47161834126,
-      "entry": 0.000223278,
-      "cost": 10.0,
-      "peak": 0.000223278,
-      "last": 0.000223278,
-      "opened": 1793230464.3046494,
-      "rungs_done": 0,
-      "entry_liq": 38656.38
-    }
-  },
+  "positions": {},
   "day": "2026-10-28",
-  "day_pnl": -14.907521418263002,
+  "day_pnl": -24.907521418263002,
   "day_trades": 4,
   "halted": false,
   "traded": [
@@ -54,7 +40,8 @@
     "2cRhjCGvMQViKtTpgdQUBUxUBfQQpvG2VjnEYZmQpump": 1.0,
     "37yGBGNuPn2rBYwJLp1Kampjjv1yEubzaTB1nbUtpump": 1.0,
     "5w2VFC9LAmxAkujyu7PaFdniaXApc7LJW1WCZy4Spump": 1.0,
-    "6pjRwzGg2QS1VSf6Z4TQZwyMxUysrUajkRmbbQ89P6KG": 1.0
+    "6pjRwzGg2QS1VSf6Z4TQZwyMxUysrUajkRmbbQ89P6KG": 1.0,
+    "EnMv4aju8JzWkYQfUXbfekhwRWqXvMELKxrMLaHQpump": 1.0
   },
   "shadow": {},
   "shadow_done": {},
