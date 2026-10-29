@@ -50,6 +50,7 @@ S = {
     "MAX_ENTRY_MULT": 3.0,      # skip if price already 3x the launch price
     "MIN_ENTRY_MULT": 0.0,
     "MAX_FIRST_JUMP": 0.0,
+    "EXIT_ON_CREATOR_SELL": True,   # sell everything the moment the creator sells
     "BUNDLE_S": 0.0,            # buys this soon after launch count as bundle/sniper buys, not real buyers; 0 = off
     "MAX_BUNDLE_SHARE": 1.0,    # skip if those early buys are more than this share of all buying
     "MIN_BUY_SOL": 0.0,         # buys smaller than this (bot dust) don't count as a real buyer      # skip coins whose first trade already lifted price this much (bundled launch); 0 = off      # require the price to be at least this multiple of launch (0 = off)
@@ -88,6 +89,10 @@ VARIANTS = {"momo": {"MIN_AGE_S": 20, "MIN_ENTRY_MULT": 2.0, "MIN_BUYERS": 15, "
                      "MIN_BUY_SELL_RATIO": 1.0}}
 # momo with a lower buyer bar: more trades, same idea (replay 28 Oct: 15 trades, positive on both halves)
 VARIANTS["momo10"] = dict(VARIANTS["momo"], MIN_BUYERS=10)
+# momo out after 5 min instead of 10. Replays 28+29 Oct, 192 entry/exit combos: the only change that
+# helped on both days (momo 28: +$26 -> +$51, 29: +$7 -> +$16; still positive without the best trade).
+# Entry at 2x+ mattered most (1.5x lost on average); creator-sold exit and the current ladder stay.
+VARIANTS["momo5m"] = dict(VARIANTS["momo"], TIME_STOP_S=300)
 # The original early-flow book lost $134.89 on $200 in 24 h live (80 trades) and on every replayed
 # rule variant, so it is retired: set to True only to compare it again.
 RUN_MAIN = False
@@ -236,7 +241,8 @@ class Sniper:
         p = self.s["positions"].get(mint)
         if p:
             p["last"], p["last_t"] = price, now
-            if ev.get("traderPublicKey") == p["creator"] and ev["txType"] == "sell":
+            if (ev.get("traderPublicKey") == p["creator"] and ev["txType"] == "sell"
+                    and self.S["EXIT_ON_CREATOR_SELL"]):
                 self._exit(mint, price, now, "creator sold")
             else:
                 self._check_exits(mint, price, now)
