@@ -98,9 +98,16 @@ VARIANTS["momo5m"] = dict(VARIANTS["momo"], TIME_STOP_S=300)
 RUN_MAIN = False
 
 
+# 30 Oct: momo10 and momo5m lost $47 and $37 on their first unseen day, like momo (-$42). They are
+# near-copies of momo, so only momo keeps running, unchanged, as the forward test for the review.
+ACTIVE = ("momo",)
+
+
 def books():
     out = {"sniper": Sniper()} if RUN_MAIN else {}
     for name, params in VARIANTS.items():
+        if name not in ACTIVE:
+            continue
         sfx = f"{SFX}_{name}"
         out[f"sniper {name}"] = Sniper(f"paper_state_{sfx}.json", f"paper_journal_{sfx}.csv", params=params)
     return out
