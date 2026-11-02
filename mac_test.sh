@@ -18,7 +18,7 @@ finish() {
   trap - INT TERM HUP EXIT
   kill $(jobs -p) 2>/dev/null; wait 2>/dev/null
   for m in $MODES; do python3 run.py --summary-now --mode $m --label mac; done
-  python3 sniper_paper.py --summary-now --label mac
+  [ "$SNIPER" = 1 ] && python3 sniper_paper.py --summary-now --label mac
   exit 0
 }
 # New rules = new $50 books. When BOOKS_VERSION changes, the old books move to archive/<version>/
@@ -37,5 +37,13 @@ for m in $MODES; do
   python3 run.py --mode $m --label mac --quiet &   # no pushes while running (MikeSz, 27 Oct)
   sleep 15   # stagger so they don't all hit GeckoTerminal's ~10 calls/min at the same moment
 done
-python3 sniper_paper.py --label mac --quiet &   # live pump.fun feed, paper only
-wait
+# 2026-11-02 (MikeSz): sniper stopped too. Momo lost $64.28 on $100 over 56 live trades; no
+# strategy tested in week 1 made money after costs. To restart: SNIPER=1 in the line below.
+SNIPER=0
+if [ "$SNIPER" = 1 ]; then
+  python3 sniper_paper.py --label mac --quiet &   # live pump.fun feed, paper only
+  wait
+else
+  echo "All memecoin paper bots are switched off (decided 2 Nov 2026). Nothing to run; you can close this window."
+  trap - INT TERM HUP EXIT
+fi
